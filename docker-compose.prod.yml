@@ -1,0 +1,78 @@
+# Mentora Production Docker Compose
+# Phase 10: Hardening and deployment
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.prod
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./backend/.env.example
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://mentora:mentora@db:5432/mentora
+      - REDIS_URL=redis://redis:6379/0
+      - ENVIRONMENT=production
+      - DEBUG=false
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - mentora
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.prod
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=https://api.mentora.example.com/api/v1
+      - ENVIRONMENT=production
+    depends_on:
+      - backend
+    networks:
+      - mentora
+
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: mentora
+      POSTGRES_PASSWORD: mentora
+      POSTGRES_DB: mentora
+    ports:
+      - "5432:5432"
+    volumes:
+      - mentora_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U mentora -d mentora"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - mentora
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes
+    volumes:
+      - mentora_redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - mentora
+
+networks:
+  mentora:
+
+volumes:
+  mentora_postgres_data:
+  mentora_redis_data:

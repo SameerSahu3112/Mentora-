@@ -1,0 +1,1 @@
+"""Public content domain module."""
