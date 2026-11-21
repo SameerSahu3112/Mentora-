@@ -68,9 +68,9 @@ export default function TeacherMentorship() {
                   </span>
                 </div>
               </div>
-            ))}
-          </div>
-        )}
+            ))
+          )}
+        </div>
       </div>
     </main>
   );

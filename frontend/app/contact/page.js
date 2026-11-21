@@ -1,3 +1,5 @@
+'use client';
+
 /**
  * Mentora Contact Page
  * Brand: Abyss Teal + Desert Sand
@@ -55,13 +57,13 @@ export default function ContactPage() {
                   </div>
                   <div className="form-group">
                     <label>Subject</label>
-                    <input type="text" className="form-control" placeholder="What is this about?" />
+                    <input type="text" className="form-control" placeholder="How can we help?" />
                   </div>
                   <div className="form-group">
                     <label>Message</label>
-                    <textarea className="form-control" rows={4} placeholder="Type your message here..."></textarea>
+                    <textarea rows="4" className="form-control" placeholder="Write your message here..."></textarea>
                   </div>
-                  <button type="submit" className="btn btn-primary">
+                  <button type="submit" className="btn btn-primary" style={{ alignSelf: 'flex-start' }}>
                     Send Message
                   </button>
                 </form>
