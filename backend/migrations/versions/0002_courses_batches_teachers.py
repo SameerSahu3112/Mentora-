@@ -100,16 +100,15 @@ def upgrade() -> None:
         sa.Column("price", sa.Numeric(10, 2)),
         sa.Column("description", sa.Text),
         sa.Column("is_active", sa.Boolean),
-        sa.Column("created_at", sa.DateTime(timezone=True)),
-        sa.Column("updated_at", sa.DateTime(timezone=True)),
     )
 
     import uuid as _uuid
+    from datetime import datetime, timezone
 
-    now = sa.text("now()")
     rise_id = str(_uuid.uuid4())
     spark_id = str(_uuid.uuid4())
     apex_id = str(_uuid.uuid4())
+    now = datetime.now(timezone.utc)
 
     op.bulk_insert(
         courses_table,

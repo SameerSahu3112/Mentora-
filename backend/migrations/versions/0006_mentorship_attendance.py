@@ -141,7 +141,7 @@ def upgrade() -> None:
             name="chk_mentorship_attendance_status",
         ),
         sa.CheckConstraint(
-            "(weekly_session_id IS NOT NULL) XOR (booking_id IS NOT NULL)",
+            "((weekly_session_id IS NOT NULL) AND (booking_id IS NULL)) OR ((weekly_session_id IS NULL) AND (booking_id IS NOT NULL))",
             name="chk_mentorship_attendance_either_session_or_booking",
         ),
         sa.ForeignKeyConstraint(["booking_id"], ["mentorship_bookings.id"], ondelete="CASCADE"),

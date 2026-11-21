@@ -1,97 +1,69 @@
 /**
  * Mentora Courses Page - Public
- * Phase 10: Frontend Portal Completion
  * Brand: Abyss Teal + Desert Sand
  */
 
-import { useState, useEffect } from 'react';
+import Link from 'next/link';
+import Navbar from '@/app/components/Navbar';
+import Footer from '@/app/components/Footer';
 
 export default function CoursesPage() {
-  const [courses, setCourses] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}/api/v1/courses/`)
-      .then((res) => res.json())
-      .then((data) => {
-        setCourses(data);
-        setLoading(false);
-      })
-      .catch(() => setLoading(false));
-  }, []);
-
   const initialCourses = [
     {
       id: '1',
       name: 'Rise',
-      exam_target: 'JEE Main January',
+      examTarget: 'JEE Main January',
       price: '₹299',
-      is_active: true,
+      isActive: true,
     },
     {
       id: '2',
       name: 'Spark',
-      exam_target: 'JEE Main April',
+      examTarget: 'JEE Main April',
       price: '₹499',
-      is_active: true,
+      isActive: true,
     },
     {
       id: '3',
       name: 'Apex',
-      exam_target: 'JEE Advanced',
+      examTarget: 'JEE Advanced',
       price: '₹699',
-      is_active: true,
+      isActive: true,
     },
   ];
 
-  const displayCourses = courses.length > 0 ? courses : initialCourses;
-
-  if (loading) {
-    return (
-      <main className="min-h-screen bg-secondary p-6">
-        <div className="max-w-7xl mx-auto">
-          <h1 className="text-3xl font-bold text-abyss-teal mb-6">Courses</h1>
-          <p className="text-muted">Loading courses...</p>
-        </div>
-      </main>
-    );
-  }
-
   return (
-    <main className="min-h-screen bg-secondary p-6">
-      <div className="max-w-7xl mx-auto">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-abyss-teal">JEE Preparation Courses</h1>
-          <p className="text-secondary mt-2">Choose the right programme for your JEE journey.</p>
-        </div>
+    <div className="min-h-screen bg-secondary">
+      <Navbar />
 
-        <div className="grid md:grid-cols-3 gap-4">
-          {displayCourses.map((course) => (
-            <div
-              key={course.id}
-              className="bg-primary rounded-lg shadow-md overflow-hidden border border-border-color"
-            >
-              <div className="p-6">
-                <h2 className="text-xl font-semibold text-abyss-teal">{course.name}</h2>
-                <p className="text-desert-sand-dark font-medium mt-1">
-                  {course.exam_target}
-                </p>
-                <p className="text-secondary text-sm mt-2">
-                  Starts from {course.price}
-                </p>
-              </div>
-              <div className="px-6 py-4">
-                <a
-                  href={`/courses/${course.id}`}
-                  className="block w-full bg-abyss-teal text-white text-center py-2 rounded-md font-semibold hover:bg-abyss-teal-dark transition-colors"
-                >
+      <section className="py-12">
+        <div className="container">
+          <div className="section-header">
+            <h1>JEE Preparation Courses</h1>
+            <p>Choose the right programme for your JEE journey</p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            {initialCourses.map((course) => (
+              <div key={course.id} className="card">
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1rem' }}>
+                  <h3 className="text-lg font-semibold text-abyss-teal">{course.name}</h3>
+                  <span className="badge badge-active">Active</span>
+                </div>
+                <p className="text-secondary text-sm mb-3">{course.examTarget}</p>
+                <div style={{ marginBottom: '1.5rem' }}>
+                  <span className="text-2xl font-bold text-abyss-teal">{course.price}</span>
+                </div>
+                <Link href={`/courses/${course.id}`} className="btn btn-outline btn-sm w-full">
                   View Batches
-                </a>
+                </Link>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-      </div>
-    </main>
+      </section>
+
+      <Footer />
+    </div>
   );
 }

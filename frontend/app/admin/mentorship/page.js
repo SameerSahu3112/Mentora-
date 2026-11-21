@@ -1,9 +1,10 @@
 /**
  * Mentora Admin Mentorship
+ * Phase 10: Frontend Portal Completion
  * Brand: Abyss Teal + Desert Sand
  */
 
-import { useEffect, useState } from 'react';
+import Link from 'next/link';
 
 export default function AdminMentorship() {
   const [bookings, setBookings] = useState([]);
@@ -23,7 +24,7 @@ export default function AdminMentorship() {
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-secondary p-6">
+      <main className="min-h-screen bg-gray-50 p-6">
         <div className="max-w-7xl mx-auto">
           <div className="animate-pulse h-32 bg-border-color rounded" />
         </div>
@@ -36,7 +37,7 @@ export default function AdminMentorship() {
       <div className="max-w-7xl mx-auto">
         <nav className="mb-6">
           <a href="/admin/dashboard" className="text-abyss-teal hover:text-abyss-teal-dark text-sm">
-            ← Back to Dashboard
+            &larr; Back to Dashboard
           </a>
         </nav>
 
@@ -60,7 +61,7 @@ export default function AdminMentorship() {
                   </td>
                 </tr>
               ) : (
-                {bookings.map((booking) => (
+                bookings.map((booking) => (
                   <tr key={booking.id} className="border-b border-border-color hover:bg-abyss-teal-light">
                     <td className="px-4 py-3 text-sm text-secondary">{booking.student_profile_id || 'N/A'}</td>
                     <td className="px-4 py-3 text-sm text-secondary">{booking.mentor_profile_id || 'N/A'}</td>
@@ -69,11 +70,9 @@ export default function AdminMentorship() {
                         {booking.status}
                       </span>
                     </td>
-                    <td className="px-4 py-3 text-sm text-secondary">
-                      {new Date(booking.preferred_time).toLocaleString()}
-                    </td>
+                    <td className="px-4 py-3 text-sm text-secondary">{new Date(booking.preferred_time).toLocaleString()}</td>
                   </tr>
-                ))}
+                ))
               )}
             </tbody>
           </table>

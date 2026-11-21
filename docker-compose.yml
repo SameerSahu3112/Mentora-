@@ -18,8 +18,6 @@ services:
     build: ./backend
     expose:
       - "8000"
-    env_file:
-      - ./backend/.env.example
     environment:
       - DATABASE_URL=postgresql+asyncpg://mentora:mentora@db:5432/mentora
       - REDIS_URL=redis://redis:6379/0
@@ -28,8 +26,6 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
-    volumes:
-      - ./backend:/app
     networks:
       - mentora
 
@@ -41,9 +37,6 @@ services:
       - NEXT_PUBLIC_API_URL=http://localhost/api/v1
     depends_on:
       - backend
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
     networks:
       - mentora
 

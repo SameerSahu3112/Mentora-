@@ -1,9 +1,10 @@
 /**
  * Mentora Admin Enrollments
+ * Phase 10: Frontend Portal Completion
  * Brand: Abyss Teal + Desert Sand
  */
 
-import { useEffect, useState } from 'react';
+import Link from 'next/link';
 
 export default function AdminEnrollments() {
   const [enrollments, setEnrollments] = useState([]);
@@ -31,7 +32,7 @@ export default function AdminEnrollments() {
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-secondary p-6">
+      <main className="min-h-screen bg-gray-50 p-6">
         <div className="max-w-7xl mx-auto">
           <div className="animate-pulse h-32 bg-border-color rounded" />
         </div>
@@ -44,7 +45,7 @@ export default function AdminEnrollments() {
       <div className="max-w-7xl mx-auto">
         <nav className="mb-6">
           <a href="/admin/dashboard" className="text-abyss-teal hover:text-abyss-teal-dark text-sm">
-            ← Back to Dashboard
+            &larr; Back to Dashboard
           </a>
         </nav>
 
@@ -69,7 +70,7 @@ export default function AdminEnrollments() {
                   </td>
                 </tr>
               ) : (
-                {enrollments.map((enrollment) => (
+                enrollments.map((enrollment) => (
                   <tr key={enrollment.id} className="border-b border-border-color hover:bg-abyss-teal-light">
                     <td className="px-4 py-3 text-sm text-secondary">{enrollment.student_profile_id || 'N/A'}</td>
                     <td className="px-4 py-3 text-sm text-secondary">{enrollment.course_id || 'N/A'}</td>
@@ -79,11 +80,9 @@ export default function AdminEnrollments() {
                         {enrollment.status.replace('_', ' ')}
                       </span>
                     </td>
-                    <td className="px-4 py-3 text-sm text-secondary">
-                      {enrollment.access_until || 'N/A'}
-                    </td>
+                    <td className="px-4 py-3 text-sm text-secondary">{enrollment.access_until || 'N/A'}</td>
                   </tr>
-                ))}
+                ))
               )}
             </tbody>
           </table>

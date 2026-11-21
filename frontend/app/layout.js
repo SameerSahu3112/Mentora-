@@ -1,6 +1,5 @@
 /**
  * Mentora Root Layout
- * Phase 10: Frontend Portal Completion
  * Brand: Abyss Teal (~80%) + Desert Sand (~20%)
  */
 

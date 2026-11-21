@@ -1,10 +1,11 @@
 /**
  * Mentora Login Page
- * Phase 10: Frontend Portal Completion
  * Brand: Abyss Teal + Desert Sand
  */
 
-import { useState } from 'react';
+import Link from 'next/link';
+import Navbar from '@/app/components/Navbar';
+import Footer from '@/app/components/Footer';
 
 export default function LoginPage() {
   const [identifier, setIdentifier] = useState('');
@@ -39,7 +40,7 @@ export default function LoginPage() {
   };
 
   return (
-    <main className="min-h-screen bg-secondary flex items-center justify-center">
+    <div className="min-h-screen bg-secondary flex items-center justify-center">
       <div className="w-full max-w-md p-6">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-abyss-teal">Mentora</h1>
@@ -47,7 +48,7 @@ export default function LoginPage() {
         </div>
 
         <div className="bg-primary rounded-lg shadow-md p-8 border border-border-color">
-          <h2 className="text-2xl font-semibold text-abyss-teal mb-6 text-center">Welcome Back</h2>
+          <h2 className="text-2xl font-bold text-abyss-teal mb-6 text-center">Welcome Back</h2>
 
           {error && (
             <div className="mb-4 p-3 bg-error-light border border-error rounded text-error text-sm">
@@ -83,22 +84,22 @@ export default function LoginPage() {
               />
             </div>
 
-            <button
-              type="submit"
-              className="w-full btn-primary"
-            >
+            <button type="submit" className="btn btn-primary">
               Sign In
             </button>
           </form>
 
           <p className="mt-6 text-center text-sm text-secondary">
             Don't have an account?{' '}
-            <a href="/auth/signup" className="text-abyss-teal font-medium hover:text-abyss-teal-dark">
+            <Link href="/auth/signup" className="text-abyss-teal font-medium hover:text-abyss-teal-dark">
               Sign up
-            </a>
+            </Link>
           </p>
         </div>
       </div>
-    </main>
+      <Footer />
+    </div>
   );
 }
+
+import { useState } from 'react';

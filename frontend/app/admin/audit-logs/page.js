@@ -1,9 +1,10 @@
 /**
  * Mentora Admin Audit Logs
+ * Phase 10: Frontend Portal Completion
  * Brand: Abyss Teal + Desert Sand
  */
 
-import { useEffect, useState } from 'react';
+import Link from 'next/link';
 
 export default function AdminAuditLogs() {
   const [logs, setLogs] = useState([]);
@@ -23,7 +24,7 @@ export default function AdminAuditLogs() {
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-secondary p-6">
+      <main className="min-h-screen bg-gray-50 p-6">
         <div className="max-w-7xl mx-auto">
           <div className="animate-pulse h-32 bg-border-color rounded" />
         </div>
@@ -36,7 +37,7 @@ export default function AdminAuditLogs() {
       <div className="max-w-7xl mx-auto">
         <nav className="mb-6">
           <a href="/admin/dashboard" className="text-abyss-teal hover:text-abyss-teal-dark text-sm">
-            ← Back to Dashboard
+            &larr; Back to Dashboard
           </a>
         </nav>
 
@@ -60,16 +61,14 @@ export default function AdminAuditLogs() {
                   </td>
                 </tr>
               ) : (
-                {logs.map((log) => (
+                logs.map((log) => (
                   <tr key={log.id} className="border-b border-border-color hover:bg-abyss-teal-light">
-                    <td className="px-4 py-3 text-sm text-secondary">
-                      {new Date(log.created_at).toLocaleString()}
-                    </td>
+                    <td className="px-4 py-3 text-sm text-secondary">{new Date(log.created_at).toLocaleString()}</td>
                     <td className="px-4 py-3 text-sm text-secondary">{log.actor_user_id || 'N/A'}</td>
                     <td className="px-4 py-3 text-sm text-secondary">{log.action}</td>
                     <td className="px-4 py-3 text-sm text-secondary">{log.entity_type || 'N/A'}</td>
                   </tr>
-                ))}
+                ))
               )}
             </tbody>
           </table>

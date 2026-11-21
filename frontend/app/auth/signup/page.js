@@ -1,10 +1,11 @@
 /**
  * Mentora Signup Page
- * Phase 10: Frontend Portal Completion
  * Brand: Abyss Teal + Desert Sand
  */
 
-import { useState } from 'react';
+import Link from 'next/link';
+import Navbar from '@/app/components/Navbar';
+import Footer from '@/app/components/Footer';
 
 export default function SignupPage() {
   const [formData, setFormData] = useState({
@@ -55,7 +56,9 @@ export default function SignupPage() {
   };
 
   return (
-    <main className="min-h-screen bg-secondary">
+    <div className="min-h-screen bg-secondary">
+      <Navbar />
+
       <div className="max-w-2xl mx-auto p-6">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-abyss-teal">Create Account</h1>
@@ -76,7 +79,7 @@ export default function SignupPage() {
           )}
 
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-secondary mb-1">
                   Full Name
@@ -85,9 +88,7 @@ export default function SignupPage() {
                   type="text"
                   className="w-full px-3 py-2 border border-border-color rounded-md focus:outline-none focus:ring-2 focus:ring-abyss-teal"
                   value={formData.full_name}
-                  onChange={(e) =>
-                    setFormData({ ...formData, full_name: e.target.value })
-                  }
+                  onChange={(e) => setFormData({ ...formData, full_name: e.target.value })}
                   placeholder="Aarav Sharma"
                   required
                 />
@@ -99,9 +100,7 @@ export default function SignupPage() {
                 <select
                   className="w-full px-3 py-2 border border-border-color rounded-md focus:outline-none focus:ring-2 focus:ring-abyss-teal"
                   value={formData.class_level}
-                  onChange={(e) =>
-                    setFormData({ ...formData, class_level: e.target.value })
-                  }
+                  onChange={(e) => setFormData({ ...formData, class_level: e.target.value })}
                   required
                 >
                   <option value="">Select Class</option>
@@ -121,9 +120,7 @@ export default function SignupPage() {
                 type="email"
                 className="w-full px-3 py-2 border border-border-color rounded-md focus:outline-none focus:ring-2 focus:ring-abyss-teal"
                 value={formData.email}
-                onChange={(e) =>
-                  setFormData({ ...formData, email: e.target.value })
-                }
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 placeholder="email@example.com"
                 required
               />
@@ -137,9 +134,7 @@ export default function SignupPage() {
                 type="tel"
                 className="w-full px-3 py-2 border border-border-color rounded-md focus:outline-none focus:ring-2 focus:ring-abyss-teal"
                 value={formData.phone}
-                onChange={(e) =>
-                  setFormData({ ...formData, phone: e.target.value })
-                }
+                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                 placeholder="+91 98765 43210"
                 required
               />
@@ -153,9 +148,7 @@ export default function SignupPage() {
                 type="text"
                 className="w-full px-3 py-2 border border-border-color rounded-md focus:outline-none focus:ring-2 focus:ring-abyss-teal"
                 value={formData.school_name}
-                onChange={(e) =>
-                  setFormData({ ...formData, school_name: e.target.value })
-                }
+                onChange={(e) => setFormData({ ...formData, school_name: e.target.value })}
                 placeholder="Delhi Public School"
               />
             </div>
@@ -168,9 +161,7 @@ export default function SignupPage() {
                 type="text"
                 className="w-full px-3 py-2 border border-border-color rounded-md focus:outline-none focus:ring-2 focus:ring-abyss-teal"
                 value={formData.coaching_institute_name}
-                onChange={(e) =>
-                  setFormData({ ...formData, coaching_institute_name: e.target.value })
-                }
+                onChange={(e) => setFormData({ ...formData, coaching_institute_name: e.target.value })}
                 placeholder="FIITJEE / Allen / etc."
               />
             </div>
@@ -183,31 +174,29 @@ export default function SignupPage() {
                 type="password"
                 className="w-full px-3 py-2 border border-border-color rounded-md focus:outline-none focus:ring-2 focus:ring-abyss-teal"
                 value={formData.password}
-                onChange={(e) =>
-                  setFormData({ ...formData, password: e.target.value })
-                }
+                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                 placeholder="••••••••"
                 minLength={8}
                 required
               />
             </div>
 
-            <button
-              type="submit"
-              className="w-full btn-primary"
-            >
+            <button type="submit" className="btn btn-primary">
               Create Account
             </button>
           </form>
 
           <p className="mt-6 text-center text-sm text-secondary">
             Already have an account?{' '}
-            <a href="/auth/login" className="text-abyss-teal font-medium hover:text-abyss-teal-dark">
+            <Link href="/auth/login" className="text-abyss-teal font-medium hover:text-abyss-teal-dark">
               Sign in
-            </a>
+            </Link>
           </p>
         </div>
       </div>
-    </main>
+      <Footer />
+    </div>
   );
 }
+
+import { useState } from 'react';

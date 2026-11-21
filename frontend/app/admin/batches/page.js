@@ -1,9 +1,10 @@
 /**
  * Mentora Admin Batches
+ * Phase 10: Frontend Portal Completion
  * Brand: Abyss Teal + Desert Sand
  */
 
-import { useEffect, useState } from 'react';
+import Link from 'next/link';
 
 export default function AdminBatches() {
   const [batches, setBatches] = useState([]);
@@ -23,7 +24,7 @@ export default function AdminBatches() {
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-secondary p-6">
+      <main className="min-h-screen bg-gray-50 p-6">
         <div className="max-w-7xl mx-auto">
           <div className="animate-pulse h-32 bg-border-color rounded" />
         </div>
@@ -36,7 +37,7 @@ export default function AdminBatches() {
       <div className="max-w-7xl mx-auto">
         <nav className="mb-6">
           <a href="/admin/dashboard" className="text-abyss-teal hover:text-abyss-teal-dark text-sm">
-            ← Back to Dashboard
+            &larr; Back to Dashboard
           </a>
         </nav>
 
@@ -61,25 +62,19 @@ export default function AdminBatches() {
                   </td>
                 </tr>
               ) : (
-                {batches.map((batch) => (
+                batches.map((batch) => (
                   <tr key={batch.id} className="border-b border-border-color hover:bg-abyss-teal-light">
                     <td className="px-4 py-3 text-sm font-medium text-abyss-teal">{batch.name}</td>
                     <td className="px-4 py-3 text-sm text-secondary">{batch.course_name || 'N/A'}</td>
-                    <td className="px-4 py-3 text-sm text-secondary">{batch.max_capacity}</td>
+                    <td className="px-4 py-3 text-sm text-secondary">{batch.capacity}</td>
                     <td className="px-4 py-3 text-sm">
-                      <span className={`px-2 py-1 text-xs font-semibold rounded ${
-                        batch.status === 'active'
-                          ? 'bg-abyss-teal-light text-abyss-teal border border-abyss-teal'
-                          : 'bg-desert-sand-light text-desert-sand-dark border border-desert-sand-border'
-                      }`}>
+                      <span className={`px-2 py-1 text-xs font-semibold rounded ${batch.status === 'active' ? 'bg-abyss-teal-light text-abyss-teal border border-abyss-teal' : 'bg-desert-sand-light text-desert-sand-dark border border-desert-sand-border'}`}>
                         {batch.status}
                       </span>
                     </td>
-                    <td className="px-4 py-3 text-sm text-secondary">
-                      {batch.start_date} to {batch.end_date}
-                    </td>
+                    <td className="px-4 py-3 text-sm text-secondary">{batch.startDate} to {batch.endDate}</td>
                   </tr>
-                ))}
+                ))
               )}
             </tbody>
           </table>

@@ -1,9 +1,10 @@
 /**
  * Mentora Admin Payments
+ * Phase 10: Frontend Portal Completion
  * Brand: Abyss Teal + Desert Sand
  */
 
-import { useEffect, useState } from 'react';
+import Link from 'next/link';
 
 export default function AdminPayments() {
   const [payments, setPayments] = useState([]);
@@ -30,7 +31,7 @@ export default function AdminPayments() {
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-secondary p-6">
+      <main className="min-h-screen bg-gray-50 p-6">
         <div className="max-w-7xl mx-auto">
           <div className="animate-pulse h-32 bg-border-color rounded" />
         </div>
@@ -43,7 +44,7 @@ export default function AdminPayments() {
       <div className="max-w-7xl mx-auto">
         <nav className="mb-6">
           <a href="/admin/dashboard" className="text-abyss-teal hover:text-abyss-teal-dark text-sm">
-            ← Back to Dashboard
+            &larr; Back to Dashboard
           </a>
         </nav>
 
@@ -68,23 +69,19 @@ export default function AdminPayments() {
                   </td>
                 </tr>
               ) : (
-                {payments.map((payment) => (
+                payments.map((payment) => (
                   <tr key={payment.id} className="border-b border-border-color hover:bg-abyss-teal-light">
                     <td className="px-4 py-3 text-sm text-secondary">{payment.student_profile_id || 'N/A'}</td>
-                    <td className="px-4 py-3 text-sm font-medium text-abyss-teal">
-                      ₹{payment.final_amount}
-                    </td>
+                    <td className="px-4 py-3 text-sm font-medium text-abyss-teal">₹{payment.final_amount}</td>
                     <td className="px-4 py-3 text-sm text-secondary">{payment.payment_method || 'N/A'}</td>
                     <td className="px-4 py-3 text-sm">
                       <span className={`px-2 py-1 text-xs font-semibold rounded ${statusColors[payment.status] || 'bg-border-color text-secondary border border-border-color'}`}>
                         {payment.status}
                       </span>
                     </td>
-                    <td className="px-4 py-3 text-sm text-secondary">
-                      {new Date(payment.payment_date).toLocaleDateString()}
-                    </td>
+                    <td className="px-4 py-3 text-sm text-secondary">{new Date(payment.payment_date).toLocaleDateString()}</td>
                   </tr>
-                ))}
+                ))
               )}
             </tbody>
           </table>
