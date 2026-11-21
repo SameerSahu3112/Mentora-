@@ -1,11 +1,7 @@
 "use client";
-/**
- * Mentora Admin Teachers
- * Phase 10: Frontend Portal Completion
- * Brand: Abyss Teal + Desert Sand
- */
 
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
 export default function AdminTeachers() {
   const [teachers, setTeachers] = useState([]);

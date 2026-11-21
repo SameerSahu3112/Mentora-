@@ -1,12 +1,12 @@
 "use client";
+
+import { useState } from 'react';
+import Link from 'next/link';
+
 /**
  * Mentora Signup Page
  * Brand: Abyss Teal + Desert Sand
  */
-
-import Link from 'next/link';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
 
 export default function SignupPage() {
   const [formData, setFormData] = useState({
@@ -58,8 +58,6 @@ export default function SignupPage() {
 
   return (
     <div className="min-h-screen bg-secondary">
-      <Navbar />
-
       <div className="max-w-2xl mx-auto p-6">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-abyss-teal">Create Account</h1>
@@ -195,9 +193,6 @@ export default function SignupPage() {
           </p>
         </div>
       </div>
-      <Footer />
     </div>
   );
 }
-
-import { useState } from 'react';

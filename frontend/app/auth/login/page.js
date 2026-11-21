@@ -1,12 +1,12 @@
 "use client";
+
+import { useState } from 'react';
+import Link from 'next/link';
+
 /**
  * Mentora Login Page
  * Brand: Abyss Teal + Desert Sand
  */
-
-import Link from 'next/link';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
 
 export default function LoginPage() {
   const [identifier, setIdentifier] = useState('');
@@ -64,7 +64,7 @@ export default function LoginPage() {
               </label>
               <input
                 type="text"
-                className="w-full px-3 py-2 border border-border-color rounded-md focus:outline-none focus:ring-2 focus-ring-abyss-teal"
+                className="w-full px-3 py-2 border border-border-color rounded-md focus:outline-none focus:ring-2 focus:ring-abyss-teal"
                 value={identifier}
                 onChange={(e) => setIdentifier(e.target.value)}
                 placeholder="e.g., MENT-2026-0001 or email@example.com"
@@ -98,9 +98,6 @@ export default function LoginPage() {
           </p>
         </div>
       </div>
-      <Footer />
     </div>
   );
 }
-
-import { useState } from 'react';

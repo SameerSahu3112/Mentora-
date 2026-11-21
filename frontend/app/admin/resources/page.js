@@ -1,10 +1,7 @@
 "use client";
-/**
- * Mentora Admin Resources
- * Brand: Abyss Teal + Desert Sand
- */
 
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
 export default function AdminResources() {
   const [resources, setResources] = useState([]);

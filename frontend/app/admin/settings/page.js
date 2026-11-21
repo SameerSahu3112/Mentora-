@@ -1,7 +1,4 @@
-/**
- * Mentora Admin Settings
- * Brand: Abyss Teal + Desert Sand
- */
+"use client";
 
 export default function AdminSettings() {
   return (
@@ -20,7 +17,7 @@ export default function AdminSettings() {
           <p className="text-secondary mb-4">
             Configuration options for the Mentora platform.
           </p>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          <div className="space-y-4">
             <div className="flex items-center justify-between p-4 border border-border-color rounded">
               <div>
                 <h3 className="text-sm font-medium text-abyss-teal">Site Name</h3>

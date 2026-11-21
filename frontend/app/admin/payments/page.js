@@ -1,10 +1,7 @@
 "use client";
-/**
- * Mentora Admin Payments
- * Brand: Abyss Teal + Desert Sand
- */
 
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
 export default function AdminPayments() {
   const [payments, setPayments] = useState([]);

@@ -1,10 +1,7 @@
 "use client";
-/**
- * Mentora Admin Applications
- * Brand: Abyss Teal + Desert Sand
- */
 
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
 export default function AdminApplications() {
   const [applications, setApplications] = useState([]);
