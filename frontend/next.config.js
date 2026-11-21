@@ -1,10 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  // Force rebuild to clear Vercel cache
-  generateBuildId: async () => {
-    return `${new Date().getTime()}`;
-  },
   // API routes are proxied to the backend in development
   async rewrites() {
     return [
