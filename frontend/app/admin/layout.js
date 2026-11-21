@@ -2,8 +2,8 @@
  * Admin Portal Layout
  */
 
-import Navbar from '@/app/components/Navbar';
-import Footer from '@/app/components/Footer';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 
 export default function AdminLayout({ children }) {
   return (
