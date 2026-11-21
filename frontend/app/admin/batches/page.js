@@ -1,3 +1,4 @@
+"use client";
 /**
  * Mentora Admin Batches
  * Brand: Abyss Teal + Desert Sand

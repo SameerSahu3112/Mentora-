@@ -1,3 +1,4 @@
+"use client";
 /**
  * Mentora Admin Teachers
  * Phase 10: Frontend Portal Completion

@@ -1,3 +1,4 @@
+"use client";
 /**
  * Mentora Admin Payments
  * Brand: Abyss Teal + Desert Sand

@@ -1,3 +1,4 @@
+"use client";
 /**
  * Mentora Admin Audit Logs
  * Brand: Abyss Teal + Desert Sand

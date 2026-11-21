@@ -1,3 +1,4 @@
+"use client";
 /**
  * Mentora Admin Courses
  * Brand: Abyss Teal + Desert Sand

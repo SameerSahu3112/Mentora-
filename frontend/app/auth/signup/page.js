@@ -1,3 +1,4 @@
+"use client";
 /**
  * Mentora Signup Page
  * Brand: Abyss Teal + Desert Sand
