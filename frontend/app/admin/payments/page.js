@@ -1,6 +1,5 @@
 /**
  * Mentora Admin Payments
- * Phase 10: Frontend Portal Completion
  * Brand: Abyss Teal + Desert Sand
  */
 
