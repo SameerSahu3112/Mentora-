@@ -105,7 +105,7 @@ export default function HomePage() {
                   <button className="px-3 py-2 rounded bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-sm text-label-sm font-bold transition-colors flex items-center gap-1.5" onclick={() => document.getElementById('weekly-modal').classList.remove('hidden')}>
                     <span className="material-symbols-outlined text-[16px] text-tertiary">videocam</span> Batch Call
                   </button>
-                  <button className="px-3 py-2 rounded bg-surface-container-high hover:bg-surface-bright text-on-surface font-label-sm text-label-sm font-bold transition-colors flex items-center gap-1.5" onclick={document.getElementById('booking-modal')?.classList.remove('hidden')}>
+                  <button className="px-3 py-2 rounded bg-surface-container-high hover:bg-surface-bright text-on-surface font-label-sm text-label-sm font-bold transition-colors flex items-center gap-1.5" onclick={() => document.getElementById('booking-modal')?.classList.remove('hidden')}>
                     <span className="material-symbols-outlined text-[16px] text-tertiary">contact_support</span>
                     1-to-1 Session
                   </button>
