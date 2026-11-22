@@ -97,6 +97,13 @@ docker compose exec backend python -m app.bootstrap
 
 5. **Object Storage**: Configure storage provider in `app/core/storage.py`.
 
+### Option C: Vercel (Frontend)
+
+- Set the project root directory to `frontend`.
+- Use the Next.js framework preset and Node.js 26.x.
+- Leave the Output Directory override disabled; Vercel manages Next.js output.
+- Set `NEXT_PUBLIC_API_URL` to the backend origin. The frontend appends `/api/v1`.
+
 ---
 
 ## 4. Database Migrations
