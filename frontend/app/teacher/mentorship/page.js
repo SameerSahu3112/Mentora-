@@ -4,7 +4,10 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 export default function TeacherMentorship() {
-  const [bookings, setBookings] = useState([]);
+  const [bookings, setBookings] = useState([
+    { id: 'bk1', status: 'approved', preferredTime: '2026-11-22T14:00:00Z', confirmedTime: '2026-11-22T14:00:00Z' },
+    { id: 'bk2', status: 'requested', preferredTime: '2026-11-23T15:00:00Z', confirmedTime: null },
+  ]);
   const [loading, setLoading] = useState(true);
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
@@ -41,8 +44,8 @@ export default function TeacherMentorship() {
     <main className="min-h-screen bg-secondary p-6">
       <div className="max-w-4xl mx-auto">
         <nav className="mb-6">
-          <a href="/teacher/dashboard" className="text-abyss-teal hover:text-abyss-teal-dark text-sm font-medium">
-            &larr; Back to Dashboard
+          <Link href="/teacher/dashboard" className="text-abyss-teal hover:text-abyss-teal-dark text-sm font-medium">
+            ← Back to Dashboard
           </a>
         </nav>
 
@@ -68,9 +71,9 @@ export default function TeacherMentorship() {
                   </span>
                 </div>
               </div>
-            ))
-          )}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
     </main>
   );

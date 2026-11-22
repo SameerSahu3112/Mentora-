@@ -4,7 +4,10 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 export default function EnrollmentsPage() {
-  const [enrollments, setEnrollments] = useState([]);
+  const [enrollments, setEnrollments] = useState([
+    { id: 'e1', course: 'JEE Main January', batch: 'Rise Batch 1.0', status: 'active', accessUntil: '2027-01-20' },
+    { id: 'e2', course: 'JEE Main April', batch: 'Spark Batch 1.0', status: 'pending_payment', accessUntil: '2027-04-15' },
+  ]);
   const [loading, setLoading] = useState(true);
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
@@ -14,10 +17,7 @@ export default function EnrollmentsPage() {
       credentials: 'include',
     })
       .then((res) => res.json())
-      .then((data) => {
-        setEnrollments(data);
-        setLoading(false);
-      })
+      .then((data) => setEnrollments(data))
       .catch(() => setLoading(false));
   }, []);
 
@@ -43,8 +43,8 @@ export default function EnrollmentsPage() {
     <main className="min-h-screen bg-secondary p-6">
       <div className="max-w-4xl mx-auto">
         <nav className="mb-6">
-          <a href="/student/dashboard" className="text-abyss-teal hover:text-abyss-teal-dark text-sm font-medium">
-            &larr; Back to Dashboard
+          <Link href="/student/dashboard" className="text-abyss-teal hover:text-abyss-teal-dark text-sm font-medium">
+            ← Back to Dashboard
           </a>
         </nav>
 
@@ -60,12 +60,9 @@ export default function EnrollmentsPage() {
               <div key={enrollment.id} className="bg-primary p-4 rounded-lg shadow-sm border border-border-color">
                 <div className="flex justify-between items-start">
                   <div>
-                    <h3 className="text-lg font-semibold text-abyss-teal">
-                      Enrollment #{enrollment.id.slice(-6)}
-                    </h3>
-                    <p className="text-secondary text-sm">
-                      Course: {enrollment.course_id} &bull; Batch: {enrollment.batch_id}
-                    </p>
+                    <h3 className="text-lg font-semibold text-abyss-teal">Enrollment #{enrollment.id.slice(-6)}</h3>
+                    <p className="text-secondary text-sm">{enrollment.course_id}</td>
+                    <p className="text-secondary text-sm">{enrollment.batch_id}</td>
                   </div>
                   <span className={`px-2 py-1 text-xs font-semibold rounded ${statusColors[enrollment.status] || 'bg-border-color text-secondary border border-border-color'}`}>
                     {enrollment.status.replace('_', ' ')}

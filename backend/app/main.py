@@ -10,10 +10,12 @@ Phase 1: Project Foundation
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 from fastapi.exceptions import RequestValidationError
+from fastapi.middleware.cors import CORSMiddleware
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
 from app.core.logging import setup_logging
 from app.core.config import settings
+from app.core.cors import get_cors_origins
 from app.api.v1.router import api_router
 
 # Configure structured logging
@@ -33,6 +35,21 @@ def create_app() -> FastAPI:
         docs_url="/api/v1/docs",
         openapi_url="/api/v1/openapi.json",
         redoc_url="/api/v1/redoc",
+    )
+
+    # ------------------------------------------------------------------
+    # CORS middleware
+    # ------------------------------------------------------------------
+    cors_origins = get_cors_origins()
+    if not cors_origins:
+        cors_origins = ["*"]
+
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=cors_origins,
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
     )
 
     # ------------------------------------------------------------------

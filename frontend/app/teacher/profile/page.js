@@ -23,7 +23,7 @@ export default function TeacherProfile() {
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-secondary p-6">
+      <main className="min-h-screen bg-gray-50 p-6">
         <div className="max-w-2xl mx-auto">
           <div className="animate-pulse h-32 bg-border-color rounded" />
         </div>
@@ -36,7 +36,7 @@ export default function TeacherProfile() {
       <div className="max-w-2xl mx-auto">
         <nav className="mb-6">
           <a href="/teacher/dashboard" className="text-abyss-teal hover:text-abyss-teal-dark text-sm font-medium">
-            &larr; Back to Dashboard
+            ← Back to Dashboard
           </a>
         </nav>
 

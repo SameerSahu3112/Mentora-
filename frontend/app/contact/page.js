@@ -1,79 +1,149 @@
-'use client';
-
-/**
- * Mentora Contact Page
- * Brand: Abyss Teal + Desert Sand
- */
+"use client";
 
 import Link from 'next/link';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
+import { useState } from 'react';
 
 export default function ContactPage() {
+  const [formData, setFormData] = useState({
+    full_name: '',
+    email: '',
+    subject: '',
+    message: '',
+  });
+  const [success, setSuccess] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setSuccess(true);
+    setFormData({ full_name: '', email: '', subject: '', message: '' });
+  };
+
   return (
-    <div className="min-h-screen bg-secondary">
-      <Navbar />
-
-      <section className="py-12">
-        <div className="container">
-          <h1 className="text-3xl font-bold text-abyss-teal mb-6">Contact / Help</h1>
-
-          <div className="bg-primary rounded-lg shadow-sm p-8 border border-border-color">
-            <h2 className="text-xl font-semibold text-abyss-teal mb-4">Get in Touch</h2>
-            <p className="text-secondary mb-6">
-              Reach out to the Mentora team for help with courses, batches, enrollment, or any questions.
-            </p>
-
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3rem' }}>
-              <div>
-                <h3 className="font-semibold text-abyss-teal mb-3">Contact Information</h3>
-                <p className="text-secondary mb-3">
-                  Have questions about our courses, batches, or enrollment process? We're here to help.
-                </p>
-                <div style={{ marginBottom: '1rem' }}>
-                  <span className="text-sm font-medium text-secondary block">Email</span>
-                  <p className="text-secondary">support@mentora.example.com</p>
-                </div>
-                <div style={{ marginBottom: '1rem' }}>
-                  <span className="text-sm font-medium text-secondary block">Phone</span>
-                  <p className="text-secondary">+91 98765 43210</p>
-                </div>
-                <div style={{ marginBottom: '1rem' }}>
-                  <span className="text-sm font-medium text-secondary block">Hours</span>
-                  <p className="text-secondary">Mon - Sat: 10:00 AM - 6:00 PM IST</p>
-                </div>
-              </div>
-
-              <div>
-                <h3 className="font-semibold text-abyss-teal mb-3">Send a Message</h3>
-                <form onSubmit={(e) => e.preventDefault()} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                  <div className="form-group">
-                    <label>Full Name</label>
-                    <input type="text" className="form-control" placeholder="Enter your name" />
-                  </div>
-                  <div className="form-group">
-                    <label>Email Address</label>
-                    <input type="email" className="form-control" placeholder="Enter your email" />
-                  </div>
-                  <div className="form-group">
-                    <label>Subject</label>
-                    <input type="text" className="form-control" placeholder="How can we help?" />
-                  </div>
-                  <div className="form-group">
-                    <label>Message</label>
-                    <textarea rows="4" className="form-control" placeholder="Write your message here..."></textarea>
-                  </div>
-                  <button type="submit" className="btn btn-primary" style={{ alignSelf: 'flex-start' }}>
-                    Send Message
-                  </button>
-                </form>
-              </div>
+    <main className="min-h-screen bg-[#001719] text-on-surface">
+      <nav className="bg-[#001719]/80 backdrop-blur-md border-b border-[#8a9294]/20 sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="flex justify-between h-16 items-center">
+            <Link href="/" className="flex items-center gap-2">
+              <span className="text-xl font-bold text-[#0F4C5C]">Mentora</span>
+              <span className="text-sm font-semibold text-[#E9C46A]">.</span>
+            </Link>
+            <div className="flex items-center gap-4 text-sm font-medium text-on-surface">
+              <Link href="/auth/login" className="hover:text-[#0F4C5C] transition-colors">
+                Login
+              </a>
+              <Link href="/auth/signup" className="bg-[#E9C46A] text-[#00363d] px-4 py-2 rounded font-medium hover:bg-[#D4A357] transition-colors">
+                Register
+              </Link>
             </div>
           </div>
         </div>
-      </section>
+      </nav>
 
-      <Footer />
+      <main className="max-w-7xl mx-auto px-4 py-12">
+        <h1 className="text-4xl font-bold text-[#0F4C5C] mb-6">Contact / Help</h1>
+
+        <div className="bg-[#082326] rounded-lg p-8 border border-[#8a9294]/20">
+          <h2 className="text-xl font-bold text-[#0F4C5C] mb-4">Contact / Help</h2>
+          <p className="text-on-surface-variant mb-6">
+            Reach out to the Mentora team for help with courses, batches, and enrollment.
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="bg-[#082326] p-6 rounded-lg border border-[#8a9294]/20">
+              <h3 className="text-lg font-bold text-[#0F4C5C] mb-4">Contact Information</h2>
+              <p className="text-on-surface-variant mb-4">
+                Have questions about our courses, batches, or enrollment process? We're here to help.
+              </p>
+              <div className="space-y-4">
+                <div className="flex items-start gap-3">
+                  <span class="material-symbols-outlined text-[#E9C46A] text-[18px] flex-shrink-0">email</span>
+                  <div>
+                    <p className="font-label-sm text-label-sm text-secondary uppercase">Email</p>
+                    <p className="text-secondary">support@mentora.example.com</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <span class="material-symbols-outlined text-[#E9C46A] text-[18px] flex-shrink-0">phone</span>
+                  <div>
+                    <p className="font-label-sm text-label-sm text-secondary uppercase">Phone</p>
+                    <p className="text-secondary">+91 98765 43210</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <span class="material-symbols-outlined text-[#E9C46A] text-[18px] flex-shrink-0">school</span>
+                  <div>
+                    <p className="font-label-sm text-label-sm text-secondary uppercase">Hours</p>
+                    <p className="text-secondary">Mon - Sat: 10:00 AM - 6:00 PM IST</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-[#082326] p-6 rounded-lg border border-[#8a9294]/20">
+              <h3 className="font-lg font-bold text-[#0F4C5C] mb-4">Send a Message</h2>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div className="form-group">
+                  <label className="block text-xs font-medium text-secondary mb-1">
+                    Full Name
+                  </label>
+                  <input
+                    type="text"
+                    className="w-full px-3 py-2 border border-[#8a9294]/20 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0F4C5C]"
+                    value={formData.full_name}
+                    onChange={(e) => setFormData({ ...formData, full_name: e.target.value })}
+                    placeholder="Enter your name"
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label className="block text-xs font-medium text-secondary mb-1">
+                    Email Address
+                  </label>
+                  <input
+                    type="email"
+                    className="w-full px-3 py-2 border border-[#8a9294]/20 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0F4C5C]"
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    placeholder="Enter your email"
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label className="block text-xs font-medium text-secondary mb-1">
+                    Subject
+                  </label>
+                  <input
+                    type="text"
+                    className="w-full px-3 py-2 border border-[#8a9294]/20 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0F4C5C]"
+                    value={formData.subject}
+                    onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+                    placeholder="What is this about?"
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label className="block text-xs font-medium text-secondary mb-1">
+                    Message
+                  </label>
+                  <textarea
+                    className="w-full px-3 py-2 border border-[#8a9294]/20 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0F4C5C]"
+                    value={formData.message}
+                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                    placeholder="Type your message here..."
+                    rows={4}
+                  />
+                </div>
+                <button
+                  type="submit"
+                  className="px-6 py-2 bg-[#E9C46A] text-[#00363d] font-bold rounded-lg hover:bg-[#D4A357] transition-colors"
+                >
+                  Send Message
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </main>
     </div>
   );
 }

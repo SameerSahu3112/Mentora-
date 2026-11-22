@@ -5,8 +5,8 @@ export default function TeacherAttendance() {
     <main className="min-h-screen bg-secondary p-6">
       <div className="max-w-4xl mx-auto">
         <nav className="mb-6">
-          <a href="/teacher/dashboard" className="text-abyss-teal hover:text-abyss-teal-dark text-sm font-medium">
-            &larr; Back to Dashboard
+          <Link href="/teacher/dashboard" className="text-abyss-teal hover:text-abyss-teal-dark text-sm font-medium">
+            ← Back to Dashboard
           </a>
         </nav>
 

@@ -1,9 +1,8 @@
-/**
- * Mentora Root Layout
- * Brand: Abyss Teal (~80%) + Desert Sand (~20%)
- */
+"use client";
 
 import './globals.css';
+import Navbar from '@/app/components/Navbar';
+import Footer from '@/app/components/Footer';
 
 export const metadata = {
   title: 'Mentora — JEE Preparation Platform',
@@ -12,7 +11,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" className="dark">
       <body>{children}</body>
     </html>
   );

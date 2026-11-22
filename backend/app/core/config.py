@@ -6,6 +6,8 @@ Phase 1: Project Foundation
 """
 
 from functools import lru_cache
+from typing import Any
+from pydantic import field_validator
 from pydantic_settings import BaseSettings
 
 
@@ -36,6 +38,25 @@ class Settings(BaseSettings):
     ARGON2_TIME_COST: int = 3
     ARGON2_MEMORY_COST: int = 65536
     ARGON2_PARALLELISM: int = 4
+
+    @field_validator("DEBUG", mode="before")
+    @classmethod
+    def parse_debug(cls, v: Any) -> bool:
+        if isinstance(v, bool):
+            return v
+        if isinstance(v, str):
+            return v.lower() in ("true", "1", "t", "yes", "debug", "dev", "development")
+        return bool(v)
+
+    @field_validator("DATABASE_URL", mode="before")
+    @classmethod
+    def normalize_database_url(cls, v: Any) -> str:
+        if isinstance(v, str):
+            if v.startswith("postgres://"):
+                return v.replace("postgres://", "postgresql+asyncpg://", 1)
+            if v.startswith("postgresql://") and not v.startswith("postgresql+asyncpg://"):
+                return v.replace("postgresql://", "postgresql+asyncpg://", 1)
+        return str(v)
 
     class Config:
         env_file = ".env"

@@ -4,7 +4,10 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 export default function ApplicationsPage() {
-  const [applications, setApplications] = useState([]);
+  const [applications, setApplications] = useState([
+    { id: 'a1', course: 'JEE Main January', batch: 'Rise Batch 1.0', status: 'pending', appliedAt: '2026-11-15', introStatus: 'pending', introDeadline: '2026-11-22' },
+    { id: 'a2', course: 'JEE Main April', batch: 'Spark Batch 1.0', status: 'approved', appliedAt: '2026-11-10', introStatus: 'scheduled', introDeadline: '2026-11-17' },
+  ]);
   const [loading, setLoading] = useState(true);
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
@@ -14,11 +17,9 @@ export default function ApplicationsPage() {
       credentials: 'include',
     })
       .then((res) => res.json())
-      .then((data) => {
-        setApplications(data);
-        setLoading(false);
-      })
-      .catch(() => setLoading(false));
+      .then((data) => setApplications(data))
+      .catch(() => setApplications([]))
+      .finally(() => setLoading(false));
   }, []);
 
   const statusColors = {
@@ -42,8 +43,8 @@ export default function ApplicationsPage() {
     <main className="min-h-screen bg-secondary p-6">
       <div className="max-w-4xl mx-auto">
         <nav className="mb-6">
-          <a href="/student/dashboard" className="text-abyss-teal hover:text-abyss-teal-dark text-sm font-medium">
-            &larr; Back to Dashboard
+          <Link href="/student/dashboard" className="text-abyss-teal hover:text-abyss-teal-dark text-sm font-medium">
+            ← Back to Dashboard
           </a>
         </nav>
 
@@ -62,12 +63,8 @@ export default function ApplicationsPage() {
               <div key={app.id} className="bg-primary p-4 rounded-lg shadow-sm border border-border-color">
                 <div className="flex justify-between items-start mb-2">
                   <div>
-                    <h3 className="text-lg font-semibold text-abyss-teal">
-                      Application #{app.id.slice(-6)}
-                    </h3>
-                    <p className="text-secondary text-sm">
-                      Batch: {app.batch_name || 'N/A'}
-                    </p>
+                    <h3 className="text-lg font-semibold text-abyss-teal">Application #{app.id.slice(-6)}</h3>
+                    <p className="text-secondary text-sm">{app.batch}</td>
                   </div>
                   <span className={`px-2 py-1 text-xs font-semibold rounded ${statusColors[app.status] || 'bg-border-color text-secondary border border-border-color'}`}>
                     {app.status}
@@ -76,7 +73,7 @@ export default function ApplicationsPage() {
                 <div className="mt-3 grid md:grid-cols-4 gap-2 text-sm text-secondary">
                   <div>
                     <span className="block text-xs font-medium text-muted">Applied</span>
-                    <span className="block">{app.applied_at}</span>
+                    <span className="block">{app.appliedAt}</span>
                   </div>
                   <div>
                     <span className="block text-xs font-medium text-muted">Intro Call</span>

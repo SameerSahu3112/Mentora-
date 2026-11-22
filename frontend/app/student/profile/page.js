@@ -14,10 +14,7 @@ export default function ProfilePage() {
       credentials: 'include',
     })
       .then((res) => res.json())
-      .then((data) => {
-        setProfile(data);
-        setLoading(false);
-      })
+      .then((data) => setProfile(data))
       .catch(() => setLoading(false));
   }, []);
 
@@ -35,8 +32,8 @@ export default function ProfilePage() {
     <main className="min-h-screen bg-secondary p-6">
       <div className="max-w-2xl mx-auto">
         <nav className="mb-6">
-          <a href="/student/dashboard" className="text-abyss-teal hover:text-abyss-teal-dark text-sm">
-            &larr; Back to Dashboard
+          <Link href="/student/dashboard" className="text-abyss-teal hover:text-abyss-teal-dark text-sm font-medium">
+            ← Back to Dashboard
           </a>
         </nav>
 

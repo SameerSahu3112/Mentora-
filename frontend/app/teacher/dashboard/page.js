@@ -79,7 +79,7 @@ export default function TeacherDashboard() {
         </div>
 
         <div className="mb-8">
-          <h2 className="text-xl font-semibold text-abyss-teal mb-4">Your Assigned Batches</h2>
+          <h2 className="text-xl font-bold text-abyss-teal mb-4">Your Assigned Batches</h2>
           {batches.length === 0 ? (
             <p className="text-muted">No batches assigned yet.</p>
           ) : (
@@ -88,8 +88,8 @@ export default function TeacherDashboard() {
                 <div key={batch.id} className="bg-primary p-4 rounded-lg shadow-sm border border-border-color">
                   <h3 className="text-lg font-semibold text-abyss-teal">{batch.name}</h3>
                   <p className="text-secondary text-sm mt-1">{batch.course_name || 'Course'}</p>
-                  <p className="text-secondary text-sm">Capacity: {batch.capacity}</p>
-                  <span className={`px-2 py-1 text-xs font-semibold rounded ${batch.status === 'active' ? 'bg-abyss-teal-light text-abyss-teal border border-abyss-teal' : 'bg-desert-sand-light text-desert-sand-dark border border-desert-sand-border'}`}>
+                  <p className="text-secondary text-sm">Capacity: {batch.capacity}</td>
+                  <span className={`px-2 py-1 text-xs font-semibold rounded ${batch.status === 'active' ? 'bg-[#E9C46A]/20 text-[#E9C46A]' : 'bg-[#E9C46A]/20 text-[#E9C46A]'}`}>
                     {batch.status}
                   </span>
                 </div>

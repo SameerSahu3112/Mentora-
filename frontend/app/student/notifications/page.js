@@ -4,7 +4,11 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 export default function NotificationsPage() {
-  const [notifications, setNotifications] = useState([]);
+  const [notifications, setNotifications] = useState([
+    { id: 'n1', title: 'Application Received', message: 'Thank you for registering with Mentora! Our team will contact you soon.', read: true, createdAt: '2026-11-15' },
+    { id: 'n2', title: 'Introductory Call Scheduled', message: 'Your intro call is scheduled for tomorrow at 10:00 AM.', read: false, createdAt: '2026-11-16' },
+    { id: 'n3', title: 'Enrollment Activated', message: 'Your enrollment has been activated. You can now access resources.', read: false, createdAt: '2026-11-17' },
+  ]);
   const [loading, setLoading] = useState(true);
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
@@ -14,10 +18,7 @@ export default function NotificationsPage() {
       credentials: 'include',
     })
       .then((res) => res.json())
-      .then((data) => {
-        setNotifications(data);
-        setLoading(false);
-      })
+      .then((data) => setNotifications(data))
       .catch(() => setLoading(false));
   }, []);
 
@@ -35,8 +36,8 @@ export default function NotificationsPage() {
     <main className="min-h-screen bg-secondary p-6">
       <div className="max-w-4xl mx-auto">
         <nav className="mb-6">
-          <a href="/student/dashboard" className="text-abyss-teal hover:text-abyss-teal-dark text-sm">
-            &larr; Back to Dashboard
+          <Link href="/student/dashboard" className="text-abyss-teal hover:text-abyss-teal-dark text-sm font-medium">
+            ← Back to Dashboard
           </a>
         </nav>
 
@@ -56,9 +57,7 @@ export default function NotificationsPage() {
                 <div className="flex-1">
                   <h3 className="text-sm font-medium text-abyss-teal">{notification.title}</h3>
                   <p className="text-secondary text-sm mt-1">{notification.message}</p>
-                  <p className="text-xs text-muted mt-2">
-                    {new Date(notification.created_at).toLocaleDateString()}
-                  </p>
+                  <p className="text-xs text-muted mt-2">{new Date(notification.created_at).toLocaleDateString()}</p>
                 </div>
                 {!notification.read && (
                   <span className="w-2 h-2 bg-abyss-teal rounded-full" />
