@@ -76,12 +76,18 @@
 
 ### Optional (Nice to have)
 
+**Resolved during deployment review (2026-11-22):** Tailwind CSS is pinned
+consistently at 3.4.19 in the frontend manifest and lockfile, matching the
+existing Tailwind 3 CSS configuration. `frontend/.npmrc` keeps npm 10/11 clean
+installs from auto-installing TypeScript as an ESLint peer in this JavaScript
+project. `npm ci` and `npm run build` both pass. The local build skipped Google
+Fonts optimization because the stylesheet could not be downloaded. Include
+`frontend/.npmrc` and the updated lockfile in the deployment commit.
+
 | # | Item | Description | Priority |
 |---|------|-------------|----------|
-| 13 | **Frontend Styling** | Basic Tailwind-like classes used but no actual Tailwind CSS installed. Pages will render unstyled. | 🟢 Optional |
-| 14 | **Frontend Build** | `npm run build` not tested. | 🟢 Optional |
-| 15 | **Nginx Config** | Nginx configuration not created (optional per AGENTS.md). | 🟢 Optional |
-| 16 | **Monitoring/Logging** | Structured logging implemented but no external monitoring (Sentry, etc.). | 🟢 Optional |
+| 13 | **Nginx Config** | Nginx configuration not created (optional per AGENTS.md). | 🟢 Optional |
+| 14 | **Monitoring/Logging** | Structured logging implemented but no external monitoring (Sentry, etc.). | 🟢 Optional |
 
 ---
 
