@@ -82,10 +82,10 @@ docker compose exec backend python -m app.bootstrap
 ### Option B: Render (Frontend + Backend Separately)
 
 1. **Backend service**:
-   - Connect GitHub repo
-   - Runtime: Python 3.12
-   - Build command: `pip install -r requirements.txt`
-   - Start command: `uvicorn app.main:app --host 0.0.0.0 --port $PORT`
+   - Connect the GitHub repo and use the backend Dockerfile.
+   - Set the Dockerfile path to `backend/Dockerfile`.
+   - The container applies pending Alembic migrations before starting Uvicorn.
+     This also works for Render Free services, which do not provide Shell access.
    - Add environment variables from `.env`
 
 2. **Frontend service**:

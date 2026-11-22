@@ -1,13 +1,16 @@
 "use client";
 
-import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function HomePage() {
-  const [selectedBatch, setSelectedBatch] = useState(null);
+  const router = useRouter();
 
   const handleSelectBatch = (batchName, price) => {
-    setSelectedBatch({ batchName, price });
-    alert(`Selected ${batchName} (₹${price}). You will be redirected to login/signup to apply.`);
+    const params = new URLSearchParams({
+      batch: batchName,
+      price: String(price),
+    });
+    router.push(`/auth/signup?${params.toString()}`);
   };
 
   return (

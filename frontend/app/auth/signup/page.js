@@ -1,11 +1,36 @@
 "use client";
 
+import { useEffect, useState } from "react";
+
 export default function SignupPage() {
+  const [selection, setSelection] = useState(null);
+  const [applicationQuery, setApplicationQuery] = useState("");
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const batch = params.get("batch");
+    const price = params.get("price");
+
+    setApplicationQuery(window.location.search);
+    if (batch) {
+      setSelection({
+        batch,
+        price: price && /^\d+$/.test(price) ? Number(price) : null,
+      });
+    }
+  }, []);
+
   return (
     <main className="min-h-screen bg-surface-container-lowest text-on-surface flex items-center justify-center p-4">
       <div className="w-full max-w-md bg-surface-container p-6 rounded-xl border border-outline-variant/20 shadow-xl">
         <h1 className="font-headline-lg text-headline-lg text-secondary font-bold mb-2 text-center">Register</h1>
         <p className="font-body-sm text-body-sm text-on-surface-variant text-center mb-6">Create your Mentora student account</p>
+        {selection && (
+          <p role="status" className="font-body-sm text-body-sm text-secondary text-center mb-6">
+            Applying for {selection.batch}
+            {selection.price !== null && ` • ₹${selection.price}`}
+          </p>
+        )}
         <form className="space-y-4">
           <div>
             <label className="block font-label-sm text-label-sm text-on-surface-variant mb-1">Full Name</label>
@@ -37,7 +62,7 @@ export default function SignupPage() {
           </button>
         </form>
         <p className="font-body-sm text-body-sm text-on-surface-variant text-center mt-6">
-          Already have an account? <a href="/auth/login" className="text-secondary hover:underline">Sign In</a>
+          Already have an account? <a href={`/auth/login${applicationQuery}`} className="text-secondary hover:underline">Sign In</a>
         </p>
       </div>
     </main>
