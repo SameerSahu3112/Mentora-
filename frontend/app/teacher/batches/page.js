@@ -51,7 +51,7 @@ export default function TeacherBatches() {
                 <div className="flex justify-between items-start">
                   <div>
                     <h3 className="text-lg font-semibold text-abyss-teal">{batch.name}</h3>
-                    <p className="text-secondary text-sm">{batch.course_name || 'Course'}</td>
+                    <p className="text-secondary text-sm">{batch.course_name || 'Course'}</p>
                   </div>
                   <span className={`px-2 py-1 text-xs font-semibold rounded ${batch.status === 'active' ? 'bg-[#E9C46A]/20 text-[#E9C46A]' : 'bg-[#E9C46A]/20 text-[#E9C46A]'}`}>
                     {batch.status}

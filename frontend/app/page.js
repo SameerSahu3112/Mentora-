@@ -11,7 +11,7 @@ export default function HomePage() {
           <div class="flex items-center gap-1">
             <span class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></span>
             MENTORA JEE MAIN 2026 APEX RUNTIME
-          </span>
+          </div>
           <span class="hidden sm:inline text-outline-variant">|</span>
           <span class="flex items-center gap-1 text-tertiary font-label-sm text-label-sm">
             <span class="material-symbols-outlined text-[14px] text-tertiary">schedule</span>
@@ -78,8 +78,8 @@ export default function HomePage() {
               <div className="flex items-center gap-space-md">
                 <div className="relative w-24 h-24 flex items-center justify-center">
                   <svg className="w-full h-full -rotate-90" viewBox="0 0 96 96">
-                    <circle className="text-surface-container-highest" cx="48" cy="48" fill="transparent" r="40" stroke="currentColor" strokeWidth="6"></span>
-                    <circle className="text-secondary transition-all duration-1000 ease-out" cx="48" cy="48" fill="transparent" r="40" stroke="currentColor" strokeDasharray="251.2" strokeDashoffset="65" strokeLinecap="round" strokeWidth="6"></span>
+                    <circle className="text-surface-container-highest" cx="48" cy="48" fill="transparent" r="40" stroke="currentColor" strokeWidth="6" />
+                    <circle className="text-secondary transition-all duration-1000 ease-out" cx="48" cy="48" fill="transparent" r="40" stroke="currentColor" strokeDasharray="251.2" strokeDashoffset="65" strokeLinecap="round" strokeWidth="6" />
                   </svg>
                   <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
                     <span className="font-headline-md text-headline-lg text-abyss-teal font-bold">48</span>
@@ -100,7 +100,7 @@ export default function HomePage() {
                 <a href="/auth/login" className="w-full py-2.5 rounded bg-[#0F4C5C] text-on-abyss-teal font-label-md text-label-md font-bold text-center hover:bg-[#0F4C5C]/90 flex items-center justify-center gap-2 transition-all">
                   <span className="material-symbols-outlined text-[18px]">play_circle</span>
                   Resume: Rotational Mechanics (Ch. 4)
-                </button>
+                </a>
                 <div className="grid grid-cols-2 gap-2 w-full">
                   <button className="px-3 py-2 rounded bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-sm text-label-sm font-bold transition-colors flex items-center gap-1.5" onclick={() => document.getElementById('weekly-modal').classList.remove('hidden')}>
                     <span className="material-symbols-outlined text-[16px] text-tertiary">videocam</span> Batch Call

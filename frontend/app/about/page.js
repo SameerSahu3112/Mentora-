@@ -15,7 +15,7 @@ export default function AboutPage() {
             <div className="hidden md:flex gap-6 text-sm font-medium text-on-surface-variant">
               <Link href="/courses" className="hover:text-[#0F4C5C] transition-colors">Courses</Link>
               <Link href="/about" className="text-[#E9C46A]">About Us</Link>
-              <Link href="/contact" className="hover:text-[#0F4C5C] transition-colors">Contact</th>
+              <Link href="/contact" className="hover:text-[#0F4C5C] transition-colors">Contact</Link>
             </div>
             <div className="flex items-center gap-4 text-sm font-medium text-on-surface">
               <a href="/auth/login" className="hover:text-[#0F4C5C] transition-colors">
@@ -54,6 +54,6 @@ export default function AboutPage() {
           </p>
         </section>
       </main>
-    </div>
+    </main>
   );
 }

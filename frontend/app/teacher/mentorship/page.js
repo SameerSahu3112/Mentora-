@@ -46,7 +46,7 @@ export default function TeacherMentorship() {
         <nav className="mb-6">
           <Link href="/teacher/dashboard" className="text-abyss-teal hover:text-abyss-teal-dark text-sm font-medium">
             ← Back to Dashboard
-          </a>
+          </Link>
         </nav>
 
         <h1 className="text-2xl font-bold text-abyss-teal mb-6">Mentorship Bookings</h1>
@@ -71,9 +71,9 @@ export default function TeacherMentorship() {
                   </span>
                 </div>
               </div>
-            ))}
-          </div>
-        )}
+            ))
+          )}
+        </div>
       </div>
     </main>
   );

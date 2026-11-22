@@ -138,7 +138,7 @@ export default function StudentDashboard() {
                 <div key={enrollment.id} className="bg-[#082326] p-4 rounded-lg shadow-sm border border-[#8a9294]/20">
                   <h3 className="text-lg font-bold text-[#0F4C5C]">Enrollment #{enrollment.id.slice(-6)}</h3>
                   <p className="text-secondary text-sm mt-1">{enrollment.course}</p>
-                  <p className="text-secondary text-sm">{enrollment.batch}</td>
+                  <p className="text-secondary text-sm">{enrollment.batch}</p>
                   <span className={`px-2 py-1 text-xs font-semibold rounded ${enrollment.status === 'active' ? 'bg-[#E9C46A]/20 text-[#E9C46A]' : 'bg-[#E9C46A]/20 text-[#E9C46A]'}`}>
                     {enrollment.status}
                   </span>

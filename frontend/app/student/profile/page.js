@@ -34,7 +34,7 @@ export default function ProfilePage() {
         <nav className="mb-6">
           <Link href="/student/dashboard" className="text-abyss-teal hover:text-abyss-teal-dark text-sm font-medium">
             ← Back to Dashboard
-          </a>
+          </Link>
         </nav>
 
         <h1 className="text-2xl font-bold text-abyss-teal mb-6">My Profile</h1>

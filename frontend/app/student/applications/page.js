@@ -45,7 +45,7 @@ export default function ApplicationsPage() {
         <nav className="mb-6">
           <Link href="/student/dashboard" className="text-abyss-teal hover:text-abyss-teal-dark text-sm font-medium">
             ← Back to Dashboard
-          </a>
+          </Link>
         </nav>
 
         <h1 className="text-2xl font-bold text-abyss-teal mb-6">Your Applications</h1>
@@ -64,7 +64,7 @@ export default function ApplicationsPage() {
                 <div className="flex justify-between items-start mb-2">
                   <div>
                     <h3 className="text-lg font-semibold text-abyss-teal">Application #{app.id.slice(-6)}</h3>
-                    <p className="text-secondary text-sm">{app.batch}</td>
+                    <p className="text-secondary text-sm">{app.batch}</p>
                   </div>
                   <span className={`px-2 py-1 text-xs font-semibold rounded ${statusColors[app.status] || 'bg-border-color text-secondary border border-border-color'}`}>
                     {app.status}

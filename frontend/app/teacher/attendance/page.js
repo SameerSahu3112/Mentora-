@@ -1,5 +1,7 @@
 "use client";
 
+import Link from 'next/link';
+
 export default function TeacherAttendance() {
   return (
     <main className="min-h-screen bg-secondary p-6">
@@ -7,7 +9,7 @@ export default function TeacherAttendance() {
         <nav className="mb-6">
           <Link href="/teacher/dashboard" className="text-abyss-teal hover:text-abyss-teal-dark text-sm font-medium">
             ← Back to Dashboard
-          </a>
+          </Link>
         </nav>
 
         <h1 className="text-2xl font-bold text-abyss-teal mb-6">Attendance</h1>

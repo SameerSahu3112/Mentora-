@@ -30,7 +30,7 @@ export default function ContactPage() {
             <div className="flex items-center gap-4 text-sm font-medium text-on-surface">
               <Link href="/auth/login" className="hover:text-[#0F4C5C] transition-colors">
                 Login
-              </a>
+              </Link>
               <Link href="/auth/signup" className="bg-[#E9C46A] text-[#00363d] px-4 py-2 rounded font-medium hover:bg-[#D4A357] transition-colors">
                 Register
               </Link>
@@ -50,7 +50,7 @@ export default function ContactPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="bg-[#082326] p-6 rounded-lg border border-[#8a9294]/20">
-              <h3 className="text-lg font-bold text-[#0F4C5C] mb-4">Contact Information</h2>
+              <h3 className="text-lg font-bold text-[#0F4C5C] mb-4">Contact Information</h3>
               <p className="text-on-surface-variant mb-4">
                 Have questions about our courses, batches, or enrollment process? We're here to help.
               </p>
@@ -80,7 +80,7 @@ export default function ContactPage() {
             </div>
 
             <div className="bg-[#082326] p-6 rounded-lg border border-[#8a9294]/20">
-              <h3 className="font-lg font-bold text-[#0F4C5C] mb-4">Send a Message</h2>
+              <h3 className="font-lg font-bold text-[#0F4C5C] mb-4">Send a Message</h3>
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="form-group">
                   <label className="block text-xs font-medium text-secondary mb-1">
@@ -144,6 +144,6 @@ export default function ContactPage() {
           </div>
         </div>
       </main>
-    </div>
+    </main>
   );
 }

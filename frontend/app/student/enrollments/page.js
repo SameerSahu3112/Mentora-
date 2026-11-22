@@ -45,7 +45,7 @@ export default function EnrollmentsPage() {
         <nav className="mb-6">
           <Link href="/student/dashboard" className="text-abyss-teal hover:text-abyss-teal-dark text-sm font-medium">
             ← Back to Dashboard
-          </a>
+          </Link>
         </nav>
 
         <h1 className="text-2xl font-bold text-abyss-teal mb-6">My Enrollments</h1>
@@ -61,8 +61,8 @@ export default function EnrollmentsPage() {
                 <div className="flex justify-between items-start">
                   <div>
                     <h3 className="text-lg font-semibold text-abyss-teal">Enrollment #{enrollment.id.slice(-6)}</h3>
-                    <p className="text-secondary text-sm">{enrollment.course_id}</td>
-                    <p className="text-secondary text-sm">{enrollment.batch_id}</td>
+                    <p className="text-secondary text-sm">{enrollment.course_id}</p>
+                    <p className="text-secondary text-sm">{enrollment.batch_id}</p>
                   </div>
                   <span className={`px-2 py-1 text-xs font-semibold rounded ${statusColors[enrollment.status] || 'bg-border-color text-secondary border border-border-color'}`}>
                     {enrollment.status.replace('_', ' ')}
