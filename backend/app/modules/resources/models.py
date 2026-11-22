@@ -34,7 +34,7 @@ class Module(Base):
     created_at = Column(DateTime(timezone=True), nullable=False, server_default=func.now())
     updated_at = Column(DateTime(timezone=True), nullable=False, server_default=func.now(), onupdate=func.now())
 
-    course = relationship("Course", backref="modules")
+    course = relationship("Course", back_populates="modules")
     chapters = relationship("Chapter", back_populates="module", cascade="all, delete-orphan")
 
 

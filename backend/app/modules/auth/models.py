@@ -36,7 +36,12 @@ class User(Base):
 
     student_profile = relationship("StudentProfile", back_populates="user", uselist=False, cascade="all, delete-orphan")
     teacher_profile = relationship("TeacherProfile", back_populates="user", uselist=False, cascade="all, delete-orphan")
-    roles = relationship("UserRole", back_populates="user", cascade="all, delete-orphan")
+    roles = relationship(
+        "UserRole",
+        back_populates="user",
+        cascade="all, delete-orphan",
+        foreign_keys="[UserRole.user_id]",
+    )
 
 
 class UserRole(Base):
