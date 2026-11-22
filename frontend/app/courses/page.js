@@ -49,7 +49,7 @@ export default function CoursesPage() {
             <div className="hidden md:flex gap-6 text-sm font-medium text-on-surface-variant">
               <Link href="/courses" className="text-[#E9C46A]">Courses</Link>
               <Link href="/about" className="hover:text-[#0F4C5C] transition-colors">About</Link>
-              <Link href="/contact" className="hover:text-[#0F4C5C] transition-colors">Contact</th>
+              <Link href="/contact" className="hover:text-[#0F4C5C] transition-colors">Contact</Link>
             </div>
             <div className="flex items-center gap-4 text-sm font-medium text-on-surface">
               <a href="/auth/login" className="hover:text-[#0F4C5C] transition-colors">
