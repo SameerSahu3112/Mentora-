@@ -86,7 +86,7 @@ docker compose exec backend python -m app.bootstrap
 
 2. **Frontend service**:
    - Connect GitHub repo
-   - Runtime: Node.js 20
+   - Runtime: Node.js 26
    - Build command: `npm install && npm run build`
    - Start command: `npm run start`
    - Set `NEXT_PUBLIC_API_URL` to your backend URL

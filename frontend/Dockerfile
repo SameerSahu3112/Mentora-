@@ -1,7 +1,7 @@
 # Mentora Frontend Dockerfile
 # Phase 1: Project Foundation
 
-FROM node:20-alpine
+FROM node:26-alpine
 
 WORKDIR /app
 
