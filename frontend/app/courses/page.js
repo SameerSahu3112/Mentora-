@@ -11,6 +11,9 @@ export default function CoursesPage() {
       examTarget: 'JEE Main January',
       price: '₹299',
       isActive: true,
+      isDroppers: false,
+      seatsAvailable: 45,
+      totalCapacity: 50,
     },
     {
       id: '2',
@@ -18,6 +21,9 @@ export default function CoursesPage() {
       examTarget: 'JEE Main April',
       price: '₹499',
       isActive: true,
+      isDroppers: true,
+      seatsAvailable: 38,
+      totalCapacity: 50,
     },
     {
       id: '3',
@@ -25,6 +31,9 @@ export default function CoursesPage() {
       examTarget: 'JEE Advanced',
       price: '₹699',
       isActive: true,
+      isDroppers: false,
+      seatsAvailable: 40,
+      totalCapacity: 50,
     },
   ];
 
@@ -67,13 +76,19 @@ export default function CoursesPage() {
             <div key={course.id} className="bg-[#082326] rounded-xl p-6 border border-[#8a9294]/20 shadow-lg flex flex-col hover:border-[#0F4C5C]/50 transition-colors">
               <div className="flex justify-between items-start mb-4">
                 <h3 className="text-xl font-bold text-[#0F4C5C]">{course.name}</h3>
-                <span className="px-2 py-1 rounded bg-[#E9C46A]/20 text-[#E9C46A] font-label-sm text-label-sm font-bold">
-                  Active
+                <span className={`px-2 py-1 rounded bg-[#E9C46A]/20 text-[#E9C46A] font-label-sm text-label-sm font-bold ${course.isDroppers ? 'bg-[#E9C46A]/40 text-[#E9C46A] font-bold' : ''}`}>
+                  {course.isDroppers ? 'DROPPERS' : 'Regular'}
                 </span>
               </div>
               <p className="text-secondary text-sm mb-3">{course.examTarget}</p>
               <div className="mb-4">
                 <span className="text-2xl font-bold text-[#0F4C5C]">{course.price}</span>
+              </div>
+              <div className="mt-4 text-xs text-secondary">
+                <span className="flex items-center gap-1">
+                  <span className="material-symbols-outlined text-[16px] text-secondary">people</span>
+                  {course.seatsAvailable} / {course.totalCapacity} seats
+                </div>
               </div>
               <Link href={`/courses/${course.id}`} className="w-full py-3 rounded bg-[#E9C46A] text-[#00363d] font-bold text-center hover:bg-[#D4A357] transition-colors">
                 View Batches

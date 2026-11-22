@@ -1,15 +1,18 @@
-"""Secure Admin bootstrap command.
+"""Secure Admin and Teacher bootstrap command.
 
 Phase 2: Identity and Access Control
 
-Bootstraps the two initial Admin accounts through a secure one-time command.
-Never hard-codes a default permanent Admin password. Prompts for passwords
-interactively or via environment variables.
+Bootstraps the two initial Admin accounts and Teacher accounts through a secure one-time command.
+Never hard-codes default permanent passwords. Prompts for passwords interactively or via environment variables.
 
 Usage:
     python -m app.bootstrap
     # or with env vars:
-    ADMIN1_EMAIL=admin1@example.com ADMIN2_EMAIL=admin2@example.com python -m app.bootstrap
+    ADMIN1_EMAIL=admin1@mentora.example.com ADMIN2_EMAIL=admin2@mentora.example.com \
+    ADMIN1_PASSWORD=... ADMIN2_PASSWORD=... \
+    TEACHER1_EMAIL=teacher1@mentora.example.com TEACHER2_EMAIL=teacher2@mentora.example.com \
+    TEACHER1_PASSWORD=... TEACHER2_PASSWORD=... \
+    python -m app.bootstrap
 """
 
 import asyncio
@@ -25,9 +28,10 @@ from app.core.database import engine, AsyncSessionLocal, Base
 from app.modules.auth.models import User, UserRole
 
 
-async def bootstrap_admins() -> None:
-    """Create the two initial Admin accounts securely."""
+async def bootstrap_admins_and_teachers() -> None:
+    """Create the two initial Admin accounts and Teacher accounts securely."""
 
+    # ---------- Admin Accounts ----------
     admin1_email = os.getenv("ADMIN1_EMAIL", "").strip().lower()
     admin2_email = os.getenv("ADMIN2_EMAIL", "").strip().lower()
 
@@ -58,6 +62,22 @@ async def bootstrap_admins() -> None:
     if len(admin1_password) < 8 or len(admin2_password) < 8:
         print("ERROR: Passwords must be at least 8 characters.", file=sys.stderr)
         sys.exit(1)
+
+    # ---------- Teacher Accounts ----------
+    teacher1_email = os.getenv("TEACHER1_EMAIL", "").strip().lower()
+    teacher2_email = os.getenv("TEACHER2_EMAIL", "").strip().lower()
+
+    if not teacher1_email:
+        teacher1_email = input("Teacher 1 email (or press Enter to skip): ").strip().lower()
+    if not teacher2_email:
+        teacher2_email = input("Teacher 2 email (or press Enter to skip): ").strip().lower()
+
+    teacher1_password = os.getenv("TEACHER1_PASSWORD")
+    if not teacher1_password and teacher1_email:
+        teacher1_password = getpass.getpass(f"Password for {teacher1_email}: ")
+    teacher2_password = os.getenv("TEACHER2_PASSWORD")
+    if not teacher2_password and teacher2_email:
+        teacher2_password = getpass.getpass(f"Password for {teacher2_email}:")
 
     async with AsyncSessionLocal() as db:
         # Check if admins already exist
@@ -102,6 +122,35 @@ async def bootstrap_admins() -> None:
             print(f"  2. {admin2_email}")
             print("\nSecure these credentials. Do not store them in version control.")
 
+            # Create Teacher accounts
+            for email, password in [(teacher1_email, teacher1_password), (teacher2_email, teacher2_password)]:
+                if not email or not password:
+                    continue
+                # Check if teacher already exists
+                existing = await db.execute(select(User).where(User.email == email))
+                if existing.scalar_one_or_none():
+                    print(f"Teacher already exists: {email}")
+                    continue
+                try:
+                    teacher_user = User(
+                        id=uuid.uuid4(),
+                        email=email,
+                        password_hash=hash_password(password),
+                        role="teacher",
+                        is_active=True,
+                    )
+                    db.add(teacher_user)
+                    await db.flush()
+                    teacher_role = UserRole(user_id=teacher_user.id, role="teacher")
+                    db.add(teacher_role)
+                    await db.commit()
+                    print(f"  Teacher created: {email}")
+                except Exception as exc:
+                    await db.rollback()
+                    print(f"ERROR: Failed to create teacher {email}: {exc}", file=sys.stderr)
+
+            print(f"\nAll accounts bootstrapped successfully!")
+
         except Exception as exc:
             await db.rollback()
             print(f"ERROR: Bootstrap failed: {exc}", file=sys.stderr)
@@ -113,6 +162,6 @@ if __name__ == "__main__":
     async def init_and_bootstrap():
         async with engine.begin() as conn:
             await conn.run_sync(Base.metadata.create_all)
-        await bootstrap_admins()
+        await bootstrap_admins_and_teachers()
 
     asyncio.run(init_and_bootstrap())

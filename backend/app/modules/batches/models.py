@@ -31,8 +31,9 @@ class Batch(Base):
     start_date = Column(Date, nullable=False)
     end_date = Column(Date, nullable=False)
     weekly_schedule = Column(JSONB, nullable=True)
-    max_capacity = Column(Integer, nullable=False)
+    max_capacity = Column(Integer, nullable=False, default=50)
     status = Column(String(32), nullable=False, default="active")
+    is_droppers_batch = Column(Boolean, nullable=False, default=False)
     created_at = Column(DateTime(timezone=True), nullable=False, server_default=func.now())
     updated_at = Column(DateTime(timezone=True), nullable=False, server_default=func.now(), onupdate=func.now())
 
