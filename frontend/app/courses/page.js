@@ -72,29 +72,35 @@ export default function CoursesPage() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {initialCourses.map((course) => (
-            <div key={course.id} className="bg-[#082326] rounded-xl p-6 border border-[#8a9294]/20 shadow-lg flex flex-col hover:border-[#0F4C5C]/50 transition-colors">
-              <div className="flex justify-between items-start mb-4">
-                <h3 className="text-xl font-bold text-[#0F4C5C]">{course.name}</h3>
-                <span className={`px-2 py-1 rounded bg-[#E9C46A]/20 text-[#E9C46A] font-label-sm text-label-sm font-bold ${course.isDroppers ? 'bg-[#E9C46A]/40 text-[#E9C46A] font-bold' : ''}`}>
-                  {course.isDroppers ? 'DROPPERS' : 'Regular'}
-                </span>
-              </div>
-              <p className="text-secondary text-sm mb-3">{course.examTarget}</p>
-              <div className="mb-4">
-                <span className="text-2xl font-bold text-[#0F4C5C]">{course.price}</span>
-              </div>
-              <div className="mt-4 text-xs text-secondary">
-                <span className="flex items-center gap-1">
-                  <span className="material-symbols-outlined text-[16px] text-secondary">people</span>
-                  {course.seatsAvailable} / {course.totalCapacity} seats
+          {initialCourses.map((course) => {
+            const badgeClass = course.isDroppers
+              ? 'px-2 py-1 rounded bg-[#E9C46A]/20 text-[#E9C46A] font-label-sm text-label-sm font-bold'
+              : 'px-2 py-1 rounded bg-[#E9C46A]/20 text-[#E9C46A] font-label-sm text-label-sm font-bold';
+
+            return (
+              <div key={course.id} className="bg-[#082326] rounded-xl p-6 border border-[#8a9294]/20 shadow-lg flex flex-col hover:border-[#0F4C5C]/50 transition-colors">
+                <div className="flex justify-between items-start mb-4">
+                  <h3 className="text-xl font-bold text-[#0F4C5C]">{course.name}</h3>
+                  <span className={badgeClass}>
+                    {course.isDroppers ? 'DROPPERS' : 'Regular'}
+                  </span>
                 </div>
+                <p className="text-secondary text-sm mb-3">{course.examTarget}</p>
+                <div className="mb-4">
+                  <span className="text-2xl font-bold text-[#0F4C5C]">{course.price}</span>
+                </div>
+                <div className="mt-4 text-xs text-secondary">
+                  <span className="flex items-center gap-1">
+                    <span className="material-symbols-outlined text-[16px] text-secondary">people</span>
+                    {course.seatsAvailable} / {course.totalCapacity} seats
+                  </span>
+                </div>
+                <Link href={`/courses/${course.id}`} className="w-full py-3 rounded bg-[#E9C46A] text-[#00363d] font-bold text-center hover:bg-[#D4A357] transition-colors">
+                  View Batches
+                </Link>
               </div>
-              <Link href={`/courses/${course.id}`} className="w-full py-3 rounded bg-[#E9C46A] text-[#00363d] font-bold text-center hover:bg-[#D4A357] transition-colors">
-                View Batches
-              </Link>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </main>
     </main>
