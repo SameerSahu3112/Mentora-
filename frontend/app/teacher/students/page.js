@@ -1,25 +1,12 @@
-"use client";
-
-import Link from 'next/link';
-
-export default function TeacherStudents() {
+export default function TeacherStudentsPage() {
   return (
-    <main className="min-h-screen bg-secondary p-6">
-      <div className="max-w-4xl mx-auto">
-        <nav className="mb-6">
-          <Link href="/teacher/dashboard" className="text-abyss-teal hover:text-abyss-teal-dark text-sm font-medium">
-            ← Back to Dashboard
-          </Link>
-        </nav>
-
-        <h1 className="text-2xl font-bold text-abyss-teal mb-6">Students</h1>
-
-        <div className="bg-primary p-6 rounded-lg shadow-sm border border-border-color">
-          <p className="text-secondary">
-            Student lists will appear here based on your assigned batches. For privacy, student contact details are not visible to teachers.
-          </p>
-        </div>
-      </div>
+    <main className="min-h-screen bg-surface-container-lowest text-on-surface">
+      <section className="max-w-5xl mx-auto px-6 py-12">
+        <h1 className="font-headline-lg text-headline-lg text-secondary font-bold mb-6">Batch Students</h1>
+        <p className="font-body-sm text-body-sm text-on-surface-variant mb-4">
+          View permitted learning progress of students in your assigned batches. Direct contact information is shielded by Admin Privacy Guard.
+        </p>
+      </section>
     </main>
   );
 }

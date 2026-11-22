@@ -1,183 +1,724 @@
 "use client";
 
-import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function StudentDashboard() {
-  const [user, setUser] = useState(null);
-  const [enrollments, setEnrollments] = useState([
-    {
-      id: 'e1',
-      course: 'JEE Main January',
-      batch: 'Rise Batch 1.0',
-      status: 'active',
-      accessUntil: '2027-01-20',
-    },
-    {
-      id: 'e2',
-      course: 'JEE Main April',
-      batch: 'Spark Batch 1.0',
-      status: 'pending_payment',
-      accessUntil: '2027-04-15',
-    },
-  ]);
-  const [notifications, setNotifications] = useState([
-    { id: 'n1', title: 'Application Received', message: 'Thank you for registering with Mentora! Our team will contact you soon.', read: true },
-    { id: 'n2', title: 'Introductory Call Scheduled', message: 'Your intro call is scheduled for tomorrow at 10:00 AM.', read: false },
-  ]);
-  const [loading, setLoading] = useState(true);
+  const [completedModules, setCompletedModules] = useState(new Set([2]));
+  const [bookmarked, setBookmarked] = useState(new Set([1, 3]));
 
-  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+  const toggleModuleCompletion = (id) => {
+    setCompletedModules((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  };
 
-  useEffect(() => {
-    fetch(`${API_URL}/api/v1/auth/me`, {
-      credentials: 'include',
-    })
-      .then((res) => res.json())
-      .then((data) => setUser(data))
-      .catch(() => setLoading(false));
-    fetch(`${API_URL}/api/v1/enrollments/student/enrollments`, {
-      credentials: 'include',
-    })
-      .then((res) => res.json())
-      .then((data) => setEnrollments(data))
-      .catch(() => setEnrollments([]));
-    fetch(`${API_URL}/api/v1/notifications/`, {
-      credentials: 'include',
-    })
-      .then((res) => res.json())
-      .then((data) => setNotifications(data))
-      .catch(() => setNotifications([]))
-      .finally(() => setLoading(false));
-  }, []);
+  const toggleBookmark = (id) => {
+    setBookmarked((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  };
 
-  if (loading) {
-    return (
-      <main className="min-h-screen bg-[#001719] p-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="animate-pulse flex items-center justify-center h-64">
-            <div className="h-8 w-48 bg-[#8a9294]/20 rounded-full" />
-          </div>
-        </div>
-      </main>
-    );
-  }
+  const triggerSignedDownload = (name) => {
+    alert(`Signed download initiated for: ${name}`);
+  };
+
+  const triggerDownloadAlert = () => {
+    alert('Direct download: JEE Formula Sheet PDF (4.2 MB)');
+  };
 
   return (
-    <main className="min-h-screen bg-[#001719]">
-      <nav className="bg-[#001719]/80 shadow-md border-b border-[#8a9294]/20">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex justify-between h-16">
-            <div className="flex items-center gap-2">
-              <Link href="/student/dashboard" className="flex items-center gap-2">
-                <span className="text-xl font-bold text-[#0F4C5C]">Mentora</span>
-                <span className="text-sm font-semibold text-secondary hidden sm:block">Student Portal</span>
-              </Link>
-            </div>
-            <div className="flex items-center gap-4 text-sm font-medium text-secondary">
-              <Link href="/student/dashboard" className="hover:text-[#0F4C5C] transition-colors">
-                Dashboard
-              </Link>
-              <Link href="/student/applications" className="hover:text-[#0F4C5C] transition-colors">
-                Applications
-              </Link>
-              <Link href="/student/enrollments" className="hover:text-[#0F4C5C] transition-colors">
-                Enrollments
-              </Link>
-              <Link href="/student/resources" className="hover:text-[#0F4C5C] transition-colors">
-                Resources
-              </Link>
-              <Link href="/student/mentorship" className="hover:text-[#0F4C5C] transition-colors">
-                Mentorship
-              </Link>
-              <Link href="/student/notifications" className="hover:text-[#0F4C5C] transition-colors">
-                Notifications
-              </Link>
-              <Link href="/student/profile" className="hover:text-[#0F4C5C] transition-colors">
-                Profile
-              </Link>
-              <a href="/auth/login" className="text-sm text-[#0F4C5C] hover:text-[#0F4C5C]">
-                Sign Out
-              </a>
-            </div>
-          </div>
+    <main className="min-h-screen bg-surface-container-lowest text-on-surface">
+      {/* Top Academic Metrics Marquee */}
+      <div className="w-full bg-surface-container-lowest px-6 py-2.5 flex flex-wrap items-center justify-between gap-2 text-on-surface-variant font-label-sm text-label-sm border-b border-outline-variant/20">
+        <div className="flex items-center gap-3 flex-wrap">
+          <span className="flex items-center gap-1.5 text-secondary font-semibold">
+            <span className="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+            MENTORA JEE MAIN 2026 APEX RUNTIME
+          </span>
+          <span className="hidden sm:inline text-outline-variant">|</span>
+          <span className="flex items-center gap-1">
+            <span className="material-symbols-outlined text-[14px] text-tertiary">schedule</span>
+            Next Live Lecture: <strong>Feb 25, 7:30 PM IST</strong>
+          </span>
+          <span className="hidden md:inline text-outline-variant">|</span>
+          <span className="text-on-surface">Target Cutoff Target: <strong>99.4%ile (228+ Marks)</strong></span>
         </div>
-      </nav>
-
-      <div className="max-w-7xl mx-auto px-4 py-6">
-        <h1 className="text-2xl font-bold text-[#0F4C5C] mb-6">Student Dashboard</h1>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <div className="bg-[#082326] p-6 rounded-lg shadow-sm border border-[#8a9294]/20">
-            <h3 className="text-sm font-medium text-secondary mb-2">Active Enrollments</h3>
-            <p className="text-2xl font-bold text-[#0F4C5C]">
-              {enrollments.filter((e) => e.status === 'active').length}
-            </p>
-          </div>
-          <div className="bg-[#082326] p-6 rounded-lg shadow-sm border border-[#8a9294]/20">
-            <h3 className="text-sm font-medium text-secondary mb-2">Pending Applications</h3>
-            <p className="text-2xl font-bold text-[#E9C46A]">
-              {enrollments.filter((e) => e.status === 'pending_payment').length}
-            </p>
-          </div>
-          <div className="bg-[#082326] p-6 rounded-lg shadow-sm border border-[#8a9294]/20">
-            <h3 className="text-sm font-medium text-secondary mb-2">Unread Notifications</h3>
-            <p className="text-2xl font-bold text-[#0F4C5C]">
-              {notifications.filter((n) => !n.read).length}
-            </p>
-          </div>
+        <div className="flex items-center gap-3 ml-auto">
+          <span className="text-tertiary flex items-center gap-1 font-label-sm">
+            <span className="material-symbols-outlined text-[14px]">cloud_done</span> Mentorship Portal v4.12
+          </span>
+          <span className="bg-surface-container px-2 py-0.5 rounded text-secondary font-label-sm">Class 12 Spark Track</span>
         </div>
+      </div>
 
-        <div className="mb-8">
-          <h2 className="text-xl font-bold text-[#0F4C5C] mb-4">Your Enrollments</h2>
-          {enrollments.length === 0 ? (
-            <p className="text-secondary">No enrollments yet. Apply for a batch to get started.</p>
-          ) : (
-            <div className="grid md:grid-cols-2 gap-4">
-              {enrollments.map((enrollment) => (
-                <div key={enrollment.id} className="bg-[#082326] p-4 rounded-lg shadow-sm border border-[#8a9294]/20">
-                  <h3 className="text-lg font-bold text-[#0F4C5C]">Enrollment #{enrollment.id.slice(-6)}</h3>
-                  <p className="text-secondary text-sm mt-1">{enrollment.course}</p>
-                  <p className="text-secondary text-sm">{enrollment.batch}</p>
-                  <span className={`px-2 py-1 text-xs font-semibold rounded ${enrollment.status === 'active' ? 'bg-[#E9C46A]/20 text-[#E9C46A]' : 'bg-[#E9C46A]/20 text-[#E9C46A]'}`}>
-                    {enrollment.status}
-                  </span>
-                  {enrollment.access_until && (
-                    <p className="text-secondary text-sm mt-2">
-                      Access until: {enrollment.access_until}
-                    </p>
-                  )}
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-
-        <div>
-          <h2 className="text-xl font-bold text-[#0F4C5C] mb-4">Recent Notifications</h2>
-          {notifications.length === 0 ? (
-            <p className="text-secondary">No notifications.</p>
-          ) : (
-            <div className="space-y-3">
-              {notifications.slice(0, 5).map((notification) => (
-                <div
-                  key={notification.id}
-                  className={`bg-[#082326] p-3 rounded-lg shadow-sm border border-[#8a9294]/20 flex justify-between items-start ${!notification.read ? 'border-l-4 border-[#0F4C5C] bg-[#0F4C5C]/20' : ''}`}
-                >
-                  <div className="flex-1">
-                    <h3 className="text-sm font-medium text-[#0F4C5C]">{notification.title}</h3>
-                    <p className="text-secondary text-sm mt-1">{notification.message}</p>
-                    <p className="text-xs text-secondary mt-2">
-                      {new Date(notification.created_at).toLocaleDateString()}
-                    </p>
+      <div className="w-full max-w-[1440px] mx-auto px-4 md:px-6 py-6 flex flex-col gap-6">
+        {/* SECTION 1: Active Enrollment Hero */}
+        <section className="relative w-full rounded-xl bg-gradient-to-br from-surface-container-high via-surface-container to-surface-container-low p-4 md:p-8 overflow-hidden shadow-2xl">
+          <div className="absolute -right-24 -top-24 w-96 h-96 rounded-full bg-secondary/10 blur-3xl pointer-events-none"></div>
+          <div className="absolute left-1/3 bottom-0 w-80 h-32 bg-primary/10 blur-2xl pointer-events-none"></div>
+          <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
+            <div className="flex flex-col gap-2 max-w-2xl">
+              <div className="flex flex-wrap items-center gap-1">
+                <span className="px-2.5 py-1 rounded bg-secondary text-on-secondary font-label-sm text-label-sm font-bold tracking-wider uppercase">
+                  Active Enrolled
+                </span>
+                <span className="px-2.5 py-1 rounded bg-surface-container-highest text-secondary font-label-sm text-label-sm">
+                  ID: MENT-2026-0842
+                </span>
+                <span className="px-2.5 py-1 rounded bg-tertiary-container/60 text-on-tertiary-container font-label-sm text-label-sm">
+                  Class 12 Aspirant
+                </span>
+              </div>
+              <div className="flex flex-col mt-1">
+                <h1 className="font-headline-lg text-headline-lg text-on-surface tracking-tight">
+                  Welcome back, <span className="text-secondary font-bold">Aarav Sharma</span>
+                </h1>
+                <p className="font-body-md text-body-md text-on-surface-variant flex items-center gap-2 mt-1">
+                  <span className="material-symbols-outlined text-[18px] text-primary">school</span>
+                  <strong>Spark 1.0</strong> (April Depth Track - JEE Main 2026 Comprehensive)
+                </p>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2 pt-2">
+                <div className="bg-surface-container-lowest/80 p-2 rounded-lg flex items-center gap-2">
+                  <span className="material-symbols-outlined text-secondary text-[22px]">event</span>
+                  <div className="flex flex-col">
+                    <span className="font-label-sm text-label-sm text-outline uppercase">Target Exam Window</span>
+                    <span className="font-label-md text-label-md text-on-surface font-semibold">April 12, 2026 (Shift 1)</span>
                   </div>
-                  {!notification.read && (
-                    <span className="w-2 h-2 rounded-full bg-[#0F4C5C]" />
-                  )}
                 </div>
-              ))}
+                <div className="bg-surface-container-lowest/80 p-2 rounded-lg flex items-center gap-2">
+                  <span className="material-symbols-outlined text-tertiary text-[22px]">verified_user</span>
+                  <div className="flex flex-col">
+                    <span className="font-label-sm text-label-sm text-outline uppercase">Access Buffer (§8.3)</span>
+                    <span className="font-label-md text-label-md text-on-surface font-semibold">Active until April 19, 2026</span>
+                  </div>
+                </div>
+              </div>
             </div>
-          )}
+            <div className="w-full lg:w-auto flex flex-col sm:flex-row items-center gap-4 bg-surface-container-lowest/90 p-4 rounded-xl border border-secondary/20 shadow-xl">
+              <div className="flex items-center gap-4">
+                <div className="relative w-24 h-24 flex items-center justify-center">
+                  <svg className="w-full h-full -rotate-90" viewBox="0 0 96 96">
+                    <circle className="text-surface-container-highest" cx="48" cy="48" fill="transparent" r="40" stroke="currentColor" strokeWidth="6"></circle>
+                    <circle className="text-secondary transition-all duration-1000 ease-out" cx="48" cy="48" fill="transparent" r="40" stroke="currentColor" strokeDasharray="251.2" strokeDashoffset="65" strokeLinecap="round" strokeWidth="6"></circle>
+                  </svg>
+                  <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
+                    <span className="font-headline-md text-headline-md leading-none text-secondary font-bold">48</span>
+                    <span className="font-label-sm text-label-sm text-outline uppercase">Days</span>
+                  </div>
+                </div>
+                <div className="flex flex-col">
+                  <span className="font-label-sm text-label-sm text-outline uppercase tracking-wider">JEE Mains April '26</span>
+                  <span className="font-headline-sm text-headline-sm text-on-surface font-semibold">Sprint Mode Active</span>
+                  <span className="font-body-sm text-body-sm text-tertiary flex items-center gap-1 mt-0.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-tertiary"></span> 38 Mock Tests Remaining
+                  </span>
+                </div>
+              </div>
+              <div className="w-full flex flex-col gap-2 pt-2 border-t border-outline-variant/20">
+                <a
+                  className="w-full px-4 py-2.5 rounded bg-secondary hover:bg-secondary-fixed-dim text-on-secondary font-label-md text-label-md font-bold tracking-wide transition-all transform active:scale-[0.98] text-center shadow-lg shadow-secondary/15 flex items-center justify-center gap-2"
+                  href="#content-section"
+                >
+                  <span className="material-symbols-outlined text-[18px]">play_circle</span>
+                  Resume: Rotational Mechanics (Ch. 4)
+                </a>
+                <div className="grid grid-cols-2 gap-2 w-full">
+                  <button
+                    className="px-3 py-2 rounded bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-sm text-label-sm font-semibold transition-colors flex items-center justify-center gap-1.5"
+                    onClick={() => document.getElementById('weekly-modal')?.classList.remove('hidden')}
+                  >
+                    <span className="material-symbols-outlined text-[16px] text-tertiary">videocam</span> Batch Call
+                  </button>
+                  <button
+                    className="px-3 py-2 rounded bg-surface-container-high hover:bg-surface-container-highest text-secondary font-label-sm text-label-sm font-semibold transition-colors flex items-center justify-center gap-1.5"
+                    onClick={() => document.getElementById('booking-modal')?.classList.remove('hidden')}
+                  >
+                    <span className="material-symbols-outlined text-[16px]">contact_support</span> 1-on-1 Slot
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* SECTION 2: Quick Stats */}
+        <section className="grid grid-cols-2 lg:grid-cols-4 gap-2">
+          <div className="bg-surface-container p-3 rounded-xl flex items-center gap-2 hover:bg-surface-container-high transition-colors">
+            <div className="w-12 h-12 rounded-lg bg-surface-container-highest flex items-center justify-center text-secondary">
+              <span className="material-symbols-outlined text-[26px]">task_alt</span>
+            </div>
+            <div className="flex flex-col">
+              <span className="font-headline-sm text-headline-sm text-on-surface font-bold">42 <span className="font-label-sm text-label-sm text-outline font-normal">/ 50</span></span>
+              <span className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">DPP Sheets Solved</span>
+            </div>
+          </div>
+          <div className="bg-surface-container p-3 rounded-xl flex items-center gap-2 hover:bg-surface-container-high transition-colors">
+            <div className="w-12 h-12 rounded-lg bg-surface-container-highest flex items-center justify-center text-tertiary">
+              <span className="material-symbols-outlined text-[26px]">bookmark_added</span>
+            </div>
+            <div className="flex flex-col">
+              <span className="font-headline-sm text-headline-sm text-on-surface font-bold">14</span>
+              <span className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Bookmarked Traps &amp; Formulas</span>
+            </div>
+          </div>
+          <div className="bg-surface-container p-3 rounded-xl flex items-center gap-2 hover:bg-surface-container-high transition-colors">
+            <div className="w-12 h-12 rounded-lg bg-surface-container-highest flex items-center justify-center text-primary">
+              <span className="material-symbols-outlined text-[26px]">forum</span>
+            </div>
+            <div className="flex flex-col">
+              <span className="font-headline-sm text-headline-sm text-on-surface font-bold">8 <span className="font-label-sm text-label-sm text-tertiary font-normal">Resolved</span></span>
+              <span className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Doubt Queries Handled</span>
+            </div>
+          </div>
+          <div className="bg-surface-container-high p-3 rounded-xl flex items-center justify-between gap-2 shadow-md">
+            <div className="flex flex-col">
+              <span className="font-label-sm text-label-sm text-secondary uppercase font-bold tracking-wider">Direct Download</span>
+              <span className="font-label-md text-label-md text-on-surface font-semibold truncate max-w-[140px]">JEE Formula Sheet</span>
+              <span className="font-label-sm text-label-sm text-outline">Verified PDF • 4.2 MB</span>
+            </div>
+            <button
+              className="p-3 rounded-lg bg-secondary text-on-secondary hover:bg-secondary-fixed-dim transition-colors flex items-center justify-center"
+              onClick={triggerDownloadAlert}
+              title="Instant Verified PDF Download"
+            >
+              <span className="material-symbols-outlined text-[20px]">download</span>
+            </button>
+          </div>
+        </section>
+
+        {/* SECTION 3: Main Split Grid */}
+        <div className="grid grid-cols-1 xl:grid-cols-12 gap-4">
+          {/* LEFT: Learning Progress & Content Library */}
+          <section className="xl:col-span-7 flex flex-col gap-4" id="content-section">
+            <div className="bg-surface-container-low p-4 rounded-xl flex flex-col gap-4 shadow-md">
+              <div className="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-outline-variant/20">
+                <div className="flex flex-col">
+                  <span className="font-label-sm text-label-sm text-secondary uppercase tracking-widest font-semibold">Study Syllabus &amp; Artifacts (§10, §12)</span>
+                  <h2 className="font-headline-md text-headline-md text-on-surface font-bold">Course Modules &amp; DPPs</h2>
+                </div>
+                <div className="flex items-center gap-2 bg-surface-container px-3 py-1.5 rounded-full">
+                  <span className="font-label-md text-label-md text-tertiary font-semibold">18/24 Modules (75%)</span>
+                  <div className="w-16 h-2 bg-surface-container-highest rounded-full overflow-hidden">
+                    <div className="w-3/4 h-full bg-tertiary"></div>
+                  </div>
+                </div>
+              </div>
+              <div className="flex flex-wrap items-center gap-2 p-2.5 rounded-lg bg-surface-container-lowest text-on-surface-variant font-label-md text-label-md">
+                <span className="flex items-center gap-1 text-primary">
+                  <span className="material-symbols-outlined text-[16px]">folder</span> Spark 1.0
+                </span>
+                <span className="text-outline">/</span>
+                <span className="flex items-center gap-1 text-on-surface">
+                  <span className="material-symbols-outlined text-[16px]">psychology</span> Physics Mechanics
+                </span>
+                <span className="text-outline">/</span>
+                <span className="px-2 py-0.5 rounded bg-surface-container text-secondary font-semibold">Rigid Body Dynamics (Ch. 4)</span>
+              </div>
+              <div className="flex items-start gap-2 p-2 rounded bg-surface-container text-body-sm text-on-surface-variant">
+                <span className="material-symbols-outlined text-secondary text-[20px] mt-0.5">info</span>
+                <p>
+                  Note: Opening a file does <strong>NOT</strong> mark it as complete. Candidates must manually verify completion using the checkboxes below to record module progress on the mentor dashboard.
+                </p>
+              </div>
+              <div className="flex flex-col gap-2 mt-1">
+                {/* Item 1: PDF Notes */}
+                <div className="p-3 rounded-lg bg-surface-container hover:bg-surface-container-high transition-all flex flex-col md:flex-row md:items-center justify-between gap-2" id="res-row-1">
+                  <div className="flex items-start gap-2">
+                    <div className="w-10 h-10 rounded bg-surface-container-highest flex items-center justify-center text-secondary shrink-0 mt-0.5">
+                      <span className="material-symbols-outlined text-[22px]">description</span>
+                    </div>
+                    <div className="flex flex-col">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span className="font-headline-sm text-headline-sm text-on-surface font-semibold text-[17px]">Rigid Body Moment of Inertia - Complete Notes &amp; Derivations</span>
+                        <span className="px-2 py-0.5 rounded bg-surface-container-highest font-label-sm text-label-sm text-secondary font-medium">PDF Notes</span>
+                      </div>
+                      <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1 text-on-surface-variant font-label-sm text-label-sm">
+                        <span className="text-tertiary">Uploader: Harshitraj Sir (NIT Bhopal)</span>
+                        <span>•</span>
+                        <span>14.8 MB</span>
+                        <span>•</span>
+                        <span className="text-outline">Updated 2 days ago</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2 ml-auto md:ml-0 shrink-0">
+                    <button
+                      className="p-2 rounded bg-surface-container-lowest hover:bg-surface-container-highest text-secondary transition-colors"
+                      onClick={() => toggleBookmark(1)}
+                      title="Bookmark resource"
+                    >
+                      <span className="material-symbols-outlined text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>bookmark</span>
+                    </button>
+                    <a
+                      className="px-3 py-1.5 rounded bg-surface-container-highest hover:bg-surface-bright text-on-surface font-label-sm text-label-sm flex items-center gap-1.5 transition-colors"
+                      href="#download"
+                      onClick={() => triggerSignedDownload('Rigid Body Derivations PDF')}
+                    >
+                      <span className="material-symbols-outlined text-[16px] text-tertiary">file_download</span> Signed PDF
+                    </a>
+                    <button
+                      className={`px-3 py-1.5 rounded bg-surface-container-highest text-outline hover:text-on-surface font-label-sm text-label-sm flex items-center gap-1.5 transition-all ${completedModules.has(1) ? 'bg-tertiary-container text-on-tertiary-container' : ''}`}
+                      id="btn-comp-1"
+                      onClick={() => toggleModuleCompletion(1)}
+                    >
+                      <span className={`material-symbols-outlined text-[18px] ${completedModules.has(1) ? 'text-on-tertiary-container' : ''}`}>check_box</span>
+                      <span>{completedModules.has(1) ? 'Completed' : 'Mark Done'}</span>
+                    </button>
+                  </div>
+                </div>
+
+                {/* Item 2: Practice DPP Sheet */}
+                <div className="p-3 rounded-lg bg-surface-container hover:bg-surface-container-high transition-all flex flex-col md:flex-row md:items-center justify-between gap-2" id="res-row-2">
+                  <div className="flex items-start gap-2">
+                    <div className="w-10 h-10 rounded bg-surface-container-highest flex items-center justify-center text-tertiary shrink-0 mt-0.5">
+                      <span className="material-symbols-outlined text-[22px]">assignment</span>
+                    </div>
+                    <div className="flex flex-col">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span className="font-headline-sm text-headline-sm text-on-surface font-semibold text-[17px]">DPP-04: Angular Momentum Conservation &amp; Collision Problems</span>
+                        <span className="px-2 py-0.5 rounded bg-surface-container-highest font-label-sm text-label-sm text-tertiary font-medium">Practice DPP Sheet</span>
+                      </div>
+                      <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1 text-on-surface-variant font-label-sm text-label-sm">
+                        <span className="text-tertiary">Uploader: Harshitraj Sir (NIT Bhopal)</span>
+                        <span>•</span>
+                        <span>25 High-Yield Problems (Subjective + Single Choice)</span>
+                        <span>•</span>
+                        <span>3.1 MB</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2 ml-auto md:ml-0 shrink-0">
+                    <button
+                      className="p-2 rounded bg-surface-container-lowest hover:bg-surface-container-highest text-outline hover:text-secondary transition-colors"
+                      onClick={() => toggleBookmark(2)}
+                      title="Bookmark resource"
+                    >
+                      <span className="material-symbols-outlined text-[20px]">bookmark</span>
+                    </button>
+                    <a
+                      className="px-3 py-1.5 rounded bg-surface-container-highest hover:bg-surface-bright text-on-surface font-label-sm text-label-sm flex items-center gap-1.5 transition-colors"
+                      href="#download"
+                      onClick={() => triggerSignedDownload('DPP 04 Angular Momentum')}
+                    >
+                      <span className="material-symbols-outlined text-[16px] text-tertiary">file_download</span> Signed PDF
+                    </a>
+                    <button
+                      className={`px-3 py-1.5 rounded bg-tertiary-container text-on-tertiary-container font-label-sm text-label-sm flex items-center gap-1.5 transition-all ${completedModules.has(2) ? 'opacity-85' : ''}`}
+                      id="btn-comp-2"
+                      onClick={() => toggleModuleCompletion(2)}
+                    >
+                      <span className="material-symbols-outlined text-[18px]">check_box</span>
+                      <span>{completedModules.has(2) ? 'Completed' : 'Mark Done'}</span>
+                    </button>
+                  </div>
+                </div>
+
+                {/* Item 3: Concept Video */}
+                <div className="p-3 rounded-lg bg-surface-container hover:bg-surface-container-high transition-all flex flex-col md:flex-row md:items-center justify-between gap-2" id="res-row-3">
+                  <div className="flex items-start gap-2">
+                    <div className="w-10 h-10 rounded bg-surface-container-highest flex items-center justify-center text-primary shrink-0 mt-0.5">
+                      <span className="material-symbols-outlined text-[22px]">smart_display</span>
+                    </div>
+                    <div className="flex flex-col">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span className="font-headline-sm text-headline-sm text-on-surface font-semibold text-[17px]">Instantaneous Axis of Rotation (IAOR) - Masterclass Walkthrough</span>
+                        <span className="px-2 py-0.5 rounded bg-surface-container-highest font-label-sm text-label-sm text-primary font-medium">Concept Video Link</span>
+                      </div>
+                      <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1 text-on-surface-variant font-label-sm text-label-sm">
+                        <span className="text-tertiary">Uploader: Naitik Sir (JEE Mentor)</span>
+                        <span>•</span>
+                        <span>Duration: 42 mins</span>
+                        <span>•</span>
+                        <span className="text-secondary font-semibold">1080p Stream</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2 ml-auto md:ml-0 shrink-0">
+                    <button
+                      className="p-2 rounded bg-surface-container-lowest hover:bg-surface-container-highest text-secondary transition-colors"
+                      onClick={() => toggleBookmark(3)}
+                      title="Bookmark resource"
+                    >
+                      <span className="material-symbols-outlined text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>bookmark</span>
+                    </button>
+                    <button
+                      className="px-3 py-1.5 rounded bg-surface-container-highest hover:bg-surface-bright text-on-surface font-label-sm text-label-sm flex items-center gap-1.5 transition-colors"
+                      onClick={() => alert('Opening secure HD lecture player for IAOR Masterclass...')}
+                    >
+                      <span className="material-symbols-outlined text-[16px] text-primary">play_arrow</span> Stream
+                    </button>
+                    <button
+                      className={`px-3 py-1.5 rounded bg-surface-container-highest text-outline hover:text-on-surface font-label-sm text-label-sm flex items-center gap-1.5 transition-all ${completedModules.has(3) ? 'bg-tertiary-container text-on-tertiary-container' : ''}`}
+                      id="btn-comp-3"
+                      onClick={() => toggleModuleCompletion(3)}
+                    >
+                      <span className={`material-symbols-outlined text-[18px] ${completedModules.has(3) ? 'text-on-tertiary-container' : ''}`}>check_box</span>
+                      <span>{completedModules.has(3) ? 'Completed' : 'Mark Done'}</span>
+                    </button>
+                  </div>
+                </div>
+
+                {/* Item 4: Text Summary */}
+                <div className="p-3 rounded-lg bg-surface-container hover:bg-surface-container-high transition-all flex flex-col md:flex-row md:items-center justify-between gap-2" id="res-row-4">
+                  <div className="flex items-start gap-2">
+                    <div className="w-10 h-10 rounded bg-surface-container-highest flex items-center justify-center text-on-secondary-container shrink-0 mt-0.5">
+                      <span className="material-symbols-outlined text-[22px]">mobile_share</span>
+                    </div>
+                    <div className="flex flex-col">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span className="font-headline-sm text-headline-sm text-on-surface font-semibold text-[17px]">Pure Rolling on Inclined Plane &amp; Friction Direction Guide</span>
+                        <span className="px-2 py-0.5 rounded bg-surface-container-highest font-label-sm text-label-sm text-on-secondary-container font-medium">Text Summary</span>
+                      </div>
+                      <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1 text-on-surface-variant font-label-sm text-label-sm">
+                        <span className="text-tertiary">Uploader: Harshitraj Sir (NIT Bhopal)</span>
+                        <span>•</span>
+                        <span>5-min Revision Read</span>
+                        <span>•</span>
+                        <span>Includes 8 Common JEE Advanced Traps</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2 ml-auto md:ml-0 shrink-0">
+                    <button
+                      className="p-2 rounded bg-surface-container-lowest hover:bg-surface-container-highest text-outline hover:text-secondary transition-colors"
+                      onClick={() => toggleBookmark(4)}
+                      title="Bookmark resource"
+                    >
+                      <span className="material-symbols-outlined text-[20px]">bookmark</span>
+                    </button>
+                    <button
+                      className="px-3 py-1.5 rounded bg-surface-container-highest hover:bg-surface-bright text-on-surface font-label-sm text-label-sm flex items-center gap-1.5 transition-colors"
+                      onClick={() => alert('Opening fast Markdown summary reader in modal overlay...')}
+                    >
+                      <span className="material-symbols-outlined text-[16px] text-secondary">read_more</span> Read
+                    </button>
+                    <button
+                      className={`px-3 py-1.5 rounded bg-surface-container-highest text-outline hover:text-on-surface font-label-sm text-label-sm flex items-center gap-1.5 transition-all ${completedModules.has(4) ? 'bg-tertiary-container text-on-tertiary-container' : ''}`}
+                      id="btn-comp-4"
+                      onClick={() => toggleModuleCompletion(4)}
+                    >
+                      <span className={`material-symbols-outlined text-[18px] ${completedModules.has(4) ? 'text-on-tertiary-container' : ''}`}>check_box</span>
+                      <span>{completedModules.has(4) ? 'Completed' : 'Mark Done'}</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div className="flex items-center justify-between pt-1 mt-1">
+                <span className="font-label-sm text-label-sm text-outline">Showing current active sprint chapter</span>
+                <a className="font-label-md text-label-md text-secondary hover:underline flex items-center gap-1" href="#">
+                  Browse All 14 Physics Chapters <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
+                </a>
+              </div>
+            </div>
+          </section>
+
+          {/* RIGHT: Mentorship Center */}
+          <section className="xl:col-span-5 flex flex-col gap-4">
+            <div className="bg-surface-container-low p-4 rounded-xl flex flex-col gap-6 shadow-md">
+              <div className="flex items-center justify-between">
+                <div className="flex flex-col">
+                  <span className="font-label-sm text-label-sm text-secondary uppercase tracking-widest font-semibold">Faculty Guidance (§13)</span>
+                  <h2 className="font-headline-md text-headline-md text-on-surface font-bold">Mentorship Center</h2>
+                </div>
+                <div className="bg-surface-container px-3 py-1.5 rounded-lg flex items-center gap-2">
+                  <span className="material-symbols-outlined text-[18px] text-tertiary">verified</span>
+                  <div className="flex flex-col">
+                    <span className="font-label-sm text-label-sm text-outline uppercase leading-none">Attendance</span>
+                    <span className="font-label-md text-label-md text-tertiary font-bold leading-none mt-0.5">92% (11/12)</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Weekly Batch Mentorship */}
+              <div className="bg-surface-container p-3 rounded-xl flex flex-col gap-2 relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-2 h-full bg-secondary"></div>
+                <div className="flex items-center justify-between">
+                  <span className="px-2 py-0.5 rounded bg-surface-container-highest text-secondary font-label-sm text-label-sm font-semibold flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-secondary"></span> Weekly Cohort Live Session
+                  </span>
+                  <span className="font-label-sm text-label-sm text-tertiary font-semibold flex items-center gap-1">
+                    <span className="material-symbols-outlined text-[16px]">group</span> 28 Enrolled Registered
+                  </span>
+                </div>
+                <div className="flex flex-col">
+                  <h3 className="font-headline-sm text-headline-sm text-on-surface font-bold leading-snug">Advanced Rotational Dynamics &amp; High-Yield JEE Traps</h3>
+                  <p className="font-body-sm text-body-sm text-on-surface-variant mt-1">Deep analytical review of past 5 years' JEE Advanced trick questions, rolling friction paradoxes, and time allocation tactics.</p>
+                </div>
+                <div className="grid grid-cols-2 gap-2 py-1 bg-surface-container-lowest/60 p-2 rounded-lg text-body-sm">
+                  <div>
+                    <span className="font-label-sm text-label-sm text-outline block uppercase">Lead Mentor</span>
+                    <span className="font-label-md text-label-md text-on-surface font-semibold flex items-center gap-1 mt-0.5">
+                      <span className="material-symbols-outlined text-[16px] text-secondary">person</span> Harshitraj Singh Panwar
+                    </span>
+                    <span className="font-label-sm text-label-sm text-on-surface-variant">(NIT Bhopal Alumnus)</span>
+                  </div>
+                  <div>
+                    <span className="font-label-sm text-label-sm text-outline block uppercase">Schedule Timing</span>
+                    <span className="font-label-md text-label-md text-secondary font-bold flex items-center gap-1 mt-0.5">
+                      <span className="material-symbols-outlined text-[16px]">schedule</span> Tomorrow, 7:30 PM IST
+                    </span>
+                    <span className="font-label-sm text-label-sm text-tertiary">Rec. every Tuesday</span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2 mt-1">
+                  <a className="flex-1 py-2 rounded bg-secondary hover:bg-secondary-fixed-dim text-on-secondary font-label-md text-label-md font-bold text-center transition-colors flex items-center justify-center gap-1.5 shadow-md shadow-secondary/10" href="https://meet.google.com" target="_blank">
+                    <span className="material-symbols-outlined text-[18px]">videocam</span> Join Google Meet
+                  </a>
+                  <button
+                    className="px-3 py-2 rounded bg-surface-container-highest hover:bg-surface-bright text-on-surface font-label-sm text-label-sm transition-colors flex items-center gap-1"
+                    onClick={() => alert('Session added to your Google Calendar &amp; WhatsApp alerts enabled.')}
+                  >
+                    <span className="material-symbols-outlined text-[16px] text-secondary">notification_add</span> Reminder
+                  </button>
+                </div>
+              </div>
+
+              {/* 1-on-1 Faculty Mentorship */}
+              <div className="bg-surface-container p-3 rounded-xl flex flex-col gap-2">
+                <div className="flex items-center justify-between">
+                  <span className="font-label-sm text-label-sm text-outline uppercase tracking-wider font-semibold">Your 1-on-1 Faculty Desk (§13.2)</span>
+                  <span className="px-2 py-0.5 rounded bg-tertiary-container text-on-tertiary-container font-label-sm text-label-sm font-semibold flex items-center gap-1">
+                    <span className="material-symbols-outlined text-[14px]">check_circle</span> Approved by Mentor
+                  </span>
+                </div>
+                <div className="p-2 rounded-lg bg-surface-container-lowest flex flex-col gap-1">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <div className="w-8 h-8 rounded-full bg-primary/20 text-primary flex items-center justify-center font-bold font-label-md">NM</div>
+                      <div className="flex flex-col">
+                        <span className="font-label-md text-label-md text-on-surface font-bold">Naitik Mujawadiya</span>
+                        <span className="font-label-sm text-label-sm text-on-surface-variant">Assigned Batch Mentor</span>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <span className="font-label-md text-label-md text-secondary font-semibold block">Friday, Feb 27</span>
+                      <span className="font-label-sm text-label-sm text-outline">5:00 PM IST (25 mins)</span>
+                    </div>
+                  </div>
+                  <div className="mt-2 pt-2 border-t border-outline-variant/20 flex flex-col">
+                    <span className="font-label-sm text-label-sm text-outline uppercase">Agenda Focus</span>
+                    <span className="font-body-sm text-body-sm text-on-surface font-medium">"Overcoming friction &amp; negative marking in Thermodynamics 3-hour mock tests."</span>
+                  </div>
+                </div>
+                <div className="pt-1 flex items-center justify-between gap-2">
+                  <span className="font-label-sm text-label-sm text-on-surface-variant">1 booking quota left this cycle</span>
+                  <button
+                    className="px-4 py-2 rounded bg-surface-container-highest hover:bg-surface-bright text-secondary font-label-md text-label-md font-semibold transition-colors flex items-center gap-1.5"
+                    onClick={() => document.getElementById('booking-modal')?.classList.remove('hidden')}
+                  >
+                    <span className="material-symbols-outlined text-[18px]">add_circle</span> Request New 1-on-1 Session
+                  </button>
+                </div>
+              </div>
+
+              {/* Applications & Introductory Call Tracker */}
+              <div className="bg-surface-container-low p-4 rounded-xl flex flex-col gap-4 shadow-md">
+                <div className="flex items-center justify-between">
+                  <div className="flex flex-col">
+                    <span className="font-label-sm text-label-sm text-secondary uppercase tracking-widest font-semibold">Cohort Applications (§8)</span>
+                    <h3 className="font-headline-sm text-headline-sm text-on-surface font-bold">Advanced Crucible Tracker</h3>
+                  </div>
+                  <span className="px-2.5 py-0.5 rounded bg-surface-container-high text-secondary font-label-sm text-label-sm font-semibold">Step 2 of 3</span>
+                </div>
+                <div className="p-3 rounded-xl bg-surface-container flex flex-col gap-2">
+                  <div className="flex items-center justify-between flex-wrap gap-2">
+                    <div className="flex flex-col">
+                      <span className="font-headline-sm text-headline-sm text-on-surface font-bold text-[18px]">Apex 2.0 (JEE Advanced Crucible)</span>
+                      <span className="font-label-sm text-label-sm text-outline">Application ID: APP-2026-ADV-0914</span>
+                    </div>
+                    <span className="px-2 py-0.5 rounded bg-surface-container-highest text-tertiary font-label-sm text-label-sm font-semibold flex items-center gap-1">
+                      <span className="w-1.5 h-1.5 rounded-full bg-tertiary animate-pulse"></span> Under Verification
+                    </span>
+                  </div>
+                  <div className="p-2 rounded-lg bg-surface-container-lowest flex items-start gap-2 mt-1">
+                    <span className="material-symbols-outlined text-secondary text-[22px] mt-0.5">phone_in_talk</span>
+                    <div className="flex flex-col">
+                      <span className="font-label-sm text-label-sm text-secondary font-bold uppercase tracking-wider">Mandatory 7-Day Intro Call Scheduled</span>
+                      <span className="font-label-md text-label-md text-on-surface font-semibold">Phone Call with NIT Lead Mentor: Saturday, Feb 28 • 4:00 PM IST</span>
+                      <span className="font-label-sm text-label-sm text-tertiary mt-0.5">Within 7-day admissions verification policy window</span>
+                    </div>
+                  </div>
+                  <p className="font-body-sm text-body-sm text-outline italic">
+                    "Introductory phone call is conducted before manual payment recording &amp; enrollment activation."
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        {/* Weekly Milestone Roadmap */}
+        <section className="w-full rounded-xl bg-surface-container-low p-4 flex flex-col gap-4 shadow-xl">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <div className="flex flex-col">
+              <span className="font-label-sm text-label-sm text-secondary uppercase tracking-widest font-semibold">Weekly Milestone Roadmap</span>
+              <h3 className="font-headline-md text-headline-md text-on-surface font-bold">Week 08: Analytical Problem Solving Schedule</h3>
+            </div>
+            <div className="flex items-center gap-2">
+              <button
+                className="px-3 py-1.5 rounded bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-sm text-label-sm flex items-center gap-1.5"
+                onClick={() => alert('Exporting week schedule to iCal/PDF...')}
+              >
+                <span className="material-symbols-outlined text-[16px]">calendar_month</span> Export Timetable
+              </button>
+            </div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-2">
+            <div className="p-2 rounded-lg bg-surface-container flex flex-col gap-2 opacity-75">
+              <div className="flex items-center justify-between">
+                <span className="font-label-sm text-label-sm text-outline">Monday • Feb 23</span>
+                <span className="material-symbols-outlined text-tertiary text-[18px]">done_all</span>
+              </div>
+              <span className="font-label-md text-label-md text-on-surface font-semibold">Rotational Inertia Basics</span>
+              <span className="font-label-sm text-label-sm text-tertiary">30 DPP Questions Completed</span>
+            </div>
+            <div className="p-2 rounded-lg bg-surface-container-high border-2 border-secondary/30 flex flex-col gap-2 shadow-lg">
+              <div className="flex items-center justify-between">
+                <span className="font-label-sm text-label-sm text-secondary font-bold">Tuesday • Feb 24 (TODAY)</span>
+                <span className="w-2 h-2 rounded-full bg-secondary animate-ping"></span>
+              </div>
+              <span className="font-label-md text-label-md text-on-surface font-semibold">Torque &amp; Equilibrium Mastery</span>
+              <span className="font-label-sm text-label-sm text-on-surface-variant">Live Lecture at 7:30 PM with Harshitraj Sir</span>
+            </div>
+            <div className="p-2 rounded-lg bg-surface-container flex flex-col gap-2">
+              <div className="flex items-center justify-between">
+                <span className="font-label-sm text-label-sm text-outline">Wednesday • Feb 25</span>
+                <span className="font-label-sm text-label-sm text-outline">Upcoming</span>
+              </div>
+              <span className="font-label-md text-label-md text-on-surface font-semibold">Angular Momentum Proofs</span>
+              <span className="font-label-sm text-label-sm text-on-surface-variant">DPP 04 Release + AI Review</span>
+            </div>
+            <div className="p-2 rounded-lg bg-surface-container flex flex-col gap-2">
+              <div className="flex items-center justify-between">
+                <span className="font-label-sm text-label-sm text-outline">Thursday • Feb 26</span>
+                <span className="font-label-sm text-label-sm text-outline">Upcoming</span>
+              </div>
+              <span className="font-label-md text-label-md text-on-surface font-semibold">Rolling Friction Paradoxes</span>
+              <span className="font-label-sm text-label-sm text-on-surface-variant">Advanced Problem Bank #8</span>
+            </div>
+            <div className="p-2 rounded-lg bg-surface-container flex flex-col gap-2">
+              <div className="flex items-center justify-between">
+                <span className="font-label-sm text-label-sm text-outline">Friday • Feb 27</span>
+                <span className="px-1.5 py-0.5 rounded bg-tertiary-container text-on-tertiary-container font-label-sm text-[10px]">1-on-1 Booked</span>
+              </div>
+              <span className="font-label-md text-label-md text-on-surface font-semibold">1-on-1 Faculty Strategy</span>
+              <span className="font-label-sm text-label-sm text-secondary">5:00 PM with Naitik Sir</span>
+            </div>
+          </div>
+        </section>
+
+        {/* MODAL: 1-on-1 Faculty Booking */}
+        <div className="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/80 backdrop-blur-md" id="booking-modal">
+          <div className="w-full max-w-lg bg-surface-container-high rounded-xl p-4 flex flex-col gap-4 shadow-2xl border border-secondary/30">
+            <div className="flex items-center justify-between pb-1 border-b border-outline-variant/30">
+              <div className="flex flex-col">
+                <span className="font-label-sm text-label-sm text-secondary uppercase font-semibold">Batch Spark 1.0 Mentorship</span>
+                <h3 className="font-headline-sm text-headline-sm text-on-surface font-bold">Request 1-on-1 Faculty Session</h3>
+              </div>
+              <button
+                className="p-1 rounded hover:bg-surface-container-highest text-on-surface-variant"
+                onClick={() => document.getElementById('booking-modal')?.classList.add('hidden')}
+              >
+                <span className="material-symbols-outlined text-[20px]">close</span>
+              </button>
+            </div>
+            <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-0.5">
+                <label className="font-label-sm text-label-sm text-outline uppercase">Select Assigned Batch Faculty (§13.2)</label>
+                <select
+                  className="w-full bg-surface-container-lowest p-2.5 rounded text-on-surface font-body-md text-body-md focus:outline-none focus:ring-1 focus:ring-secondary"
+                  id="mentor-select"
+                >
+                  <option value="NM">Naitik Mujawadiya — Physics Lead (Thermodynamics &amp; Mechanics)</option>
+                  <option value="HP">Harshitraj Singh Panwar — Head JEE Strategist &amp; Advanced Mathematics</option>
+                  <option value="AK">Dr. Ananya Kaul — Physical &amp; Organic Chemistry Specialist</option>
+                </select>
+              </div>
+              <div className="flex flex-col gap-0.5">
+                <label className="font-label-sm text-label-sm text-outline uppercase">Discussion Agenda / Weak Area Topic</label>
+                <input
+                  className="w-full bg-surface-container-lowest p-2.5 rounded text-on-surface font-body-md text-body-md placeholder-outline focus:outline-none focus:ring-1 focus:ring-secondary"
+                  id="agenda-input"
+                  placeholder="e.g. Center of Mass impulse problems &amp; speed optimization"
+                  type="text"
+                />
+              </div>
+              <div className="grid grid-cols-2 gap-2">
+                <div className="flex flex-col gap-0.5">
+                  <label className="font-label-sm text-label-sm text-outline uppercase">Proposed Date</label>
+                  <input
+                    className="w-full bg-surface-container-lowest p-2.5 rounded text-on-surface font-label-md text-label-md focus:outline-none focus:ring-1 focus:ring-secondary"
+                    type="date"
+                    value="2026-03-02"
+                  />
+                </div>
+                <div className="flex flex-col gap-0.5">
+                  <label className="font-label-sm text-label-sm text-outline uppercase">Preferred Window</label>
+                  <select className="w-full bg-surface-container-lowest p-2.5 rounded text-on-surface font-label-md text-label-md focus:outline-none focus:ring-1 focus:ring-secondary">
+                    <option>Evening (5:00 PM - 5:30 PM)</option>
+                    <option>Late Evening (8:30 PM - 9:00 PM)</option>
+                  </select>
+                </div>
+              </div>
+              <div className="p-2 rounded bg-surface-container-lowest text-body-sm text-on-surface-variant flex items-start gap-2">
+                <span className="material-symbols-outlined text-secondary text-[18px] mt-0.5">verified_user</span>
+                <span>1-on-1 requests are confirmed within 12 hours by faculty depending on classroom schedules.</span>
+              </div>
+            </div>
+            <div className="flex items-center justify-end gap-2 pt-1">
+              <button
+                className="px-4 py-2 rounded text-outline hover:text-on-surface font-label-md text-label-md"
+                onClick={() => document.getElementById('booking-modal')?.classList.add('hidden')}
+              >
+                Cancel
+              </button>
+              <button
+                className="px-5 py-2 rounded bg-secondary hover:bg-secondary-fixed-dim text-on-secondary font-label-md text-label-md font-bold shadow-md"
+                onClick={() => alert('1-on-1 session request submitted to faculty for confirmation.')}
+              >
+                Confirm Request
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* MODAL: Weekly Batch Call */}
+        <div className="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/80 backdrop-blur-md" id="weekly-modal">
+          <div className="w-full max-w-md bg-surface-container-high rounded-xl p-4 flex flex-col gap-4 shadow-2xl border border-secondary/30">
+            <div className="flex items-center justify-between pb-1 border-b border-outline-variant/30">
+              <h3 className="font-headline-sm text-headline-sm text-on-surface font-bold">Weekly Cohort Call</h3>
+              <button
+                className="p-1 rounded hover:bg-surface-container-highest text-on-surface-variant"
+                onClick={() => document.getElementById('weekly-modal')?.classList.add('hidden')}
+              >
+                <span className="material-symbols-outlined text-[20px]">close</span>
+              </button>
+            </div>
+            <div className="flex flex-col gap-2">
+              <p className="font-body-md text-body-md text-on-surface">
+                <strong>Batch Spark 1.0 Live Room</strong> will open 10 minutes prior to scheduled start (Tomorrow at 7:20 PM IST).
+              </p>
+              <div className="p-2 rounded bg-surface-container-lowest flex items-center gap-2">
+                <span className="material-symbols-outlined text-secondary">info</span>
+                <span className="font-label-sm text-label-sm text-outline">Microphones will default to mute; prepare questions in the doubt text channel beforehand.</span>
+              </div>
+            </div>
+            <div className="flex items-center justify-end gap-2">
+              <button
+                className="px-4 py-2 rounded bg-secondary text-on-secondary font-label-md text-label-md font-bold"
+                onClick={() => document.getElementById('weekly-modal')?.classList.add('hidden')}
+              >
+                Understood
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </main>

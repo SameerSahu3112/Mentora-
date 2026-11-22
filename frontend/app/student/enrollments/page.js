@@ -1,83 +1,23 @@
-"use client";
-
-import Link from 'next/link';
-import { useEffect, useState } from 'react';
-
 export default function EnrollmentsPage() {
-  const [enrollments, setEnrollments] = useState([
-    { id: 'e1', course: 'JEE Main January', batch: 'Rise Batch 1.0', status: 'active', accessUntil: '2027-01-20' },
-    { id: 'e2', course: 'JEE Main April', batch: 'Spark Batch 1.0', status: 'pending_payment', accessUntil: '2027-04-15' },
-  ]);
-  const [loading, setLoading] = useState(true);
-
-  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
-
-  useEffect(() => {
-    fetch(`${API_URL}/api/v1/enrollments/student/enrollments`, {
-      credentials: 'include',
-    })
-      .then((res) => res.json())
-      .then((data) => setEnrollments(data))
-      .catch(() => setLoading(false));
-  }, []);
-
-  const statusColors = {
-    pending_payment: 'bg-desert-sand-light text-desert-sand-dark border border-desert-sand-border',
-    active: 'bg-abyss-teal-light text-abyss-teal border border-abyss-teal',
-    expired: 'bg-error-light text-error border border-error',
-    cancelled: 'bg-border-color text-secondary border border-border-color',
-    rejected: 'bg-error-light text-error border border-error',
-  };
-
-  if (loading) {
-    return (
-      <main className="min-h-screen bg-gray-50 p-6">
-        <div className="max-w-4xl mx-auto">
-          <div className="animate-pulse h-32 bg-border-color rounded" />
-        </div>
-      </main>
-    );
-  }
-
   return (
-    <main className="min-h-screen bg-secondary p-6">
-      <div className="max-w-4xl mx-auto">
-        <nav className="mb-6">
-          <Link href="/student/dashboard" className="text-abyss-teal hover:text-abyss-teal-dark text-sm font-medium">
-            ← Back to Dashboard
-          </Link>
-        </nav>
-
-        <h1 className="text-2xl font-bold text-abyss-teal mb-6">My Enrollments</h1>
-
-        {enrollments.length === 0 ? (
-          <div className="bg-primary p-8 rounded-lg shadow-sm border border-border-color text-center">
-            <p className="text-muted">No enrollments yet.</p>
-          </div>
-        ) : (
-          <div className="space-y-4">
-            {enrollments.map((enrollment) => (
-              <div key={enrollment.id} className="bg-primary p-4 rounded-lg shadow-sm border border-border-color">
-                <div className="flex justify-between items-start">
-                  <div>
-                    <h3 className="text-lg font-semibold text-abyss-teal">Enrollment #{enrollment.id.slice(-6)}</h3>
-                    <p className="text-secondary text-sm">{enrollment.course_id}</p>
-                    <p className="text-secondary text-sm">{enrollment.batch_id}</p>
-                  </div>
-                  <span className={`px-2 py-1 text-xs font-semibold rounded ${statusColors[enrollment.status] || 'bg-border-color text-secondary border border-border-color'}`}>
-                    {enrollment.status.replace('_', ' ')}
-                  </span>
-                </div>
-                {enrollment.access_until && (
-                  <div className="mt-3 text-sm text-secondary">
-                    Access until: {enrollment.access_until}
-                  </div>
-                )}
+    <main className="min-h-screen bg-surface-container-lowest text-on-surface">
+      <section className="max-w-4xl mx-auto px-6 py-12">
+        <h1 className="font-headline-lg text-headline-lg text-secondary font-bold mb-6">Enrollments</h1>
+        <div className="bg-surface-container p-6 rounded-xl border border-outline-variant/20">
+          <p className="font-body-sm text-body-sm text-on-surface-variant mb-4">
+            Active enrollments grant access to published resources. Expired enrollments preserve history but block protected access.
+          </p>
+          <div className="space-y-3">
+            <div className="p-3 rounded border border-outline-variant/20 flex justify-between items-center">
+              <div>
+                <span className="font-label-sm text-label-sm text-on-surface font-semibold">Spark 1.0 — JEE Main April</span>
+                <span className="font-body-sm text-body-sm text-on-surface-variant block">Access until April 19, 2026</span>
               </div>
-            ))}
+              <span className="px-2 py-0.5 rounded bg-tertiary-container/60 text-tertiary font-label-sm text-label-sm">ACTIVE</span>
+            </div>
           </div>
-        )}
-      </div>
+        </div>
+      </section>
     </main>
   );
 }
