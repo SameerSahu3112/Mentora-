@@ -6,6 +6,7 @@ Phase 3: Courses, batches, teacher assignment
 from pydantic import BaseModel, Field
 from typing import Optional
 from datetime import date, datetime
+from uuid import UUID
 
 
 class CourseBase(BaseModel):
@@ -31,7 +32,7 @@ class CourseUpdate(BaseModel):
 
 
 class CourseResponse(CourseBase):
-    id: str
+    id: UUID
     created_at: datetime
     updated_at: datetime
 
@@ -42,7 +43,7 @@ class CourseResponse(CourseBase):
 class CoursePublic(BaseModel):
     """Public course info (no sensitive fields)."""
 
-    id: str
+    id: UUID
     name: str
     exam_target: str
     exam_date: Optional[date] = None
