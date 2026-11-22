@@ -44,6 +44,10 @@ ACCESS_TOKEN_EXPIRE_MINUTES=30
 CORS_ORIGINS=https://mentora.example.com,https://www.mentora.example.com
 ```
 
+For Neon, copy the connection URI from the correct branch into `DATABASE_URL`.
+The backend adapts `sslmode` to asyncpg's `ssl` option and removes the
+unsupported `channel_binding` URI option.
+
 Generate a secure secret key:
 
 ```bash

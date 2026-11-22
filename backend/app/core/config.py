@@ -7,6 +7,8 @@ Phase 1: Project Foundation
 
 from functools import lru_cache
 from typing import Any
+from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
+
 from pydantic import field_validator
 from pydantic_settings import BaseSettings
 
@@ -53,9 +55,29 @@ class Settings(BaseSettings):
     def normalize_database_url(cls, v: Any) -> str:
         if isinstance(v, str):
             if v.startswith("postgres://"):
-                return v.replace("postgres://", "postgresql+asyncpg://", 1)
-            if v.startswith("postgresql://") and not v.startswith("postgresql+asyncpg://"):
-                return v.replace("postgresql://", "postgresql+asyncpg://", 1)
+                v = v.replace("postgres://", "postgresql+asyncpg://", 1)
+            elif v.startswith("postgresql://"):
+                v = v.replace("postgresql://", "postgresql+asyncpg://", 1)
+
+            if v.startswith("postgresql+asyncpg://"):
+                parts = urlsplit(v)
+                query = parse_qsl(parts.query, keep_blank_values=True)
+                has_ssl = any(key == "ssl" for key, _ in query)
+                normalized_query = []
+                for key, value in query:
+                    if key == "sslmode":
+                        if not has_ssl:
+                            normalized_query.append(("ssl", value))
+                    elif key == "channel_binding":
+                        # asyncpg does not accept libpq's channel_binding option.
+                        continue
+                    else:
+                        normalized_query.append((key, value))
+                if normalized_query != query:
+                    return urlunsplit(
+                        parts._replace(query=urlencode(normalized_query))
+                    )
+
         return str(v)
 
     class Config:

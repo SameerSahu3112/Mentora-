@@ -17,9 +17,11 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
 from app.core.database import Base  # noqa: E402
+from app.core.config import settings  # noqa: E402
 
 # Alembic Config object
 config = context.config
+config.set_main_option("sqlalchemy.url", settings.DATABASE_URL.replace("%", "%%"))
 
 # Interpret the config file for Python logging
 if config.config_file_name is not None:

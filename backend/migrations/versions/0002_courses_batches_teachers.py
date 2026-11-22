@@ -100,6 +100,8 @@ def upgrade() -> None:
         sa.Column("price", sa.Numeric(10, 2)),
         sa.Column("description", sa.Text),
         sa.Column("is_active", sa.Boolean),
+        sa.Column("created_at", sa.DateTime(timezone=True)),
+        sa.Column("updated_at", sa.DateTime(timezone=True)),
     )
 
     import uuid as _uuid

@@ -58,8 +58,8 @@ All notable changes to the Mentora codebase are logged here. Updated after every
 - Mobile-responsive design with cards, gradients, and clean typography (inspired by modern SaaS design)
 
 ### Neon Database Setup (NEW)
-- `backend/alembic.ini` — Updated `sqlalchemy.url` to Neon PostgreSQL connection string; fixed `black.options` escaping (`%%(version)s`)
-- `backend/.env` — Created with Neon `DATABASE_URL` (postgresql+asyncpg://neondb_owner:...@ep-falling-morning-bfxxdj5x-pooler.c-5.us-west-2.aws.neon.tech/neondb)
+- `backend/alembic.ini` — Migrations now use the runtime database URL; fixed `black.options` escaping (`%%(version)s`)
+- `backend/.env` — Local database configuration is ignored by Git
 - `backend/migrations/versions/0002_courses_batches_teachers.py` — Fixed `sa.text("now()")` → `datetime.now(timezone.utc)` for asyncpg compatibility
 - `backend/migrations/versions/0006_mentorship_attendance.py` — Fixed PostgreSQL-incompatible `XOR` → `((weekly_session_id IS NOT NULL) AND (booking_id IS NULL)) OR ...`
 - All 8 Alembic migrations applied to Neon, creating all 30 tables
