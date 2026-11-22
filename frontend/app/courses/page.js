@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from 'react';
 import Link from 'next/link';
 
 export default function CoursesPage() {
@@ -73,15 +72,11 @@ export default function CoursesPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {initialCourses.map((course) => {
-            const badgeClass = course.isDroppers
-              ? 'px-2 py-1 rounded bg-[#E9C46A]/20 text-[#E9C46A] font-label-sm text-label-sm font-bold'
-              : 'px-2 py-1 rounded bg-[#E9C46A]/20 text-[#E9C46A] font-label-sm text-label-sm font-bold';
-
             return (
               <div key={course.id} className="bg-[#082326] rounded-xl p-6 border border-[#8a9294]/20 shadow-lg flex flex-col hover:border-[#0F4C5C]/50 transition-colors">
                 <div className="flex justify-between items-start mb-4">
                   <h3 className="text-xl font-bold text-[#0F4C5C]">{course.name}</h3>
-                  <span className={badgeClass}>
+                  <span className={`px-2 py-1 rounded bg-[#E9C46A]/20 text-[#E9C46A] font-label-sm text-label-sm font-bold ${course.isDroppers ? 'bg-[#E9C46A]/40 text-[#E9C46A] font-bold' : ''}`}>
                     {course.isDroppers ? 'DROPPERS' : 'Regular'}
                   </span>
                 </div>
@@ -99,7 +94,7 @@ export default function CoursesPage() {
                   View Batches
                 </Link>
               </div>
-            ))}
+            )}
           </div>
         </div>
       </main>
