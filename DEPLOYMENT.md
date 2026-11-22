@@ -89,7 +89,7 @@ docker compose exec backend python -m app.bootstrap
    - Runtime: Node.js 26
    - Build command: `npm install && npm run build`
    - Start command: `npm run start`
-   - Set `NEXT_PUBLIC_API_URL` to your backend URL
+   - Set `NEXT_PUBLIC_API_URL` to the backend origin, or to its `/api/v1` base URL.
 
 3. **External PostgreSQL**: Use Render Managed PostgreSQL or external provider.
 
@@ -102,7 +102,7 @@ docker compose exec backend python -m app.bootstrap
 - Set the project root directory to `frontend`.
 - Use the Next.js framework preset and Node.js 26.x.
 - Leave the Output Directory override disabled; Vercel manages Next.js output.
-- Set `NEXT_PUBLIC_API_URL` to the backend origin. The frontend appends `/api/v1`.
+- Set `NEXT_PUBLIC_API_URL` to the backend origin or its `/api/v1` base URL. The frontend adds `/api/v1` only when it is not already present.
 
 ---
 
