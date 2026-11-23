@@ -6,6 +6,7 @@ Phase 2: Identity and Access Control
 from pydantic import BaseModel, EmailStr, Field, validator
 from typing import Optional
 from datetime import datetime
+from uuid import UUID
 
 
 class StudentSignupRequest(BaseModel):
@@ -43,18 +44,23 @@ class LoginRequest(BaseModel):
     password: str
 
 
-class TokenResponse(BaseModel):
-    """Login response with session info."""
+class AuthenticatedUserResponse(BaseModel):
+    id: UUID
+    email: EmailStr
+    role: str
+    is_active: bool
 
-    access_token: str
-    token_type: str = "bearer"
-    user: dict
+
+class LoginResponse(BaseModel):
+    """Login response; authentication is carried by an HTTP-only cookie."""
+
+    user: AuthenticatedUserResponse
 
 
 class MeResponse(BaseModel):
     """Current user profile response."""
 
-    id: str
+    id: UUID
     email: str
     role: str
     is_active: bool

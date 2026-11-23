@@ -25,6 +25,7 @@ class NotificationService:
         title: str = "Notification",
         message: str = "",
         data: dict | None = None,
+        commit: bool = True,
     ) -> Notification:
         """Create a new in-app notification.
 
@@ -40,8 +41,11 @@ class NotificationService:
             data=data,
         )
         db.add(notification)
-        await db.commit()
-        await db.refresh(notification)
+        if commit:
+            await db.commit()
+            await db.refresh(notification)
+        else:
+            await db.flush()
         return notification
 
     @staticmethod

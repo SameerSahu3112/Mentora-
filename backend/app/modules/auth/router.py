@@ -8,16 +8,17 @@ Phase 2: Identity and Access Control
 """
 
 from uuid import UUID
-from fastapi import APIRouter, Depends, HTTPException, status, Response
+from fastapi import APIRouter, Depends, HTTPException, Request, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.database import get_db
+from app.core.permissions import require_admin
 from app.core.security import hash_password
 from app.modules.auth.schemas import (
     StudentSignupRequest,
     StudentSignupResponse,
     LoginRequest,
-    TokenResponse,
+    LoginResponse,
     MeResponse,
     LogoutResponse,
 )
@@ -25,6 +26,7 @@ from app.modules.auth.service import AuthService
 from app.modules.users.schemas import TeacherCreateRequest, TeacherProfileAdminResponse
 from app.modules.users.models import StudentProfile, TeacherProfile
 from app.modules.auth.models import User, UserRole
+from app.modules.auth.dependencies import get_current_user as get_authenticated_user
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
@@ -53,10 +55,10 @@ async def signup_student(
     )
 
 
-@router.post("/login", response_model=TokenResponse)
+@router.post("/login", response_model=LoginResponse)
 async def login(
     data: LoginRequest,
-    response: Response,
+    request: Request,
     db: AsyncSession = Depends(get_db),
 ):
     """Log in with Student ID or email plus password.
@@ -70,21 +72,10 @@ async def login(
             detail="Invalid credentials",
         )
 
-    # Phase 2: simple session token placeholder
-    # In production, this would be a signed JWT or session ID stored in Redis
-    session_token = f"sess_{user.id}"
+    request.session.clear()
+    request.session["user_id"] = str(user.id)
 
-    response.set_cookie(
-        key="session_token",
-        value=session_token,
-        httponly=True,
-        secure=False,  # Set True in production with HTTPS
-        samesite="lax",
-        max_age=settings.ACCESS_TOKEN_EXPIRE_MINUTES * 60,
-    )
-
-    return TokenResponse(
-        access_token=session_token,
+    return LoginResponse(
         user={
             "id": str(user.id),
             "email": user.email,
@@ -95,26 +86,35 @@ async def login(
 
 
 @router.post("/logout", response_model=LogoutResponse)
-async def logout(response: Response):
-    """Log out — clear the session cookie."""
-    response.delete_cookie(key="session_token")
+async def logout(request: Request):
+    """Log out — clear the signed session cookie."""
+    request.session.clear()
     return LogoutResponse()
 
 
 @router.get("/me", response_model=MeResponse)
 async def get_current_user(
-    db: AsyncSession = Depends(get_db),
+    current_user: User = Depends(get_authenticated_user),
 ):
-    """Get current user profile.
-
-    Phase 2 placeholder: reads session cookie to identify user.
-    Full session validation implemented in Phase 2 auth middleware.
-    """
-    # Phase 2: for now, return a placeholder; actual session validation
-    # is wired up with the auth middleware in Phase 2.
-    raise HTTPException(
-        status_code=status.HTTP_501_NOT_IMPLEMENTED,
-        detail="Session validation middleware not yet implemented",
+    """Get the current user's profile from the signed session."""
+    profile = current_user.student_profile
+    return MeResponse(
+        id=current_user.id,
+        email=current_user.email,
+        role=current_user.role,
+        is_active=current_user.is_active,
+        student_id=profile.student_id if profile else None,
+        full_name=profile.full_name if profile else (
+            current_user.teacher_profile.full_name
+            if current_user.teacher_profile
+            else None
+        ),
+        class_level=profile.class_level if profile else None,
+        phone=profile.phone if profile else (
+            current_user.teacher_profile.phone
+            if current_user.teacher_profile
+            else None
+        ),
     )
 
 
@@ -130,6 +130,7 @@ async def get_current_user(
 async def admin_create_teacher(
     data: TeacherCreateRequest,
     db: AsyncSession = Depends(get_db),
+    current_admin: User = Depends(require_admin),
 ):
     """Admin creates a teacher account.
 

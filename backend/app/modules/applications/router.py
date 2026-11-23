@@ -12,6 +12,8 @@ from fastapi import APIRouter, Depends, HTTPException, status, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.database import get_db
+from app.core.permissions import require_admin, require_student
+from app.modules.auth.models import User
 from app.modules.applications.models import BatchApplication, IntroSession
 from app.modules.applications.schemas import (
     BatchApplicationCreate,
@@ -40,6 +42,7 @@ router = APIRouter(prefix="/applications", tags=["applications"])
 async def student_create_application(
     data: BatchApplicationCreate,
     db: AsyncSession = Depends(get_db),
+    current_user: User = Depends(require_student),
 ):
     """Student applies to a batch (select course → batch).
 
@@ -47,24 +50,32 @@ async def student_create_application(
     frontend storing it temporarily and sending course_id + batch_id here
     after authentication.
     """
-    # Phase 4: student_profile_id comes from session/auth middleware.
-    # For now, we use a placeholder - the actual user ID is resolved from
-    # the session cookie in Phase 2 auth middleware.
-    # TODO: Replace with actual session-based user_id
-    raise HTTPException(
-        status_code=status.HTTP_501_NOT_IMPLEMENTED,
-        detail="Session-based student identification pending auth middleware",
-    )
+    if current_user.student_profile is None:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Student profile required",
+        )
+    try:
+        return await ApplicationService.create_application(
+            db, current_user.student_profile.id, current_user.id, data
+        )
+    except ValueError as exc:
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=str(exc)) from exc
 
 
-@router.get("/student/applications", response_model=list[BatchApplicationResponse])
+@router.get("/student/applications", response_model=list[ApplicationStatusResponse])
 async def student_list_applications(
     db: AsyncSession = Depends(get_db),
+    current_user: User = Depends(require_student),
 ):
     """List the current student's applications."""
-    raise HTTPException(
-        status_code=status.HTTP_501_NOT_IMPLEMENTED,
-        detail="Session-based student identification pending auth middleware",
+    if current_user.student_profile is None:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Student profile required",
+        )
+    return await ApplicationService.get_student_applications(
+        db, current_user.student_profile.id
     )
 
 
@@ -75,12 +86,40 @@ async def student_list_applications(
 async def student_get_application(
     application_id: UUID,
     db: AsyncSession = Depends(get_db),
+    current_user: User = Depends(require_student),
 ):
     """Get a single application with intro-session details."""
-    raise HTTPException(
-        status_code=status.HTTP_501_NOT_IMPLEMENTED,
-        detail="Session-based student identification pending auth middleware",
+    if current_user.student_profile is None:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Student profile required",
+        )
+    application = await ApplicationService.get_application(db, application_id)
+    if (
+        application is None
+        or application.student_profile_id != current_user.student_profile.id
+    ):
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Application not found",
+        )
+    intro_session = await IntroSessionService.get_intro_session_by_application(
+        db, application.id
     )
+    return {
+        "id": application.id,
+        "student_profile_id": application.student_profile_id,
+        "course_id": application.course_id,
+        "batch_id": application.batch_id,
+        "status": application.status,
+        "applied_at": application.applied_at,
+        "updated_at": application.updated_at,
+        "intro_session": (
+            IntroSessionResponse.model_validate(intro_session).model_dump(mode="json")
+            if intro_session
+            else None
+        ),
+    }
 
 
 @router.get(
@@ -90,12 +129,24 @@ async def student_get_application(
 async def student_get_intro_session(
     session_id: UUID,
     db: AsyncSession = Depends(get_db),
+    current_user: User = Depends(require_student),
 ):
     """Get intro-call status, scheduled time, and outcome."""
-    raise HTTPException(
-        status_code=status.HTTP_501_NOT_IMPLEMENTED,
-        detail="Session-based student identification pending auth middleware",
-    )
+    if current_user.student_profile is None:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Student profile required",
+        )
+    session = await IntroSessionService.get_intro_session(db, session_id)
+    if (
+        session is None
+        or session.application.student_profile_id != current_user.student_profile.id
+    ):
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Intro session not found",
+        )
+    return session
 
 
 # ---------------------------------------------------------------------------
@@ -105,15 +156,20 @@ async def student_get_intro_session(
 @router.get("/admin/applications", response_model=list[BatchApplicationResponse])
 async def admin_list_applications(
     db: AsyncSession = Depends(get_db),
+    current_admin: User = Depends(require_admin),
 ):
     """Admin: list all applications."""
     return await ApplicationService.list_all_applications(db)
 
 
-@router.get("/admin/applications/{application_id}", response_model=BatchApplicationWithIntro)
+@router.get(
+    "/admin/applications/{application_id}",
+    response_model=ApplicationStatusResponse,
+)
 async def admin_get_application(
     application_id: UUID,
     db: AsyncSession = Depends(get_db),
+    current_admin: User = Depends(require_admin),
 ):
     """Admin: get application detail with intro session."""
     app_with_intro = await ApplicationService.get_application_with_intro(
@@ -127,8 +183,9 @@ async def admin_get_application(
 @router.patch("/admin/applications/{application_id}", response_model=BatchApplicationResponse)
 async def admin_update_application(
     application_id: UUID,
-    status: str = Query(..., description="approved, rejected, or cancelled"),
+    application_status: str = Query(..., alias="status", description="approved, rejected, or cancelled"),
     db: AsyncSession = Depends(get_db),
+    current_admin: User = Depends(require_admin),
 ):
     """Admin: approve or reject an application.
 
@@ -140,18 +197,18 @@ async def admin_update_application(
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Application not found")
 
     allowed = {"approved", "rejected", "cancelled"}
-    if status not in allowed:
+    if application_status not in allowed:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=f"Status must be one of {allowed}",
         )
 
-    application.status = status
+    application.status = application_status
     await db.commit()
     await db.refresh(application)
 
     # Release seat on rejection/cancellation
-    if status in ("rejected", "cancelled"):
+    if application_status in ("rejected", "cancelled"):
         from app.modules.batches.service import BatchService
         await BatchService.release_seat(db, application.batch_id)
 
@@ -161,6 +218,7 @@ async def admin_update_application(
 @router.get("/admin/intro-sessions", response_model=list[IntroSessionResponse])
 async def admin_list_intro_sessions(
     db: AsyncSession = Depends(get_db),
+    current_admin: User = Depends(require_admin),
 ):
     """Admin: list all intro sessions."""
     return await IntroSessionService.list_all_intro_sessions(db)
@@ -169,6 +227,7 @@ async def admin_list_intro_sessions(
 @router.get("/admin/intro-sessions/due", response_model=list[IntroSessionResponse])
 async def admin_list_due_intro_sessions(
     db: AsyncSession = Depends(get_db),
+    current_admin: User = Depends(require_admin),
 ):
     """Admin: list intro calls due within the 7-day deadline."""
     return await IntroSessionService.list_due_calls(db)
@@ -182,6 +241,7 @@ async def admin_schedule_intro_call(
     session_id: UUID,
     data: IntroSessionScheduleRequest,
     db: AsyncSession = Depends(get_db),
+    current_admin: User = Depends(require_admin),
 ):
     """Admin: schedule or reschedule an introductory call."""
     try:
@@ -201,6 +261,7 @@ async def admin_complete_intro_call(
     session_id: UUID,
     data: IntroSessionCompleteRequest,
     db: AsyncSession = Depends(get_db),
+    current_admin: User = Depends(require_admin),
 ):
     """Admin: mark an intro call as completed."""
     try:
@@ -219,6 +280,7 @@ async def admin_complete_intro_call(
 async def admin_mark_intro_call_missed(
     session_id: UUID,
     db: AsyncSession = Depends(get_db),
+    current_admin: User = Depends(require_admin),
 ):
     """Admin: mark an intro call as missed (student unavailable)."""
     try:

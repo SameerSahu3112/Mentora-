@@ -12,17 +12,17 @@ from uuid import UUID
 class BatchApplicationCreate(BaseModel):
     """Student applies to a batch."""
 
-    course_id: str
-    batch_id: str
+    course_id: UUID
+    batch_id: UUID
 
 
 class BatchApplicationResponse(BaseModel):
     """Application response with intro-session info."""
 
-    id: str
-    student_profile_id: str
-    course_id: str
-    batch_id: str
+    id: UUID
+    student_profile_id: UUID
+    course_id: UUID
+    batch_id: UUID
     status: str
     applied_at: datetime
     updated_at: datetime
@@ -40,8 +40,8 @@ class BatchApplicationWithIntro(BatchApplicationResponse):
 class IntroSessionResponse(BaseModel):
     """Introductory session response."""
 
-    id: str
-    application_id: str
+    id: UUID
+    application_id: UUID
     status: str
     scheduled_at: Optional[datetime] = None
     completed_at: Optional[datetime] = None
@@ -72,9 +72,9 @@ class IntroSessionCompleteRequest(BaseModel):
 class ApplicationStatusResponse(BaseModel):
     """Student-facing application + intro-call status."""
 
-    application_id: str
-    course_id: str
-    batch_id: str
+    application_id: UUID
+    course_id: UUID
+    batch_id: UUID
     batch_name: Optional[str] = None
     application_status: str
     applied_at: datetime

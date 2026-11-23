@@ -10,6 +10,8 @@ from fastapi import APIRouter, Depends, HTTPException, status, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.database import get_db
+from app.core.permissions import require_admin
+from app.modules.auth.models import User
 from app.modules.courses.models import Course
 from app.modules.courses.schemas import (
     CourseCreate,
@@ -98,6 +100,7 @@ async def get_course_with_batches(
 async def admin_create_course(
     data: CourseCreate,
     db: AsyncSession = Depends(get_db),
+    current_admin: User = Depends(require_admin),
 ):
     """Admin: create a new course."""
     try:
@@ -112,6 +115,7 @@ async def admin_update_course(
     course_id: UUID,
     data: CourseUpdate,
     db: AsyncSession = Depends(get_db),
+    current_admin: User = Depends(require_admin),
 ):
     """Admin: update a course (name, exam_target, exam_date, price, etc.).
 
@@ -128,6 +132,7 @@ async def admin_update_course(
 async def admin_delete_course(
     course_id: UUID,
     db: AsyncSession = Depends(get_db),
+    current_admin: User = Depends(require_admin),
 ):
     """Admin: delete a course (critical action — two-Admin approval in Phase 8)."""
     course = await CourseService.get_course(db, course_id)

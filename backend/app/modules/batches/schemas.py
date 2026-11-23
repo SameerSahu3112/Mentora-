@@ -6,10 +6,11 @@ Phase 3: Courses, batches, teacher assignment
 from pydantic import BaseModel, Field, validator
 from typing import Optional, List
 from datetime import date, datetime
+from uuid import UUID
 
 
 class BatchBase(BaseModel):
-    course_id: str
+    course_id: UUID
     name: str = Field(..., min_length=1, max_length=100)
     description: Optional[str] = None
     start_date: date
@@ -49,7 +50,7 @@ class BatchUpdate(BaseModel):
 
 
 class BatchResponse(BatchBase):
-    id: str
+    id: UUID
     created_at: datetime
     updated_at: datetime
 
@@ -60,7 +61,8 @@ class BatchResponse(BatchBase):
 class BatchPublic(BaseModel):
     """Public batch info for browsing."""
 
-    id: str
+    id: UUID
+    course_id: UUID
     name: str
     description: Optional[str] = None
     start_date: date
@@ -74,13 +76,13 @@ class BatchPublic(BaseModel):
 
 
 class BatchTeacherAssign(BaseModel):
-    teacher_profile_id: str
+    teacher_profile_id: UUID
 
 
 class BatchTeacherResponse(BaseModel):
-    id: str
-    batch_id: str
-    teacher_profile_id: str
+    id: UUID
+    batch_id: UUID
+    teacher_profile_id: UUID
     assigned_at: datetime
 
     class Config:

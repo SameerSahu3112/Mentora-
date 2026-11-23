@@ -11,6 +11,7 @@ from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
+from starlette.middleware.sessions import SessionMiddleware
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
 from app.core.logging import setup_logging
@@ -28,6 +29,14 @@ logger = structlog.get_logger("mentora")
 def create_app() -> FastAPI:
     """Create and configure the FastAPI application."""
 
+    if settings.ENVIRONMENT.lower() == "production" and (
+        settings.SECRET_KEY == "change-me-in-production"
+        or len(settings.SECRET_KEY) < 32
+    ):
+        raise RuntimeError(
+            "Production requires a SECRET_KEY with at least 32 characters."
+        )
+
     app = FastAPI(
         title="Mentora API",
         description="JEE preparation platform API",
@@ -40,9 +49,22 @@ def create_app() -> FastAPI:
     # ------------------------------------------------------------------
     # CORS middleware
     # ------------------------------------------------------------------
+    app.add_middleware(
+        SessionMiddleware,
+        secret_key=settings.SECRET_KEY,
+        session_cookie="session_token",
+        max_age=settings.ACCESS_TOKEN_EXPIRE_MINUTES * 60,
+        same_site="lax",
+        https_only=settings.ENVIRONMENT.lower() == "production",
+    )
+
     cors_origins = get_cors_origins()
+    if settings.ENVIRONMENT.lower() == "production" and "*" in cors_origins:
+        raise RuntimeError("Production CORS origins must not include a wildcard.")
     if not cors_origins:
-        cors_origins = ["*"]
+        if settings.ENVIRONMENT.lower() == "production":
+            raise RuntimeError("Production requires at least one configured CORS origin.")
+        cors_origins = ["http://localhost:3000"]
 
     app.add_middleware(
         CORSMiddleware,

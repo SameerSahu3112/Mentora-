@@ -5,30 +5,26 @@ Phase 1: Project Foundation
 - Object-level access rules are enforced in service layers
 """
 
-from typing import Annotated
 from fastapi import Depends, HTTPException, status
-from fastapi.security import OAuth2PasswordBearer
-
-from app.core.config import settings
-
-# OAuth2 scheme for token extraction (placeholder for Phase 2 auth)
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/auth/login")
+from app.modules.auth.dependencies import get_current_user
+from app.modules.auth.models import User
 
 
 def require_role(required_role: str):
-    """Return a dependency that requires the given role.
+    """Return a dependency that requires an authenticated user with this role."""
 
-    Placeholder in Phase 1 — full auth implemented in Phase 2.
-    """
-
-    async def role_dependency(token: Annotated[str, Depends(oauth2_scheme)]):
-        # Phase 1: accept any token; Phase 2 validates and extracts role
+    async def role_dependency(current_user: User = Depends(get_current_user)):
         if required_role not in ("student", "teacher", "admin"):
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail="Invalid role configuration",
             )
-        return {"role": required_role, "token": token}
+        if current_user.role != required_role:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Insufficient permissions",
+            )
+        return current_user
 
     return role_dependency
 

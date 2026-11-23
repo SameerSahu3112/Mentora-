@@ -37,7 +37,7 @@ DATABASE_URL=postgresql+asyncpg://user:password@host:5432/mentora
 REDIS_URL=redis://host:6379/0
 REDIS_ENABLED=true
 
-SECRET_KEY=<generate-secure-random-key>
+SECRET_KEY=<generate-a-random-key-at-least-32-characters-long>
 ALGORITHM=HS256
 ACCESS_TOKEN_EXPIRE_MINUTES=30
 
@@ -53,6 +53,12 @@ Generate a secure secret key:
 ```bash
 python3 -c "import secrets; print(secrets.token_urlsafe(32))"
 ```
+
+Set `ENVIRONMENT=production` in the backend service. This enables secure
+session cookies, and startup will fail if the production secret is missing or
+too short, or if CORS is configured with a wildcard. Keep all credentials in
+the hosting provider's secret environment settings; never send them in chat or
+commit them to the repository.
 
 ---
 

@@ -12,6 +12,8 @@ from fastapi import APIRouter, Depends, HTTPException, status, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.database import get_db
+from app.core.permissions import require_admin
+from app.modules.auth.models import User
 from app.modules.batches.models import Batch, BatchTeacher
 from app.modules.batches.schemas import (
     BatchCreate,
@@ -50,6 +52,7 @@ async def list_public_batches(
         results.append(
             BatchPublic(
                 id=str(batch.id),
+                course_id=batch.course_id,
                 name=batch.name,
                 description=batch.description,
                 start_date=batch.start_date,
@@ -77,6 +80,7 @@ async def get_public_batch(
     course_row = course.mappings().first()
     return BatchPublic(
         id=str(batch.id),
+        course_id=batch.course_id,
         name=batch.name,
         description=batch.description,
         start_date=batch.start_date,
@@ -104,6 +108,7 @@ async def get_batch_capacity(
 async def admin_create_batch(
     data: BatchCreate,
     db: AsyncSession = Depends(get_db),
+    current_admin: User = Depends(require_admin),
 ):
     """Admin: create a new batch."""
     try:
@@ -118,6 +123,7 @@ async def admin_update_batch(
     batch_id: UUID,
     data: BatchUpdate,
     db: AsyncSession = Depends(get_db),
+    current_admin: User = Depends(require_admin),
 ):
     """Admin: update batch details."""
     batch = await BatchService.get_batch(db, batch_id)
@@ -130,6 +136,7 @@ async def admin_update_batch(
 async def admin_delete_batch(
     batch_id: UUID,
     db: AsyncSession = Depends(get_db),
+    current_admin: User = Depends(require_admin),
 ):
     """Admin: delete a batch (critical action — two-Admin approval in Phase 8)."""
     batch = await BatchService.get_batch(db, batch_id)
@@ -147,6 +154,7 @@ async def admin_assign_teacher(
     batch_id: UUID,
     data: BatchTeacherAssign,
     db: AsyncSession = Depends(get_db),
+    current_admin: User = Depends(require_admin),
 ):
     """Admin: assign a teacher to a batch."""
     batch = await BatchService.get_batch(db, batch_id)
@@ -154,7 +162,7 @@ async def admin_assign_teacher(
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Batch not found")
     try:
         assignment = await BatchService.assign_teacher(
-            db, batch, UUID(data.teacher_profile_id)
+            db, batch, data.teacher_profile_id
         )
         return assignment
     except ValueError as exc:
@@ -166,6 +174,7 @@ async def admin_remove_teacher(
     batch_id: UUID,
     teacher_profile_id: UUID,
     db: AsyncSession = Depends(get_db),
+    current_admin: User = Depends(require_admin),
 ):
     """Admin: remove a teacher from a batch (critical action — two-Admin approval in Phase 8)."""
     batch = await BatchService.get_batch(db, batch_id)

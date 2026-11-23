@@ -17,6 +17,7 @@ pydantic-settings>=2.3.0
 
 # Password hashing
 argon2-cffi>=23.1.0
+itsdangerous>=2.1.2
 
 # Cache
 redis>=5.0.1

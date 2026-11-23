@@ -13,11 +13,11 @@ from datetime import datetime, timezone
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy.orm import selectinload
 
 from app.modules.applications.models import BatchApplication, IntroSession
 from app.modules.applications.schemas import BatchApplicationCreate
 from app.modules.batches.service import BatchService
-from app.modules.batches.models import Batch
 from app.modules.notifications.service import NotificationService
 
 
@@ -28,6 +28,7 @@ class ApplicationService:
     async def create_application(
         db: AsyncSession,
         student_profile_id: UUID,
+        student_user_id: UUID,
         data: BatchApplicationCreate,
     ) -> BatchApplication:
         """Create a batch application and auto-create an intro-session record.
@@ -42,13 +43,15 @@ class ApplicationService:
 
         All in a single database transaction.
         """
-        course_id = UUID(data.course_id)
-        batch_id = UUID(data.batch_id)
+        course_id = data.course_id
+        batch_id = data.batch_id
 
         # Verify batch exists and is active (with row-level lock for capacity)
         batch = await BatchService.get_batch(db, batch_id)
         if batch is None:
             raise ValueError("Batch not found")
+        if batch.course_id != course_id:
+            raise ValueError("Batch does not belong to the selected course")
         if batch.status != "active":
             raise ValueError("Batch is not accepting applications")
 
@@ -77,32 +80,28 @@ class ApplicationService:
         db.add(intro_session)
 
         try:
-            await db.commit()
-            await db.refresh(application)
-            await db.refresh(intro_session)
-        except IntegrityError:
-            await db.rollback()
-            raise ValueError("Application could not be created")
-
-        # Create notifications (outside the main transaction - best effort)
-        # Notify the student
-        try:
             await NotificationService.create_notification(
-                recipient_user_id=str(student_profile_id),  # Will be resolved by notification service
-                actor_user_id=None,
+                recipient_user_id=str(student_user_id),
                 type="registration",
                 title="Application received",
-                message="Thank you for registering with Mentora! Our team will contact you soon for your introductory session.",
+                message=(
+                    "Thank you for registering with Mentora! Our team will "
+                    "contact you soon for your introductory session."
+                ),
                 data={
                     "application_id": str(application.id),
                     "batch_id": str(batch_id),
                     "course_id": str(course_id),
                 },
                 db=db,
+                commit=False,
             )
-        except Exception:
-            # Notifications should not fail the application flow
-            pass
+            await db.commit()
+            await db.refresh(application)
+            await db.refresh(intro_session)
+        except IntegrityError:
+            await db.rollback()
+            raise ValueError("Application could not be created")
 
         return application
 
@@ -119,14 +118,50 @@ class ApplicationService:
     @staticmethod
     async def get_student_applications(
         db: AsyncSession, student_profile_id: UUID
-    ) -> list[BatchApplication]:
-        """Get all applications for a student."""
+    ) -> list[dict]:
+        """Get application and intro-call status for a student."""
         result = await db.execute(
-            select(BatchApplication).where(
-                BatchApplication.student_profile_id == student_profile_id
+            select(BatchApplication)
+            .options(
+                selectinload(BatchApplication.intro_session),
+                selectinload(BatchApplication.batch),
             )
+            .where(BatchApplication.student_profile_id == student_profile_id)
+            .order_by(BatchApplication.applied_at.desc())
         )
-        return result.scalars().all()
+        applications = result.scalars().all()
+        return [
+            {
+                "application_id": application.id,
+                "course_id": application.course_id,
+                "batch_id": application.batch_id,
+                "batch_name": application.batch.name,
+                "application_status": application.status,
+                "applied_at": application.applied_at,
+                "intro_session_status": (
+                    application.intro_session.status
+                    if application.intro_session
+                    else None
+                ),
+                "intro_scheduled_at": (
+                    application.intro_session.scheduled_at
+                    if application.intro_session
+                    else None
+                ),
+                "intro_deadline_at": (
+                    application.intro_session.deadline_at
+                    if application.intro_session
+                    else None
+                ),
+                "confirmation_message": (
+                    "Thank you for registering with Mentora! Our team will "
+                    "contact you soon for your introductory session."
+                    if application.intro_session
+                    else None
+                ),
+            }
+            for application in applications
+        ]
 
     @staticmethod
     async def list_all_applications(db: AsyncSession) -> list[BatchApplication]:
@@ -138,7 +173,7 @@ class ApplicationService:
     async def get_application_with_intro(
         db: AsyncSession, application_id: UUID
     ) -> dict | None:
-        """Get application with intro session details for student view."""
+        """Get application and intro-session status for admin view."""
         result = await db.execute(
             select(BatchApplication).where(BatchApplication.id == application_id)
         )
@@ -187,7 +222,9 @@ class IntroSessionService:
     ) -> IntroSession | None:
         """Get an intro session by ID."""
         result = await db.execute(
-            select(IntroSession).where(IntroSession.id == session_id)
+            select(IntroSession)
+            .options(selectinload(IntroSession.application))
+            .where(IntroSession.id == session_id)
         )
         return result.scalar_one_or_none()
 
