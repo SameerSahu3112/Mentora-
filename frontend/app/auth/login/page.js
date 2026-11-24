@@ -1,160 +1,106 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from 'react';
+import Link from 'next/link';
+import { authAPI } from '@/app/lib/api';
 
 export default function LoginPage() {
-  const router = useRouter();
-  const [selection, setSelection] = useState(null);
-  const [applicationQuery, setApplicationQuery] = useState("");
-  const [error, setError] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [identifier, setIdentifier] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const batch = params.get("batch");
-    const price = params.get("price");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
 
-    setApplicationQuery(window.location.search);
-    if (batch) {
-      setSelection({
-        batch,
-        price: price && /^\d+$/.test(price) ? Number(price) : null,
-      });
-    }
-  }, []);
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    setError("");
-    setIsSubmitting(true);
-
-    const formData = new FormData(event.currentTarget);
-    const payload = Object.fromEntries(formData.entries());
     try {
-      const response = await fetch("/api/v1/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify(payload),
-      });
-      let result;
-      try {
-        result = await response.json();
-      } catch {
-        setError("The server returned an unreadable response. Please try again.");
-        return;
+      const response = await authAPI.login({ identifier, password });
+      if (response.role === 'admin') {
+        window.location.href = '/admin/dashboard';
+      } else if (response.role === 'teacher') {
+        window.location.href = '/teacher/dashboard';
+      } else {
+        window.location.href = '/student/dashboard';
       }
-      if (!response.ok) {
-        setError(result.detail || result.title || "Sign in failed. Check your credentials.");
-        return;
-      }
-
-      if (selection) {
-        if (result.user.role !== "student") {
-          setError("Sign in with a student account to submit a batch application.");
-          return;
-        }
-        const batchesResponse = await fetch("/api/v1/batches/?active_only=true", {
-          credentials: "include",
-        });
-        if (!batchesResponse.ok) {
-          let batchesError;
-          try {
-            batchesError = await batchesResponse.json();
-          } catch {
-            batchesError = null;
-          }
-          setError(
-            batchesError?.detail ||
-              batchesError?.title ||
-              "Signed in, but batches could not be loaded. Please try again."
-          );
-          return;
-        }
-        const batches = await batchesResponse.json();
-        const selected = batches.find(
-          (batch) => batch.name.toLowerCase() === selection.batch.toLowerCase()
-        );
-        if (!selected) {
-          setError("That batch is not currently available for applications.");
-          return;
-        }
-
-        const applicationResponse = await fetch("/api/v1/applications/student/applications", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
-          body: JSON.stringify({
-            course_id: selected.course_id,
-            batch_id: selected.id,
-          }),
-        });
-        let applicationResult;
-        try {
-          applicationResult = await applicationResponse.json();
-        } catch {
-          setError("Signed in, but the application could not be confirmed.");
-          return;
-        }
-        if (!applicationResponse.ok) {
-          setError(
-            applicationResult.detail ||
-              applicationResult.title ||
-              "The application could not be submitted."
-          );
-          return;
-        }
-        router.push(`/student/applications?created=${encodeURIComponent(applicationResult.id)}`);
-        return;
-      }
-
-      const dashboardByRole = {
-        admin: "/admin/dashboard",
-        teacher: "/teacher/dashboard",
-        student: "/student/dashboard",
-      };
-      const dashboard = dashboardByRole[result.user.role];
-      if (!dashboard) {
-        setError("Your account has an unsupported role. Please contact Mentora support.");
-        return;
-      }
-      router.push(dashboard);
-    } catch {
-      setError("Unable to reach Mentora. Please try again shortly.");
-    } finally {
-      setIsSubmitting(false);
+    } catch (err) {
+      setError(err.message || 'Login failed');
     }
   };
 
   return (
-    <main className="min-h-screen bg-surface-container-lowest text-on-surface flex items-center justify-center p-4">
-      <div className="w-full max-w-md bg-surface-container p-6 rounded-xl border border-outline-variant/20 shadow-xl">
-        <h1 className="font-headline-lg text-headline-lg text-secondary font-bold mb-2 text-center">Sign In</h1>
-        <p className="font-body-sm text-body-sm text-on-surface-variant text-center mb-6">Student ID or Email + Password</p>
-        {selection && (
-          <p role="status" className="font-body-sm text-body-sm text-secondary text-center mb-6">
-            Continuing with {selection.batch}
-            {selection.price !== null && ` • ₹${selection.price}`}
-          </p>
-        )}
-        {error && <p role="alert" className="text-sm text-red-600 mb-4">{error}</p>}
-        <form className="space-y-4" onSubmit={handleSubmit}>
-          <div>
-            <label className="block font-label-sm text-label-sm text-on-surface-variant mb-1">Student ID or Email</label>
-            <input name="identifier" type="text" required className="w-full bg-surface-container-lowest border border-outline-variant/30 rounded px-3 py-2 text-on-surface focus:outline-none focus:border-secondary" autoComplete="username" />
+    <main className="min-h-screen bg-[#001719] text-on-surface">
+      <nav className="bg-[#001719]/80 shadow border-b border-[#8a9294]/20">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="flex justify-between h-16">
+            <div className="flex items-center gap-2">
+              <span className="text-xl font-bold text-[#0F4C5C]">Mentora</span>
+              <span className="text-sm font-semibold text-[#E9C46A]">.</span>
+            </div>
+            <div className="flex items-center gap-4 text-sm font-medium text-on-surface">
+              <Link href="/auth/signup" className="hover:text-[#0F4C5C] transition-colors">
+                Signup
+              </a>
+            </div>
           </div>
-          <div>
-            <label className="block font-label-sm text-label-sm text-on-surface-variant mb-1">Password</label>
-            <input name="password" type="password" required className="w-full bg-surface-container-lowest border border-outline-variant/30 rounded px-3 py-2 text-on-surface focus:outline-none focus:border-secondary" autoComplete="current-password" />
+        </div>
+      </nav>
+
+      <div className="min-h-[calc(100vh-64px)] flex items-center justify-center p-4">
+        <div className="w-full max-w-md">
+          <div className="bg-[#082326] rounded-lg shadow-sm border border-[#8a9294]/20 p-8">
+            <h1 className="text-2xl font-bold text-[#0F4C5C] mb-6 text-center">Welcome Back</h1>
+
+            {error && (
+              <div className="mb-4 p-3 bg-[#93000a]/20 border border-[#93000a]/20 text-[#ffb4ab] text-sm rounded">
+                {error}
+              </div>
+            )}
+
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-secondary mb-1">
+                  Student ID or Email
+                </label>
+                <input
+                  type="text"
+                  className="w-full px-3 py-2 border border-[#8a9294]/20 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0F4C5C]"
+                  value={identifier}
+                  onChange={(e) => setIdentifier(e.target.value)}
+                  placeholder="Enter Student ID or email"
+                  required
+                />
+              </div>
+              <div className="mt-4">
+                <label className="block text-sm font-medium text-secondary mb-1">
+                  Password
+                </label>
+                <input
+                  type="password"
+                  className="w-full px-3 py-2 border border-[#8a9294]/20 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0F4C5C]"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Enter your password"
+                  required
+                />
+              </div>
+              <button
+                type="submit"
+                className="w-full py-3 bg-[#0F4C5C] text-white font-bold rounded-lg hover:bg-[#E9C46A] hover:text-[#00363d] transition-colors"
+                disabled={loading}
+              >
+                {loading ? 'Logging in...' : 'Sign In'}
+              </button>
+            </form>
+
+            <p className="mt-6 text-center text-sm text-secondary">
+              Don't have an account?{' '}
+              <Link href="/auth/signup" className="text-[#0F4C5C] font-medium hover:text-[#D4A357] transition-colors">
+                Sign up
+              </Link>
+            </p>
           </div>
-          <button type="submit" disabled={isSubmitting} className="w-full py-3 rounded bg-secondary text-on-secondary font-label-md text-label-md font-bold hover:bg-secondary-fixed transition-colors disabled:opacity-60">
-            {isSubmitting ? "Signing in..." : "Sign In"}
-          </button>
-        </form>
-        <p className="font-body-sm text-body-sm text-on-surface-variant text-center mt-6">
-          New to Mentora? <a href={`/auth/signup${applicationQuery}`} className="text-secondary hover:underline">Register</a>
-        </p>
+        </div>
       </div>
     </main>
   );

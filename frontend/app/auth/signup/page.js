@@ -1,115 +1,197 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from 'react';
+import Link from 'next/link';
+import { authAPI } from '@/app/lib/api';
 
 export default function SignupPage() {
-  const [selection, setSelection] = useState(null);
-  const [applicationQuery, setApplicationQuery] = useState("");
-  const [error, setError] = useState("");
-  const [studentId, setStudentId] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formData, setFormData] = useState({
+    full_name: '',
+    class_level: '',
+    email: '',
+    phone: '',
+    school_name: '',
+    coaching_institute_name: '',
+    password: '',
+  });
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const batch = params.get("batch");
-    const price = params.get("price");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+    setSuccess('');
 
-    setApplicationQuery(window.location.search);
-    if (batch) {
-      setSelection({
-        batch,
-        price: price && /^\d+$/.test(price) ? Number(price) : null,
-      });
-    }
-  }, []);
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    setError("");
-    setIsSubmitting(true);
-
-    const formData = new FormData(event.currentTarget);
-    const payload = Object.fromEntries(formData.entries());
     try {
-      const response = await fetch("/api/v1/auth/signup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify(payload),
+      const response = await authAPI.signup(formData);
+      setSuccess('Registration successful! You can now log in.');
+      setFormData({
+        full_name: '',
+        class_level: '',
+        email: '',
+        phone: '',
+        school_name: '',
+        coaching_institute_name: '',
+        password: '',
       });
-      let result;
-      try {
-        result = await response.json();
-      } catch {
-        setError("The server returned an unreadable response. Please try again.");
-        return;
-      }
-      if (!response.ok) {
-        setError(
-          result.detail || result.title || "Registration failed. Please check your details."
-        );
-        return;
-      }
-      setStudentId(result.student_id);
-    } catch {
-      setError("Unable to reach Mentora. Please try again shortly.");
-    } finally {
-      setIsSubmitting(false);
+    } catch (err) {
+      setError(err.message || 'Registration failed');
     }
   };
 
   return (
-    <main className="min-h-screen bg-surface-container-lowest text-on-surface flex items-center justify-center p-4">
-      <div className="w-full max-w-md bg-surface-container p-6 rounded-xl border border-outline-variant/20 shadow-xl">
-        <h1 className="font-headline-lg text-headline-lg text-secondary font-bold mb-2 text-center">Register</h1>
-        <p className="font-body-sm text-body-sm text-on-surface-variant text-center mb-6">Create your Mentora student account</p>
-        {selection && (
-          <p role="status" className="font-body-sm text-body-sm text-secondary text-center mb-6">
-            Applying for {selection.batch}
-            {selection.price !== null && ` • ₹${selection.price}`}
-          </p>
-        )}
-        {error && <p role="alert" className="text-sm text-red-600 mb-4">{error}</p>}
-        {studentId && (
-          <div role="status" className="text-sm text-secondary mb-4">
-            Registration successful. Your Student ID is <strong>{studentId}</strong>.
-            <a href={`/auth/login${applicationQuery}`} className="block mt-2 underline">Continue to sign in</a>
+    <main className="min-h-screen bg-[#001719] text-on-surface">
+      <nav className="bg-[#001719]/80 shadow border-b border-[#8a9294]/20">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="flex justify-between h-16">
+            <div className="flex items-center gap-2">
+              <Link href="/" className="flex items-center gap-2">
+                <span className="text-xl font-bold text-[#0F4C5C]">Mentora</span>
+                <span className="text-sm font-semibold text-[#E9C46A]">.</span>
+              </Link>
+            </div>
+            <div className="flex items-center gap-4 text-sm font-medium text-on-surface">
+              <Link href="/auth/login" className="hover:text-[#0F4C5C] transition-colors">
+                Login
+              </a>
+            </div>
           </div>
-        )}
-        <form className="space-y-4" onSubmit={handleSubmit}>
-          <div>
-            <label className="block font-label-sm text-label-sm text-on-surface-variant mb-1">Full Name</label>
-            <input name="full_name" type="text" required maxLength={255} className="w-full bg-surface-container-lowest border border-outline-variant/30 rounded px-3 py-2 text-on-surface focus:outline-none focus:border-secondary" autoComplete="name" />
+        </div>
+      </nav>
+
+      <div className="min-h-screen bg-[#001719] text-on-surface">
+        <div className="max-w-md mx-auto py-8">
+          <div className="mb-8">
+            <h1 className="text-3xl font-bold text-[#0F4C5C]">Create Account</h1>
+            <p className="text-secondary">Join Mentora for JEE preparation</p>
           </div>
-          <div>
-            <label className="block font-label-sm text-label-sm text-on-surface-variant mb-1">Class</label>
-            <select name="class_level" required defaultValue="9" className="w-full bg-surface-container-lowest border border-outline-variant/30 rounded px-3 py-2 text-on-surface focus:outline-none focus:border-secondary">
-              <option>9</option>
-              <option>10</option>
-              <option>11</option>
-              <option>12</option>
-            </select>
+
+          <div className="bg-[#082326] rounded-lg shadow-sm border border-[#8a9294]/20 p-8">
+            {error && (
+              <div className="mb-4 p-3 bg-[#93000a]/20 border border-[#93000a]/20 text-[#ffb4ab] text-sm rounded">
+                {error}
+              </div>
+            )}
+
+            {success && (
+              <div className="mb-4 p-3 bg-[#66d8d2]/20 border border-[#66d8d2]/20 text-[#66d8d2] text-sm rounded">
+                {success}
+              </div>
+            )}
+
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="grid md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-secondary mb-1">
+                    Full Name
+                  </label>
+                  <input
+                    type="text"
+                    className="w-full px-3 py-2 border border-[#8a9294]/20 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0F4C5C]"
+                    value={formData.full_name}
+                    onChange={(e) => setFormData({ ...formData, full_name: e.target.value })}
+                    placeholder="Aarav Sharma"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-secondary mb-1">
+                    Class
+                  </label>
+                  <select
+                    className="w-full px-3 py-2 border border-[#8a9294]/20 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0F4C5C]"
+                    value={formData.class_level}
+                    onChange={(e) => setFormData({ ...formData, class_level: e.target.value })}
+                    required
+                  >
+                    <option value="">Select Class</option>
+                    <option value="9">Class 9</option>
+                    <option value="10">Class 10</option>
+                    <option value="11">Class 11</option>
+                    <option value="12">Class 12</option>
+                  </select>
+                </div>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-secondary mb-1">
+                  Email Address
+                </label>
+                <input
+                  type="email"
+                  className="w-full px-3 py-2 border border-[#8a9294]/20 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0F4C5C]"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  placeholder="email@example.com"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-secondary mb-1">
+                  Phone Number
+                </label>
+                <input
+                  type="tel"
+                  className="w-full px-3 py-2 border border-[#8a9294]/20 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0F4C5C]"
+                  value={formData.phone}
+                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                  placeholder="+91 98765 43210"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-secondary mb-1">
+                  School Name
+                </label>
+                <input
+                  type="text"
+                  className="w-full px-3 py-2 border border-[#8a9294]/20 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0F4C5C]"
+                  value={formData.school_name}
+                  onChange={(e) => setFormData({ ...formData, school_name: e.target.value })}
+                  placeholder="Delhi Public School"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-secondary mb-1">
+                  Coaching Institute (optional)
+                </label>
+                <input
+                  type="text"
+                  className="w-full px-3 py-2 border border-[#8a9294]/20 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0F4C5C]"
+                  value={formData.coaching_institute_name}
+                  onChange={(e) => setFormData({ ...formData, coaching_institute_name: e.target.value })}
+                  placeholder="FIITJEE / Allen / etc."
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-secondary mb-1">
+                  Password
+                </label>
+                <input
+                  type="password"
+                  className="w-full px-3 py-2 border border-[#8a9294]/20 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0F4C5C]"
+                  value={formData.password}
+                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                  placeholder="••••••••"
+                  minLength={8}
+                  required
+                />
+              </div>
+
+              <button type="submit" className="w-full py-3 bg-[#E9C46A] text-[#00363d] font-bold text-center rounded-lg hover:bg-[#D4A357] transition-colors">
+                Create Account
+              </button>
+            </form>
+
+            <p className="mt-6 text-center text-sm text-secondary">
+              Already have an account?{' '}
+              <Link href="/auth/login" className="text-[#0F4C5C] font-medium hover:text-[#D4A357] transition-colors">
+                Sign in
+              </Link>
+            </p>
           </div>
-          <div>
-            <label className="block font-label-sm text-label-sm text-on-surface-variant mb-1">Email</label>
-            <input name="email" type="email" required maxLength={255} className="w-full bg-surface-container-lowest border border-outline-variant/30 rounded px-3 py-2 text-on-surface focus:outline-none focus:border-secondary" autoComplete="email" />
-          </div>
-          <div>
-            <label className="block font-label-sm text-label-sm text-on-surface-variant mb-1">Phone Number</label>
-            <input name="phone" type="tel" required maxLength={32} className="w-full bg-surface-container-lowest border border-outline-variant/30 rounded px-3 py-2 text-on-surface focus:outline-none focus:border-secondary" autoComplete="tel" />
-          </div>
-          <div>
-            <label className="block font-label-sm text-label-sm text-on-surface-variant mb-1">Password</label>
-            <input name="password" type="password" required minLength={8} className="w-full bg-surface-container-lowest border border-outline-variant/30 rounded px-3 py-2 text-on-surface focus:outline-none focus:border-secondary" autoComplete="new-password" />
-          </div>
-          <button type="submit" disabled={isSubmitting || Boolean(studentId)} className="w-full py-3 rounded bg-secondary text-on-secondary font-label-md text-label-md font-bold hover:bg-secondary-fixed transition-colors disabled:opacity-60">
-            {isSubmitting ? "Creating account..." : "Register"}
-          </button>
-        </form>
-        <p className="font-body-sm text-body-sm text-on-surface-variant text-center mt-6">
-          Already have an account? <a href={`/auth/login${applicationQuery}`} className="text-secondary hover:underline">Sign In</a>
-        </p>
-      </div>
+        </div>
+      </main>
     </main>
   );
 }

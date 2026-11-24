@@ -2,8 +2,10 @@
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://mentora-1-gkgq.onrender.com/api/v1';
 
-export async function apiRequest(endpoint, options = {}) {
-  const url = `${API_URL}${endpoint}`;
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'https://mentora-1-gkgq.onrender.com/api/v1';
+
+async function request(path, options = {}) {
+  const url = `${API_URL}${path}`;
   const headers = {
     'Content-Type': 'application/json',
     ...options.headers,
@@ -18,7 +20,7 @@ export async function apiRequest(endpoint, options = {}) {
 
     if (!response.ok) {
       const errorText = await response.text();
-      throw new Error(errorText || `Request failed with status ${response.status}`);
+      throw new Error(errorText || `Request failed: ${response.status}`);
     }
 
     if (response.status === 204) {
@@ -27,98 +29,49 @@ export async function apiRequest(endpoint, options = {}) {
 
     return await response.json();
   } catch (error) {
-    console.error(`API Error: ${endpoint}`, error);
+    console.error(`API Error: ${path}`, error);
     throw error;
   }
 }
 
-// Auth
-export const authService = {
-  login: (data) => apiRequest('/auth/login', { method: 'POST', body: JSON.stringify(data) }),
+export const authAPI = {
+  login: (data) => request('/auth/login', { method: 'POST', body: JSON.stringify(data) }),
   signup: (data) => apiRequest('/auth/signup', { method: 'POST', body: JSON.stringify(data) }),
   logout: () => apiRequest('/auth/logout', { method: 'POST' }),
   me: () => apiRequest('/auth/me'),
 };
 
-// Courses
-export const courseService = {
-  getAll: () => apiRequest('/api/v1/courses/'),
+export const coursesAPI = {
+  getAll: () => apiRequest('/courses/'),
   getById: (id) => apiRequest(`/api/v1/courses/${id}`),
-  create: (data) => apiRequest('/api/v1/courses/', { method: 'POST', body: JSON.stringify(data) }),
-  update: (id, data) => apiRequest(`/api/v1/courses/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
-  delete: (id) => apiRequest(`/api/v1/courses/${id}`, { method: 'DELETE' }),
 };
 
-// Batches
-export const batchService = {
-  getAll: () => apiRequest('/api/v1/batches/'),
-  getById: (id) => apiRequest(`/api/v1/batches/${id}`),
-  create: (data) => apiRequest('/api/v1/batches/', { method: 'POST', body: JSON.stringify(data) }),
-  update: (id, data) => apiRequest(`/api/v1/batches/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
-  delete: (id) => apiRequest(`/api/v1/batches/${id}`, { method: 'DELETE' }),
+export const batchesAPI = {
+  getAll: () => apiRequest('/batches/'),
 };
 
-// Applications
-export const applicationService = {
-  getAll: () => apiRequest('/api/v1/admin/applications/'),
-  getById: (id) => apiRequest(`/api/v1/admin/applications/${id}`),
-  updateStatus: (id, status) => apiRequest(`/api/v1/admin/applications/${id}`, { method: 'PATCH', body: JSON.stringify({ status }) }),
+export const enrollmentsAPI = {
+  getAll: () => apiRequest('/enrollments/student/enrollments'),
 };
 
-// Enrollments
-export const enrollmentService = {
-  getAll: () => apiRequest('/api/v1/admin/enrollments/'),
-  getById: (id) => apiRequest(`/api/v1/admin/enrollments/${id}`),
-  activate: (id, data) => apiRequest(`/api/v1/admin/enrollments/activate`, { method: 'POST', body: JSON.stringify(data) }),
-  reject: (id) => apiRequest(`/api/v1/admin/enrollments/${id}/reject`, { method: 'POST' }),
-  cancel: (id) => apiRequest(`/api/v1/admin/enrollments/${id}/cancel`, { method: 'POST' }),
+export const resourcesAPI = {
+  getAll: () => apiRequest('/student/resources'),
 };
 
-// Payments
-export const paymentService = {
-  getAll: () => apiRequest('/api/v1/admin/payments/'),
-  create: (data) => apiRequest('/api/v1/admin/payments/', { method: 'POST', body: JSON.stringify(data) }),
-  verify: (id) => apiRequest(`/api/v1/admin/payments/${id}/verify`, { method: 'PUT' }),
+export const mentorshipAPI = {
+  getBookings: () => apiRequest('/mentorship/bookings'),
+  getSessions: (batchId) => apiRequest(`/mentorship/sessions/upcoming/${batchId}`),
 };
 
-// Resources
-export const resourceService = {
-  getAll: () => apiRequest('/api/v1/admin/resources/'),
-  create: (data) => apiRequest('/api/v1/resources/teacher/resources/', { method: 'POST', body: JSON.stringify(data) }),
-  update: (id, data) => apiRequest(`/api/v1/teacher/resources/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
-  publish: (id) => apiRequest(`/api/v1/resources/teacher/resources/${id}/publish`, { method: 'POST' }),
-  unpublish: (id) => apiRequest(`/api/v1/admin/resources/${id}/unpublish`, { method: 'PUT' }),
-  delete: (id) => apiRequest(`/api/v1/admin/resources/${id}`, { method: 'DELETE' }),
-  requestDeletion: (id, data) => apiRequest(`/api/v1/resources/teacher/resources/${id}/deletion-request`, { method: 'POST', body: JSON.stringify(data) }),
-};
-
-// Mentorship
-export const mentorshipService = {
-  getAllBookings: () => apiRequest('/api/v1/mentorship/bookings/'),
-  approveReject: (id, data) => apiRequest(`/api/v1/mentorship/bookings/${id}/approve-or-reject`, { method: 'PUT', body: JSON.stringify(data) }),
-  getAllSessions: () => apiRequest('/api/v1/mentorship/sessions/'),
-  createSchedule: (data) => apiRequest('/api/v1/mentorship/weekly-schedules/', { method: 'POST', body: JSON.stringify(data) }),
-};
-
-// Approvals
-export const approvalService = {
-  getAll: () => apiRequest('/api/v1/admin/approvals/'),
-  create: (data) => apiRequest('/api/v1/admin/approvals/', { method: 'POST', body: JSON.stringify(data) }),
-  vote: (id, data) => apiRequest(`/api/v1/admin/approvals/${id}/vote`, { method: 'POST', body: JSON.stringify(data) }),
-  execute: (id) => apiRequest(`/api/v1/admin/approvals/${id}/execute`, { method: 'POST' }),
-  reject: (id) => apiRequest(`/api/v1/admin/approvals/${id}/reject`, { method: 'POST' }),
-};
-
-// Notifications
-export const notificationService = {
-  getAll: (params) => apiRequest(`/api/v1/notifications/${params ? '?' + new URLSearchParams(params).toString() : ''}`),
-  markRead: (id) => apiRequest(`/api/v1/notifications/${id}/read`, { method: 'PATCH' }),
-};
-
-// Users
-export const userService = {
-  getAll: () => apiRequest('/api/v1/admin/users/'),
-  getById: (id) => apiRequest(`/api/v1/users/${id}`),
-  createTeacher: (data) => apiRequest('/api/v1/auth/teachers', { method: 'POST', body: JSON.stringify(data) }),
-  update: (id, data) => apiRequest(`/api/v1/users/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+export const adminAPI = {
+  getStudents: () => apiRequest('/admin/users/'),
+  getTeachers: () => apiRequest('/admin/teachers/'),
+  getCourses: () => apiRequest('/courses/'),
+  getBatches: () => apiRequest('/batches/'),
+  getApplications: () => apiRequest('/admin/applications/'),
+  getEnrollments: () => apiRequest('/admin/enrollments/'),
+  getPayments: () => apiRequest('/admin/payments/'),
+  getResources: () => apiRequest('/admin/resources/'),
+  getMentorshipBookings: () => apiRequest('/mentorship/bookings/'),
+  getAuditLogs: () => apiRequest('/admin/audit-logs/'),
 };
