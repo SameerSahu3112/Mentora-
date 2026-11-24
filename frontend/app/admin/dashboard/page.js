@@ -4,48 +4,35 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 export default function AdminDashboard() {
-  const [students, setStudents] = useState([]);
-  const [batches, setBatches] = useState([]);
-  const [courses, setCourses] = useState([]);
-  const [enrollments, setEnrollments] = useState([]);
+  const [stats, setStats] = useState({
+    total_students: 0,
+    active_enrollments: 0,
+    pending_applications: 0,
+    pending_payments: 0,
+  });
   const [loading, setLoading] = useState(true);
   const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://mentora-1-gkgq.onrender.com/api/v1';
 
   useEffect(() => {
-    Promise.all([
-      fetch(`${API_URL}/admin/users/`, { credentials: 'include' }),
-      fetch(`${API_URL}/batches/`, { credentials: 'include' }),
-      fetch(`${API_URL}/courses/`, { credentials: 'include' }),
-      fetch(`${API_URL}/admin/enrollments/`, { credentials: 'include' }),
-    ])
-      .then(async ([r1, r2, r3, r4]) => {
-        const studentsData = await r1.json();
-        const batchesData = await r2.json();
-        const coursesData = await r3.json();
-        const enrollmentsData = await r4.json();
-        setStudents(studentsData || []);
-        setBatches(batchesData || []);
-        setCourses(coursesData || []);
-        setEnrollments(enrollmentsData || []);
+    async function loadStats() {
+      try {
+        const [usersRes, enrollRes] = await Promise.all([
+          fetch(`${API_URL}/admin/users/`, { credentials: 'include' }),
+          fetch(`${API_URL}/enrollments/student/enrollments`, { credentials: 'include' }),
+        ]);
+        const users = await usersRes.json();
+        const enrollData = await enrollRes.json();
+        setUsers(users || []);
+        setEnrollments(enrollData || []);
+      } catch (err) {
+        console.error('Failed to load dashboard:', err);
+      } finally {
         setLoading(false);
-      })
-      .catch(() => setLoading(false));
+      }
+    }
+
+    loadStats();
   }, []);
-
-  const stats = {
-    total_students: students.length,
-    active_enrollments: enrollments.filter(e => e.status === 'active').length,
-    pending_applications: enrollments.filter(e => e.status === 'pending_payment').length,
-    pending_payments: enrollments.filter(e => e.status === 'pending_payment').length,
-  };
-
-  if (loading) {
-    return (
-      <main className="min-h-screen bg-[#001719] p-6">
-        <div className="max-w-7xl mx-auto"><div className="animate-pulse flex items-center justify-center h-64"><div className="h-8 w-48 bg-[#082326] rounded" /></div></div>
-      </main>
-    );
-  }
 
   return (
     <main className="min-h-screen bg-[#001719] text-on-surface">
@@ -109,7 +96,7 @@ export default function AdminDashboard() {
           </div>
           <div className="bg-[#082326] p-6 rounded-lg shadow-sm border border-[#8a9294]/20">
             <h3 className="text-lg font-semibold text-[#0F4C5C] mb-4">Manage Batches</h3>
-            <a href="/admin/batches" className="text-[#0F4C5C] font-medium text-sm hover:text-[#0F4C5C] transition-colors flex items-center gap-1">
+            <Link href="/admin/batches" className="text-[#0F4C5C] font-medium text-sm hover:text-[#0F4C5C] transition-colors flex items-center gap-1">
               View all batches <span className="material-symbols-outlined text-[16px]">arrow_right</span>
             </a>
           </div>
