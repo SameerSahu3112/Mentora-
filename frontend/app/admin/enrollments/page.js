@@ -44,7 +44,9 @@ export default function AdminEnrollments() {
             ← Back to Dashboard
           </a>
         </nav>
+
         <h1 className="text-2xl font-bold text-[#0F4C5C] mb-6">Enrollments</h1>
+
         <div className="bg-[#082326] rounded-lg shadow-sm border border-[#8a9294]/20 overflow-hidden">
           <table className="w-full text-left">
             <thead>
@@ -76,7 +78,7 @@ export default function AdminEnrollments() {
                     </td>
                     <td className="px-4 py-3 text-sm text-secondary">{enrollment.access_until || 'N/A'}</td>
                   </tr>
-                ))}
+                ))
               )}
             </tbody>
           </table>
