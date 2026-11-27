@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 export default function ApplicationsPage() {
   const [applications, setApplications] = useState([]);
   const [loading, setLoading] = useState(true);
-  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://mentora-1-gkgq.onrender.com/api/v1';
+  const API_URL = '/api/v1';
 
   useEffect(() => {
     fetch(`${API_URL}/admin/applications/`, { credentials: 'include' })
@@ -50,7 +50,7 @@ export default function ApplicationsPage() {
                 <div className="flex justify-between items-start mb-2">
                   <div>
                     <h3 className="text-lg font-semibold text-[#0F4C5C]">Application #{app.id.slice(-6)}</h3>
-                    <p className="text-secondary text-sm">{app.batch_id || 'N/A'}</td>
+                    <p className="text-secondary text-sm">{app.batch_id || 'N/A'}</p>
                   </div>
                   <span className={`px-2 py-1 text-xs font-semibold rounded ${statusColors[app.status] || 'bg-[#8a9294]/20 text-[#8a9294] border border-[#8a9294]'}`}>
                     {app.status}

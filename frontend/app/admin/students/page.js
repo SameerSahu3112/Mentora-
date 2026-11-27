@@ -1,68 +1,73 @@
 "use client";
 
-import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { adminAPI } from "@/app/lib/api";
 
 export default function AdminStudents() {
-  const [users, setUsers] = useState([]);
+  const [students, setStudents] = useState([]);
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
-  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://mentora-1-gkgq.onrender.com/api/v1';
 
   useEffect(() => {
-    fetch(`${API_URL}/admin/users/`, { credentials: 'include' })
-      .then(res => res.json())
-      .then(data => setUsers(data || []))
-      .catch(() => setUsers([]))
+    adminAPI
+      .getStudents()
+      .then((data) => setStudents(Array.isArray(data) ? data : []))
+      .catch((err) => setError(err.message || "Failed to load students"))
       .finally(() => setLoading(false));
   }, []);
 
   if (loading) {
-    return (
-      <main className="min-h-screen bg-[#001719] p-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="animate-pulse h-32 bg-[#082326] rounded" />
-        </div>
-      </main>
-    );
+    return <div className="animate-pulse h-32 bg-[#082326] rounded" />;
   }
 
   return (
-    <main className="min-h-screen bg-[#001719] p-6">
-      <div className="max-w-7xl mx-auto">
-        <nav className="mb-6">
-          <a href="/admin/dashboard" className="text-[#0F4C5C] hover:text-[#0F4C5C] text-sm font-medium">← Back to Dashboard</a>
-        </nav>
-        <h1 className="text-2xl font-bold text-[#0F4C5C] mb-6">Students</h1>
+    <div>
+      <nav className="mb-6">
+        <Link href="/admin/dashboard" className="text-[#0F4C5C] hover:text-[#E9C46A] text-sm font-medium">
+          ← Back to Dashboard
+        </Link>
+      </nav>
+      <h1 className="text-2xl font-bold text-[#0F4C5C] mb-6">Students</h1>
 
-        <div className="bg-[#082326] rounded-lg shadow-sm border border-[#8a9294]/20 overflow-hidden">
-          <table className="w-full text-left">
-            <thead>
-              <tr className="bg-[#082326]/50 border-b border-[#8a9294]/20">
-                <th className="px-4 py-3 text-xs font-semibold text-[#0F4C5C] uppercase">Student ID</th>
-                <th className="px-4 py-3 text-xs font-semibold text-[#0F4C5C] uppercase">Name</th>
-                <th className="px-4 py-3 text-xs font-semibold text-abyss-teal uppercase">Email</th>
-                <th className="px-4 py-3 text-xs font-semibold text-abyss-teal uppercase">Class</th>
-                <th className="px-4 py-3 text-xs font-semibold text-abyss-teal uppercase">Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {users.length === 0 ? (
-                <tr><td colSpan="5" className="px-4 py-6 text-center text-secondary">No students found.</td></tr>
-              ) : (
-                users.map((user) => (
-                  <tr key={user.id} className="border-b border-[#8a9294]/20 hover:bg-[#082326]/50">
-                    <td className="px-4 py-3 text-sm font-medium text-[#0F4C5C]">{user.student_id || user.id.slice(-6)}</td>
-                    <td className="px-4 py-3 text-sm text-secondary">{user.full_name || 'N/A'}</td>
-                    <td className="px-4 py-3 text-sm text-secondary">{user.email || 'N/A'}</td>
-                    <td className="px-4 py-3 text-sm text-secondary">{user.class_level || 'N/A'}</td>
-                    <td className="px-4 py-3 text-sm"><span className="px-2 py-1 rounded bg-[#E9C46A]/20 text-[#E9C46A] font-label-sm text-label-sm font-bold">Active</span></td>
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </table>
+      {error && (
+        <div className="mb-4 p-3 rounded bg-[#93000a]/20 border border-[#93000a] text-[#ffb4ab] text-sm">
+          {error}
         </div>
+      )}
+
+      <div className="bg-[#082326] rounded-lg shadow-sm border border-[#8a9294]/20 overflow-x-auto">
+        <table className="w-full text-left">
+          <thead>
+            <tr className="bg-[#082326]/50 border-b border-[#8a9294]/20">
+              <th className="px-4 py-3 text-xs font-semibold text-[#0F4C5C] uppercase">Student ID</th>
+              <th className="px-4 py-3 text-xs font-semibold text-[#0F4C5C] uppercase">Name</th>
+              <th className="px-4 py-3 text-xs font-semibold text-[#0F4C5C] uppercase">Email</th>
+              <th className="px-4 py-3 text-xs font-semibold text-[#0F4C5C] uppercase">Phone</th>
+              <th className="px-4 py-3 text-xs font-semibold text-[#0F4C5C] uppercase">Class</th>
+            </tr>
+          </thead>
+          <tbody>
+            {students.length === 0 ? (
+              <tr>
+                <td colSpan="5" className="px-4 py-6 text-center text-secondary">
+                  No students found.
+                </td>
+              </tr>
+            ) : (
+              students.map((student) => (
+                <tr key={student.id} className="border-b border-[#8a9294]/20 hover:bg-[#001719]/40">
+                  <td className="px-4 py-3 text-sm font-medium text-[#E9C46A]">{student.student_id}</td>
+                  <td className="px-4 py-3 text-sm text-secondary">{student.full_name}</td>
+                  <td className="px-4 py-3 text-sm text-secondary">{student.email}</td>
+                  <td className="px-4 py-3 text-sm text-secondary">{student.phone}</td>
+                  <td className="px-4 py-3 text-sm text-secondary">Class {student.class_level}</td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
       </div>
-    </main>
+    </div>
   );
 }

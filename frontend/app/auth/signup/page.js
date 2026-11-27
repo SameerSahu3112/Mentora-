@@ -54,7 +54,7 @@ export default function SignupPage() {
             <div className="flex items-center gap-4 text-sm font-medium text-on-surface">
               <Link href="/auth/login" className="hover:text-[#0F4C5C] transition-colors">
                 Login
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -191,7 +191,7 @@ export default function SignupPage() {
             </p>
           </div>
         </div>
-      </main>
+      </div>
     </main>
   );
 }

@@ -13,18 +13,22 @@ export default function LoginPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    setLoading(true);
 
     try {
       const response = await authAPI.login({ identifier, password });
-      if (response.role === 'admin') {
+      const role = response?.user?.role || response?.role;
+      if (role === 'admin') {
         window.location.href = '/admin/dashboard';
-      } else if (response.role === 'teacher') {
+      } else if (role === 'teacher') {
         window.location.href = '/teacher/dashboard';
       } else {
         window.location.href = '/student/dashboard';
       }
     } catch (err) {
       setError(err.message || 'Login failed');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -40,7 +44,7 @@ export default function LoginPage() {
             <div className="flex items-center gap-4 text-sm font-medium text-on-surface">
               <Link href="/auth/signup" className="hover:text-[#0F4C5C] transition-colors">
                 Signup
-              </a>
+              </Link>
             </div>
           </div>
         </div>

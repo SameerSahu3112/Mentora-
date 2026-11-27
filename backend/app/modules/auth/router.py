@@ -173,7 +173,17 @@ async def admin_create_teacher(
 
         await db.commit()
         await db.refresh(profile)
-        return profile
+        return TeacherProfileAdminResponse(
+            id=str(profile.id),
+            user_id=str(profile.user_id),
+            full_name=profile.full_name,
+            bio=profile.bio,
+            is_public=profile.is_public,
+            phone=profile.phone,
+            email=user.email,
+            created_at=profile.created_at,
+            updated_at=profile.updated_at,
+        )
 
     except Exception:
         await db.rollback()

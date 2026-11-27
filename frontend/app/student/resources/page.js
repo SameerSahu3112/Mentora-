@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 export default function ResourcesPage() {
   const [resources, setResources] = useState([]);
   const [loading, setLoading] = useState(true);
-  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+  const API_URL = '/api/v1';
 
   useEffect(() => {
     fetch(`${API_URL}/student/resources`, { credentials: 'include' })

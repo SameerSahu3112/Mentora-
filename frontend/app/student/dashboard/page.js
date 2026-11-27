@@ -7,7 +7,7 @@ export default function StudentDashboard() {
   const [user, setUser] = useState(null);
   const [enrollments, setEnrollments] = useState([]);
   const [loading, setLoading] = useState(true);
-  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://mentora-1-gkgq.onrender.com/api/v1';
+  const API_URL = '/api/v1';
 
   useEffect(() => {
     const loadData = async () => {
@@ -19,15 +19,15 @@ export default function StudentDashboard() {
         const userData = await meRes.json();
         const enrollData = await enrollRes.json();
         setUser(userData);
-        setEnrollments(enrollments || []);
+        setEnrollments(Array.isArray(enrollData) ? enrollData : []);
       } catch (err) {
         console.error('Failed to load dashboard:', err);
       } finally {
         setLoading(false);
       }
-    }, []);
+    };
 
-    loadSettings();
+    loadData();
   }, []);
 
   return (
@@ -90,7 +90,7 @@ export default function StudentDashboard() {
                       <div className="flex justify-between items-start mb-2">
                         <div>
                           <h3 className="text-lg font-semibold text-[#0F4C5C]">{enrollment.course || 'Course'}</h3>
-                          <p className="text-secondary text-sm">{enrollment.batch || 'Batch'}</td>
+                          <p className="text-secondary text-sm">{enrollment.batch || 'Batch'}</p>
                         </div>
                         <span className={`px-2 py-1 rounded ${enrollment.status === 'active' ? 'bg-[#E9C46A]/20 text-[#E9C46A]' : 'bg-[#E9C46A]/20 text-[#E9C46A]'}`}>{enrollment.status}</span>
                       </div>
@@ -104,9 +104,9 @@ export default function StudentDashboard() {
                 </div>
               )}
             </div>
-          )}
-        </div>
-      </main>
+          </>
+        )}
+      </div>
     </main>
   );
 }

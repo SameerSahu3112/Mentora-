@@ -9,11 +9,13 @@ Phase 3: Courses, batches, teacher assignment
 
 from uuid import UUID
 from fastapi import APIRouter, Depends, HTTPException, status, Query
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.database import get_db
-from app.core.permissions import require_admin
+from app.core.permissions import require_admin, require_teacher
 from app.modules.auth.models import User
+from app.modules.users.models import TeacherProfile
 from app.modules.batches.models import Batch, BatchTeacher
 from app.modules.batches.schemas import (
     BatchCreate,
@@ -63,6 +65,42 @@ async def list_public_batches(
             )
         )
     return results
+
+
+@router.get("/teacher/my-batches", response_model=list[BatchPublic])
+async def list_teacher_batches(
+    db: AsyncSession = Depends(get_db),
+    current_teacher: User = Depends(require_teacher),
+):
+    """List batches assigned to the currently authenticated teacher."""
+    profile_res = await db.execute(
+        select(TeacherProfile).where(TeacherProfile.user_id == current_teacher.id)
+    )
+    teacher_profile = profile_res.scalar_one_or_none()
+    if teacher_profile is None:
+        return []
+
+    rows = await db.execute(
+        select(Batch, Course.name)
+        .join(BatchTeacher, BatchTeacher.batch_id == Batch.id)
+        .join(Course, Course.id == Batch.course_id)
+        .where(BatchTeacher.teacher_profile_id == teacher_profile.id)
+        .order_by(Batch.start_date.desc())
+    )
+    return [
+        BatchPublic(
+            id=str(batch.id),
+            course_id=batch.course_id,
+            name=batch.name,
+            description=batch.description,
+            start_date=batch.start_date,
+            end_date=batch.end_date,
+            max_capacity=batch.max_capacity,
+            status=batch.status,
+            course_name=course_name or "",
+        )
+        for batch, course_name in rows.all()
+    ]
 
 
 @router.get("/{batch_id}", response_model=BatchPublic)

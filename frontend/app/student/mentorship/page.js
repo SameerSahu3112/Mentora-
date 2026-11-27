@@ -7,7 +7,7 @@ export default function MentorshipPage() {
   const [sessions, setSessions] = useState([]);
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
-  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+  const API_URL = '/api/v1';
 
   useEffect(() => {
     Promise.all([

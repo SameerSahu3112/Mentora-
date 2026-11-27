@@ -43,9 +43,10 @@ class TeacherProfileResponse(BaseModel):
 
 
 class TeacherProfileAdminResponse(TeacherProfileResponse):
-    """Teacher profile response for Admin (includes phone)."""
+    """Teacher profile response for Admin (includes phone and email)."""
 
     phone: Optional[str] = None
+    email: Optional[str] = None
 
 
 class TeacherCreateRequest(BaseModel):

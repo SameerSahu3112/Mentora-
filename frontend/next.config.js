@@ -1,6 +1,10 @@
 const path = require("path");
 
-const configuredApiUrl = (process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000").replace(/\/+$/, "");
+const defaultApiOrigin =
+  process.env.NODE_ENV === "production"
+    ? "https://mentora-1-gkgq.onrender.com"
+    : "http://localhost:8000";
+const configuredApiUrl = (process.env.NEXT_PUBLIC_API_URL || defaultApiOrigin).replace(/\/+$/, "");
 const apiBaseUrl = configuredApiUrl.endsWith("/api/v1")
   ? configuredApiUrl
   : `${configuredApiUrl}/api/v1`;
