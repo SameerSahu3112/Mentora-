@@ -1,7 +1,5 @@
 "use client";
 
-export const dynamic = "force-client";
-
 import Link from "next/link";
 import { useState } from "react";
 import { adminAPI } from "@/app/lib/api";
