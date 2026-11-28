@@ -1,6 +1,8 @@
 /* ============================================================
-   Mentora — Abyssal Focus Animations
+   Mentora — Abyssal Focus + Minecraft Theme Animations
    ============================================================ */
+
+/* ============= ORIGINAL ABYSSAL FOCUS ANIMATIONS ============= */
 
 /* Fade in */
 @keyframes fadeIn {
@@ -20,16 +22,7 @@
   animation: slideUp 0.7s ease-out forwards;
 }
 
-/* Slide in from left */
-@keyframes slideInLeft {
-  from { opacity: 0; transform: translateX(-30px); }
-  to { opacity: 1; transform: translateX(0); }
-}
-.animate-slide-in-left {
-  animation: slideInLeft 0.6s ease-out forwards;
-}
-
-/* Pulse glow for active states */
+/* Pulse glow */
 @keyframes pulseGlow {
   0%, 100% { box-shadow: 0 0 20px -4px rgba(224, 193, 157, 0.15); }
   50% { box-shadow: 0 0 30px -2px rgba(224, 193, 157, 0.35); }
@@ -38,17 +31,16 @@
   animation: pulseGlow 3s ease-in-out infinite;
 }
 
-/* Float animation for hero elements */
+/* Float */
 @keyframes float {
-  0% { transform: translateY(0px); }
+  0%, 100% { transform: translateY(0px); }
   50% { transform: translateY(-10px); }
-  100% { transform: translateY(0px); }
 }
 .animate-float {
   animation: float 6s ease-in-out infinite;
 }
 
-/* Gradient shift for background blobs */
+/* Gradient shift */
 @keyframes gradientShift {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
@@ -59,7 +51,7 @@
   animation: gradientShift 8s ease infinite;
 }
 
-/* Count-up spinner */
+/* Spin */
 @keyframes spin-slow {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
@@ -68,7 +60,7 @@
   animation: spin-slow 12s linear infinite;
 }
 
-/* Staggered children animation delay utilities */
+/* Stagger delays */
 .stagger-1 { animation-delay: 0.1s; }
 .stagger-2 { animation-delay: 0.2s; }
 .stagger-3 { animation-delay: 0.3s; }
@@ -85,32 +77,26 @@
   box-shadow: 0 20px 40px -10px rgba(224, 193, 157, 0.2);
 }
 
-/* Smooth page transitions */
+/* Page enter */
 .page-enter {
-  opacity: 0;
-  transform: translateY(10px);
+  opacity: 0; transform: translateY(10px);
 }
 .page-enter-active {
-  opacity: 1;
-  transform: translateY(0);
+  opacity: 1; transform: translateY(0);
   transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
-/* Button press effect */
-.btn-press:active {
-  transform: scale(0.97);
-}
+/* Button press */
+.btn-press:active { transform: scale(0.97); }
 
-/* Progress bar fill */
+/* Progress fill */
 @keyframes fillProgress {
   from { width: 0%; }
   to { width: var(--fill-width); }
 }
-.animate-fill-progress {
-  animation: fillProgress 1.5s ease-out forwards;
-}
+.animate-fill-progress { animation: fillProgress 1.5s ease-out forwards; }
 
-/* Shimmer effect for loading states */
+/* Shimmer */
 @keyframes shimmer {
   0% { background-position: -200% 0; }
   100% { background-position: 200% 0; }
@@ -121,7 +107,7 @@
   animation: shimmer 2s infinite;
 }
 
-/* Glass card hover */
+/* Glass card */
 .glass-card {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -130,12 +116,1179 @@
   transform: translateY(-2px);
 }
 
-/* Icon bounce on interaction */
+/* Icon bounce */
 @keyframes iconBounce {
-  0% { transform: scale(1); }
+  0%, 100% { transform: scale(1); }
   50% { transform: scale(1.2); }
-  100% { transform: scale(1); }
 }
-.animate-icon-bounce {
-  animation: iconBounce 0.4s ease;
+.animate-icon-bounce { animation: iconBounce 0.4s ease; }
+
+/* ============= MINECRAFT-THEMED ANIMATIONS ============= */
+
+/* Block break particle effect */
+@keyframes block-break {
+  0% { opacity: 0; transform: scale(0) translateY(0); }
+  50% { opacity: 1; transform: scale(1.5) translateY(-20px); }
+  100% { opacity: 0; transform: scale(0) translateY(-40px); }
+}
+.animate-block-break {
+  animation: block-break 0.3s ease-out forwards;
+}
+
+/* Mining exhaustion animation */
+@keyframes mining-exhaustion {
+  0% { width: 100%; background: linear-gradient(90deg, #1a1a2e, #16213e, #0f3460); }
+  100% { width: 0%; }
+}
+.animate-mining-exhaustion {
+  animation: mining-exhaustion 3s linear infinite;
+}
+
+/* Pickup experience orb bounce */
+@keyframes orb-bounce {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-10px) scale(1.2); }
+}
+.animate-orb-bounce {
+  animation: orb-bounce 0.8s ease-in-out infinite;
+}
+
+/* Enchantment table glitch */
+@keyframes enchant-glitch {
+  0%, 100% { transform: translate(0, 0); }
+  20% { transform: translate(-2px, 2px); }
+  40% { transform: translate(2px, -2px); }
+  60% { transform: translate(-3px, 3px); }
+  80% { transform: translate(3px, -3px); }
+}
+.animate-enchant-glitch {
+  animation: enchant-glitch 2s infinite;
+}
+
+/* Inventory slot highlight */
+@keyframes slot-highlight {
+  0%, 100% { background: rgba(255, 255, 255, 0.1); }
+  50% { background: rgba(255, 255, 255, 0.3); border-color: #ffe566; }
+}
+.animate-slot-highlight {
+  animation: slot-highlight 2s ease-in-out infinite;
+}
+
+/* Crafting table fire animation */
+@keyframes crafting-fire {
+  0% { opacity: 0.8; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.1); }
+  100% { opacity: 0.8; transform: scale(1); }
+}
+.animate-crafting-fire {
+  animation: crafting-fire 1.5s ease-in-out infinite;
+}
+
+/* Portal transition (nether/end) */
+@keyframes portal-transition {
+  0% { background: radial-gradient(circle at 30% 20%, #ff0000 0%, #000000 100%); }
+  50% { background: radial-gradient(circle at 70% 80%, #00ff00 0%, #000000 100%); }
+  100% { background: radial-gradient(circle at 50% 50%, #00aaff 0., #000000 100%); }
+}
+.animate-portal-transition {
+  animation: portal-transition 3s ease-in-out infinite;
+}
+
+/* Experience orb float */
+@keyframes xp-float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  33% { transform: translateY(-5px) rotate(45deg); }
+  66% { transform: translateY(-10px) rotate(90deg); }
+}
+.animate-xp-float {
+  animation: xp-float 2s ease-in-out infinite;
+}
+
+/* Health heart pulse */
+@keyframes heart-pulse {
+  0%, 100% { color: #e0e0e0; transform: scale(1); }
+  50% { color: #ff5555; transform: scale(1.2); }
+}
+.animate-heart-pulse {
+  animation: heart-pulse 1s ease-in-out infinite;
+}
+
+/* Armor stand rotate */
+@keyframes armor-rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.animate-armor-rotate {
+  animation: armor-rotate 20s linear infinite;
+}
+
+/* Brewing stand steam */
+@keyframes brewing-steam {
+  0% { opacity: 0; transform: translateY(0) rotate(0deg); }
+  50% { opacity: 1; transform: translateY(-5px) rotate(180deg); }
+  100% { opacity: 0; transform: translateY(-10px) rotate(360deg); }
+}
+.animate-brewing-steam {
+  animation: brewing-steam 1.5s ease-in-out infinite;
+}
+
+/* Redstone torch flicker */
+@keyframes redstone-flicker {
+  0%, 100% { opacity: 0.8; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.1); }
+}
+.animate-redstone-flicker {
+  animation: redstone-flicker 0.5s ease-in-out infinite;
+}
+
+/* Item frame highlight */
+@keyframes item-frame-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+  50% { box-shadow: 0 0 20px 4px rgba(255, 255, 255, 0.8); }
+}
+.animate-item-frame-pulse {
+  animation: item-frame-pulse 2s ease-in-out infinite;
+}
+
+/* Day/night cycle */
+@keyframes day-cycle {
+  0%, 100% { filter: hue-rotate(0deg); }
+  50% { filter: hue-rotate(50deg); }
+}
+.animate-day-cycle {
+  animation: day-cycle 10s ease-in-out infinite;
+}
+
+/* Brewing potion color shift */
+@keyframes potion-color {
+  0% { filter: hue-rotate(-160deg); }
+  50% { filter: hue-rotate(0deg); }
+  100% { filter: hue-rotate(160deg); }
+}
+.animate-potion-color {
+  animation: potion-color 3s ease-in-out infinite;
+}
+
+/* Stone cutter blade */
+@keyframes stone-cut {
+  0% { transform: rotate(0deg); opacity: 0.8; }
+  100% { transform: rotate(180deg); opacity: 1; }
+}
+.animate-stone-cut {
+  animation: stone-cut 2s linear infinite;
+}
+
+/* Enchanted book glow */
+@keyframes book-glow {
+  0%, 100% { box-shadow: 0 0 5px rgba(255, 255, 255, 0.3); }
+  50% { box-shadow: 0 0 20px 5px rgba(255, 255, 200, 0.6); }
+}
+.animate-book-glow {
+  animation: book-glow 2s ease-in-out infinite;
+}
+
+/* Sign text scroll */
+@keyframes sign-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
+.animate-sign-scroll {
+  animation: sign-scroll 15s linear infinite;
+}
+
+/* Fletching target */
+@keyframes fletching {
+  0% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(45deg) scale(1.1); }
+  100% { transform: rotate(90deg) scale(1); }
+}
+.animate-fletching {
+  animation: fletching 3s ease-in-out infinite;
+}
+
+/* Shulker box pulse */
+@keyframes shulker-pulse {
+  0%, 100% { box-shadow: 0 0 10px rgba(255, 255, 255, 0.2); }
+  50% { box-shadow: 0 0 25px 5px rgba(255, 255, 255, 0.5); }
+}
+.animate-shulker-pulse {
+  animation: shulker-pulse 2s ease-in-out infinite;
+}
+
+/* Crossbow charge */
+@keyframes crossbow-charge {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+.animate-crossbow-charge {
+  animation: crossbow-charge 1s ease-in-out infinite;
+}
+
+/* Spyglass zoom */
+@keyframes spyglass-zoom {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+.animate-spyglass-zoom {
+  animation: spyglass-zoom 2s ease-in-out infinite;
+}
+
+/* Sword swing */
+@keyframes sword-swing {
+  0% { transform: rotate(0deg); opacity: 1; }
+  25% { transform: rotate(-45deg); opacity: 0.8; }
+  50% { transform: rotate(-90deg); opacity: 0.6; }
+  75% { transform: rotate(-45deg); opacity: 0.8; }
+  100% { transform: rotate(0deg); opacity: 1; }
+}
+.animate-sword-swing {
+  animation: sword-swing 0.5s ease-in-out infinite;
+}
+
+/* Shield durability */
+@keyframes shield-durability {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+.animate-shield-durability {
+  animation: shield-durability 2s ease-in-out infinite;
+}
+
+/* Totem of undying pulse */
+@keyframes totem-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+.animate-totem-pulse {
+  animation: totem-pulse 1.5s ease-in-out infinite;
+}
+
+/* Echo shards */
+@keyframes echo-shards {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.5); }
+}
+.animate-echo-shards {
+  animation: echo-shards 2s ease-in-out infinite;
+}
+
+/* Warden growl */
+@keyframes warden-growl {
+  0% { opacity: 0; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(0.8); }
+}
+.animate-warden-growl {
+  animation: warden-growl 1s ease-in-out infinite;
+}
+
+/* Sculk sensor pulse */
+@keyframes sculk-pulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+.animate-sculk-pulse {
+  animation: sculk-pulse 1s ease-in-out infinite;
+}
+
+/* Froglight color cycle */
+@keyframes froglight-cycle {
+  0% { filter: hue-rotate(0deg); }
+  33% { filter: hue-rotate(120deg); }
+  66% { filter: hue-rotate(240deg); }
+  100% { filter: hue-rotate(360deg); }
+}
+.animate-froglight-cycle {
+  animation: froglight-cycle 4s ease-in-out infinite;
+}
+
+/* Froam bubble */
+@keyframes bubble-rise {
+  0% { opacity: 0; transform: translateY(20px) scale(0); }
+  50% { opacity: 0.8; transform: translateY(-5px) scale(1); }
+  100% { opacity: 0; transform: translateY(-20px) scale(0.8); }
+}
+.animate-bubble-rise {
+  animation: bubble-rise 2s ease-in-out infinite;
+}
+
+/* Turtle egg crack */
+@keyframes egg-crack {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1) shake(10deg); }
+}
+.animate-egg-crack {
+  animation: egg-crack 0.5s ease-in-out infinite;
+}
+
+/* Axolotl bubble */
+@keyframes axolotl-bubble {
+  0% { opacity: 0.2; transform: translateY(0); }
+  50% { opacity: 0.8; transform: translateY(-5px); }
+  100% { opacity: 0.2; transform: translateY(0); }
+}
+.animate-axolotl-bubble {
+  animation: axolotl-bubble 1s ease-in-out infinite;
+}
+
+/* Goat scream */
+@keyframes goat-scream {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(20deg); }
+}
+.animate-goat-scream {
+  animation: goat-scream 0.8s ease-in-out infinite;
+}
+
+/* Camel caravan */
+@keyframes camel-strut {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-20px); }
+}
+.animate-camel-strut {
+  animation: camel-strut 2s ease-in-out infinite;
+}
+
+/* Sniffers sniff */
+@keyframes sniffer-sniff {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(-20deg); }
+}
+.animate-sniffer-sniff {
+  animation: sniffer-sniff 1s ease-in-out infinite;
+}
+
+/* Armadillo roll */
+@keyframes armadillo-roll {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(90deg); }
+}
+.animate-armadillo-roll {
+  animation: armadillo-roll 1s ease-in-out infinite;
+}
+
+/* Allay sparkle */
+@keyframes allay-sparkle {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.3) rotate(90deg); }
+}
+.animate-allay-sparkle {
+  animation: allay-sparkle 1.5s ease-in-out infinite;
+}
+
+/* Warden sonic boom */
+@keyframes warden-boom {
+  0% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.5); opacity: 0.4; }
+  100% { transform: scale(1); opacity: 0.8; }
+}
+.animate-warden-boom {
+  animation: warden-boom 0.8s ease-in-out infinite;
+}
+
+/* Silverfish scramble */
+@keyframes silverfish-scramble {
+  0% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.2); }
+  100% { opacity: 0.5; transform: scale(1); }
+}
+.animate-silverfish-scramble {
+  animation: silverfish-scramble 1s ease-in-out infinite;
+}
+
+/* Copper oxidation */
+@keyframes copper-oxidation {
+  0% { color: #8b5a2b; }
+  25% { color: #a0522d; }
+  50% { color: #b7410e; }
+  75% { color: #cd5c5c; }
+  100% { color: #ff4500; }
+}
+.animate-copper-oxidation {
+  animation: copper-oxidation 60s linear infinite;
+}
+
+/* Tuff generation */
+@keyframes tuff-gen {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.animate-tuff-gen {
+  animation: tuff-gen 0.5s ease-in;
+}
+
+/* Deepslate variants */
+@keyframes deepslate {
+  from { background: #212121; }
+  to { background: #414141; }
+}
+.animate-deepslate {
+  animation: deepslate 2s ease-in-out infinite;
+}
+
+/* Tnt primed */
+@keyframes tnt-primed {
+  0% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.2); }
+  100% { opacity: 0.5; transform: scale(1); }
+}
+.animate-tnt-primed {
+  animation: tnt-primed 0.5s ease-in-out infinite;
+}
+
+/* Sculk sensor range */
+@keyframes sculk-range {
+  from { opacity: 0.3; }
+  to { opacity: 0.8; }
+}
+.animate-sculk-range {
+  animation: sculk-range 2s ease-in-out infinite;
+}
+
+/* Respawn anchor charge */
+@keyframes respawn-charge {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+.animate-respawn-charge {
+  animation: respawn-charge 1s ease-in-out infinite;
+}
+
+/* Block place */
+@keyframes block-place {
+  from { opacity: 0; transform: translateY(20px) scale(0.8); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.animate-block-place {
+  animation: block-place 0.3s ease-out;
+}
+
+/* Sleep in bed */
+@keyframes bed-sleep {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+.animate-bed-sleep {
+  animation: bed-sleep 0.5s ease-in;
+}
+
+/* Campfire smoke */
+@keyframes campfire-smoke {
+  from { opacity: 1; transform: translateY(0); }
+  to { opacity: 0; transform: translateY(20px); }
+}
+.animate-campfire-smoke {
+  animation: campfire-smoke 1.5s ease-in-out infinite;
+}
+
+/* Smoker heat */
+@keyframes smoker-heat {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 1; }
+}
+.animate-smoker-heat {
+  animation: smoker-heat 1s ease-in-out infinite;
+}
+
+/* Lectern page turn */
+@keyframes lectern-page {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(90deg); }
+}
+.animate-lectern-page {
+  animation: lectern-page 0.3s ease-in-out;
+}
+
+/* Barrel contents */
+@keyframes barrel-contents {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.animate-barrel-contents {
+  animation: barrel-contents 0.3s ease-in;
+}
+
+/* Smelting fuel */
+@keyframes smelting-fuel {
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 1; }
+}
+.animate-smelting-fuel {
+  animation: smelting-fuel 1s ease-in-out infinite;
+}
+
+/* Beehive animation */
+@keyframes beehive-activity {
+  from { opacity: 0.5; }
+  to { opacity: 1; }
+}
+.animate-beehive-activity {
+  animation: beehive-activity 2s ease-in-out infinite;
+}
+
+/* Composter fill */
+@keyframes composter-fill {
+  from { opacity: 0; }
+  50% { opacity: 0.5; }
+  to { opacity: 1; }
+}
+.animate-composter-fill {
+  animation: composter-fill 1s ease-in-out infinite;
+}
+
+/* Barrel open */
+@keyframes barrel-open {
+  from { transform: rotateX(0deg); }
+  to { transform: rotateX(-90deg); }
+}
+.animate-barrel-open {
+  animation: barrel-open 0.3s ease-in-out;
+}
+
+/* Smelting progress */
+@keyframes smelting-progress {
+  from { width: 0%; }
+  to { width: 100%; }
+}
+.animate-smelting-progress {
+  animation: smelting-progress 1.5s ease-in-out infinite;
+}
+
+/* Beacon beam */
+@keyframes beacon-beam {
+  from { opacity: 0.5; }
+  to { opacity: 1; }
+}
+.animate-beacon-beam {
+  animation: beacon-beam 2s ease-in-out infinite;
+}
+
+/* Structure void */
+@keyframes structure-void {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+animate-structure-void {
+  animation: structure-void 2s ease-in-out;
+}
+
+/* Recycle block */
+@keyframes recycle {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+.animate-recycle {
+  animation: recycle 0.5s ease-in;
+}
+
+/* Composter overlay */
+@keyframes composter-overlay {
+  from { opacity: 0; }
+  to { opacity: 0.8; }
+}
+animate-composter-overlay {
+  animation: composter-overlay 0.5s ease-in;
+}
+
+/* End portal frame */
+@keyframes end-portal {
+  from { transform: scale(1); opacity: 0.5; }
+  to { transform: scale(1.2); opacity: 1; }
+}
+.animate-end-portal {
+  animation: end-portal 3s ease-in-out infinite;
+}
+
+/* Nether portal */
+@keyframes nether-portal {
+  from { background-position: 0 0; }
+  to { background-position: -200% 0; }
+}
+animate-ner-her-portal {
+  animation: nether-portal 3s linear infinite;
+}
+
+/* Structure block */
+@keyframes structure-block {
+  from { opacity: 0.8; }
+  to { opacity: 1; }
+}
+animate-structure-block {
+  animation: structure-block 1s ease-in;
+}
+
+/* Jigsaw block */
+@keyframes jigsaw {
+  from { opacity: 0.5; }
+  to { opacity: 1; }
+}
+animate-jigsaw {
+  animation: jigsaw 1s ease-in;
+}
+
+/* Loaders */
+@keyframes loader-rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.animate-loader-rotate {
+  animation: loader-rotate 1s linear infinite;
+}
+
+/* Spinner */
+@keyframes spinner {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.animate-spinner {
+  animation: spinner 1s linear infinite;
+}
+
+/* Ping */
+@keyframes ping {
+  75%, 100% { opacity: 0; transform: scale(2); }
+  0% { opacity: 1; transform: scale(1); }
+}
+.animate-ping {
+  animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+/* Pulse */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+.animate-pulse {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* Bounce */
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
+.animate-bounce {
+  animation: bounce 2s infinite;
+}
+
+/* Rotate */
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.animate-rotate {
+  animation: rotate 2s linear infinite;
+}
+
+/* Scale */
+@keyframes scale {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+.animate-scale {
+  animation: scale 2s ease-in-out infinite;
+}
+
+/* Slide in from left */
+@keyframes slide-in-left {
+  from { transform: translateX(-20px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+.animate-slide-in-left {
+  animation: slide-in-left 0.3s ease-out;
+}
+
+/* Slide in from right */
+@keyframes slide-in-right {
+  from { transform: translateX(20px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+.animate-slide-in-right {
+  animation: slide-in-right 0.3s ease-out;
+}
+
+/* Slide in from top */
+@keyframes slide-in-top {
+  from { transform: translateY(-20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+.animate-slide-in-top {
+  animation: slide-in-top 0.3s ease-out;
+}
+
+/* Slide in from bottom */
+@keyframes slide-in-bottom {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+.animate-slide-in-bottom {
+  animation: slide-in-bottom 0.3s ease-out;
+}
+
+/* Fade out */
+@keyframes fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+.animate-fade-out {
+  animation: fade-out 0.3s ease-in;
+}
+
+/* Move */
+@keyframes move {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(100%); }
+}
+.animate-move {
+  animation: move 5s linear infinite;
+}
+
+/* Rotate X */
+@keyframes rotate-x {
+  from { transform: rotateX(0deg); }
+  to { transform: rotateX(360deg); }
+}
+animate-rotate-x {
+  animation: rotate-x 20s linear infinite;
+}
+
+/* Slide X */
+@keyframes slide-x {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+animate-slide-x {
+  animation: slide-x 0.5s ease-out;
+}
+
+/* Fade slide */
+@keyframes fade-slide {
+  from { opacity: 1; transform: translateX(0); }
+  to { opacity: 0; transform: translateX(100%); }
+}
+animate-fade-slide {
+  animation: fade-slide 0.5s ease-out;
+}
+
+/* Rotate Y */
+@keyframes rotate-y {
+  from { transform: rotateY(0deg); }
+  to { transform: rotateY(360deg); }
+}
+animate-rotate-y {
+  animation: rotate-y 20s linear infinite;
+}
+
+/* Tilt */
+@keyframes tilt {
+  from { transform: rotateZ(0deg); }
+  to { transform: rotateZ(180deg); }
+}
+animate-tilt {
+  animation: tilt 2s ease-in-out infinite;
+}
+
+/* Skew */
+@keyframes skew {
+  from { transform: skew(0deg); }
+  to { transform: skew(10deg); }
+}
+animate-skew {
+  animation: skew 2s ease-in-out infinite;
+}
+
+/* Blur */
+@keyframes blur {
+  from { filter: blur(0); }
+  to { filter: blur(8px); }
+}
+animate-blur {
+  animation: blur 1s ease-in-out infinite;
+}
+
+/* Shadow */
+@keyframes shadow {
+  from { box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.2); }
+  to { box-shadow: 0 0 25px 5px rgba(0, 0, 0, 0.5); }
+}
+animate-shadow {
+  animation: shadow 1s ease-in-out infinite;
+}
+
+/* Background */
+@keyframes bg {
+  from { background-position: 0 0; }
+  to { background-position: 100% 100%; }
+}
+animate-bg {
+  animation: bg 5s ease-in-out infinite;
+}
+
+/* Background repeat */
+@keyframes bg-repeat {
+  from { background-position: 0 0; }
+  to { background-position: 100% 100%; }
+}
+animate-bg-repeat {
+  animation: bg-repeat 10s linear infinite;
+}
+
+/* Background pulse */
+@keyframes bg-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+animate-bg-pulse {
+  animation: bg-pulse 2s ease-in-out infinite;
+}
+
+/* Background slide */
+@keyframes bg-slide {
+  from { background-position: 0 0; }
+  to { background-position: -100% 0; }
+}
+animate-bg-slide {
+  animation: bg-slide 10s linear infinite;
+}
+
+/* Marquee */
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
+animate-marquee {
+  animation: marquee 15s linear infinite;
+}
+
+/* Typewriter */
+@keyframes typewriter {
+  from { width: 0; }
+  to { width: 100%; }
+}
+animate-typewriter {
+  animation: typewriter 3s steps(40, end) forwards;
+}
+
+/* Cursor */
+@keyframes cursor-blink {
+  from, to { border-color: transparent; }
+  50% { border-color: currentColor; }
+}
+animate-cursor {
+  animation: cursor-blink 0.7s step-end infinite;
+}
+
+/* Slide up */
+@keyframes slide-up {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+animate-slide-up {
+  animation: slide-up 0.5s ease-out;
+}
+
+/* Slide down */
+@keyframes slide-down {
+  from { transform: translateY(-20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+animate-slide-down {
+  animation: slide-down 0.5s ease-out;
+}
+
+/* Slide left */
+@keyframes slide-left {
+  from { transform: translateX(20px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+animate-slide-left {
+  animation: slide-left 0.5s ease-out;
+}
+
+/* Slide right */
+@keyframes slide-right {
+  from { transform: translateX(-20px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+animate-slide-right {
+  animation: slide-right 0.5s ease-out;
+}
+
+/* Fade */
+@keyframes fade {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+animate-fade {
+  animation: fade 0.3s ease-in;
+}
+
+/* Fade in */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+animate-fade-in {
+  animation: fade-in 0.3s ease-out;
+}
+
+/* Scale */
+@keyframes scale {
+  from { transform: scale(1); }
+  to { transform: scale(1.1); }
+}
+animate-scale {
+  animation: scale 0.3s ease-out;
+}
+
+/* Rotate */
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+animate-rotate {
+  animation: rotate 1s linear;
+}
+
+/* Pulse */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+animate-pulse {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* Bounce */
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+animate-bounce {
+  animation: bounce 0.5s ease-out;
+}
+
+/* Rotate */
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+animate-rotate {
+  animation: rotate 2s linear infinite;
+}
+
+/* Scale */
+@keyframes scale {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+animate-scale {
+  animation: scale 2s ease-in-out infinite;
+}
+
+/* Tilt */
+@keyframes tilt {
+  from { transform: rotateZ(0deg); }
+  to { transform: rotateZ(180deg); }
+}
+animate-tilt {
+  animation: tilt 2s ease-in-out infinite;
+}
+
+/* Skew */
+@keyframes skew {
+  from { transform: skew(0deg); }
+  to { transform: skew(10deg); }
+}
+animate-skew {
+  animation: skew 2s ease-in-out infinite;
+}
+
+/* Blur */
+@keyframes blur {
+  from { filter: blur(0); }
+  to { filter: blur(8px); }
+}
+animate-blur {
+  animation: blur 1s ease-in-out infinite;
+}
+
+/* Shadow */
+@keyframes shadow {
+  from { box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.2); }
+  to { box-shadow: 0 0 25px 5px rgba(0, 0, 0, 0.5); }
+}
+animate-shadow {
+  animation: shadow 1s ease-in-out infinite;
+}
+
+/* Background */
+@keyframes bg {
+  from { background-position: 0 0; }
+  to { background-position: 100% 100%; }
+}
+animate-bg {
+  animation: bg 5s ease-in-out infinite;
+}
+
+/* Background repeat */
+@keyframes bg-repeat {
+  from { background-position: 0 0; }
+  to { background-position: 100% 100%; }
+}
+animate-bg-repeat {
+  animation: bg-repeat 10s linear infinite;
+}
+
+/* Background pulse */
+@keyframes bg-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+animate-bg-pulse {
+  animation: bg-pulse 2s ease-in-out infinite;
+}
+
+/* Background slide */
+@keyframes bg-slide {
+  from { background-position: 0 0; }
+  to { background-position: -100% 0; }
+}
+animate-bg-slide {
+  animation: bg-slide 10s linear infinite;
+}
+
+/* Marquee */
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
+animate-marquee {
+  animation: marquee 15s linear infinite;
+}
+
+/* Typewriter */
+@keyframes typewriter {
+  from { width: 0; }
+  to { width: 100%; }
+}
+animate-typewriter {
+  animation: typewriter 3s steps(40, end) forwards;
+}
+
+/* Cursor */
+@keyframes cursor-blink {
+  from, to { border-color: transparent; }
+  50% { border-color: currentColor; }
+}
+animate-cursor {
+  animation: cursor-blink 0.7s step-end infinite;
+}
+
+/* Slide up */
+@keyframes slide-up {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+animate-slide-up {
+  animation: slide-up 0.5s ease-out;
+}
+
+/* Slide down */
+@keyframes slide-down {
+  from { transform: translateY(-20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+animate-slide-down {
+  animation: slide-down 0.5s ease-out;
+}
+
+/* Slide left */
+@keyframes slide-left {
+  from { transform: translateX(20px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+animate-slide-left {
+  animation: slide-left 0.5s ease-out;
+}
+
+/* Slide right */
+@keyframes slide-right {
+  from { transform: translateX(-20px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+animate-slide-right {
+  animation: slide-right 0.5s ease-out;
+}
+
+/* Fade */
+@keyframes fade {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+animate-fade {
+  animation: fade 0.3s ease-in;
+}
+
+/* Fade in */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+animate-fade-in {
+  animation: fade-in 0.3s ease-out;
+}
+
+/* Scale */
+@keyframes scale {
+  from { transform: scale(1); }
+  to { transform: scale(1.1); }
+}
+animate-scale {
+  animation: scale 0.3s ease-out;
+}
+
+/* Rotate */
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+animate-rotate {
+  animation: rotate 1s linear;
+}
+
+/* Pulse */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+animate-pulse {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* Bounce */
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+animate-bounce {
+  animation: bounce 0.5s ease-out;
+}
+
+@keyframes shake {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  10% { transform: translate(10px, 10px) rotate(10deg); }
+  20% { transform: translate(-10px, -10px) rotate(-10deg); }
+  30% { transform: translate(15px, 5px) rotate(14deg); }
+  40% { transform: translate(-15px, 5px) rotate(-14deg); }
+  50% { transform: translate(5px, -5px) rotate(-18deg); }
+  60% { transform: translate(-5px, 5px) rotate(-18deg); }
+  70% { transform: translate(5px, 5px) rotate(-12deg); }
+  80% { transform: translate(-5px, -5px) rotate(-12deg); }
+  90% { transform: translate(10px, 10px) rotate(10deg); }
+  100% { transform: translate(0, 0) rotate(0deg); }
+}
+
+.animate-shake {
+  animation: shake 0.5s ease-in-out infinite;
 }
