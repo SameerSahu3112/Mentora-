@@ -78,17 +78,27 @@ export const mentorshipAPI = {
 
 export const teacherAPI = {
   getMyBatches: () => request("/batches/teacher/my-batches"),
+  getMyResources: () => request("/resources/teacher/resources"),
   getSessions: () => request("/mentorship/sessions"),
   getBookings: () => request("/mentorship/bookings"),
+  getPendingMentorship: () => request("/mentorship/bookings?status=pending"),
   updateBooking: (id, data) =>
     request(`/mentorship/bookings/${id}`, { method: "PUT", body: JSON.stringify(data) }),
   getAttendance: () => request("/mentorship/attendance"),
+  getAttendanceStats: () => request("/mentorship/attendance/stats"),
   markAttendance: (data) =>
     request("/mentorship/attendance", { method: "POST", body: JSON.stringify(data) }),
   createResource: (data) =>
     request("/resources/teacher/resources", { method: "POST", body: JSON.stringify(data) }),
   publishResource: (id) =>
     request(`/resources/teacher/resources/${id}/publish`, { method: "POST" }),
+};
+
+export const studentAPI = {
+  getMyEnrollments: () => request("/enrollments/student/enrollments"),
+  getMyResources: () => request("/resources/student/resources"),
+  getMyBookings: () => request("/mentorship/bookings"),
+  getNotifications: () => request("/notifications"),
 };
 
 export const adminAPI = {
