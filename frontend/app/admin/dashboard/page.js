@@ -1,147 +1,104 @@
 "use client";
 
-import Link from "next/link";
-import { useEffect, useState } from "react";
-import { adminAPI } from "@/app/lib/api";
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
 export default function AdminDashboard() {
-  const [students, setStudents] = useState([]);
-  const [batches, setBatches] = useState([]);
-  const [courses, setCourses] = useState([]);
-  const [enrollments, setEnrollments] = useState([]);
-  const [applications, setApplications] = useState([]);
-  const [payments, setPayments] = useState([]);
-  const [error, setError] = useState("");
+  const [admin, setAdmin] = useState(null);
+  const [stats, setStats] = useState({ total_students: 0, active_enrollments: 0, pending_applications: 0, pending_payments: 0 });
   const [loading, setLoading] = useState(true);
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://mentora-1-gkgq.onrender.com/api/v1';
 
   useEffect(() => {
-    Promise.all([
-      adminAPI.getStudents(),
-      adminAPI.getBatches(),
-      adminAPI.getCourses(),
-      adminAPI.getEnrollments(),
-      adminAPI.getApplications(),
-      adminAPI.getPayments(),
-    ])
-      .then(([s, b, c, e, a, p]) => {
-        setStudents(Array.isArray(s) ? s : []);
-        setBatches(Array.isArray(b) ? b : []);
-        setCourses(Array.isArray(c) ? c : []);
-        setEnrollments(Array.isArray(e) ? e : []);
-        setApplications(Array.isArray(a) ? a : []);
-        setPayments(Array.isArray(p) ? p : []);
-      })
-      .catch((err) => {
-        setError(err.message || "Failed to load admin dashboard. Make sure you are signed in as Admin.");
-      })
+    fetch(`${API_URL}/auth/me`, { credentials: 'include' })
+      .then((res) => res.json())
+      .then((data) => setAdmin(data))
+      .catch(() => setLoading(false));
+
+    fetch(`${API_URL}/admin/enrollments`, { credentials: 'include' })
+      .then((res) => res.json())
+      .then((data) => setEnrollments(data || []))
+      .catch(() => setEnrollments([]))
       .finally(() => setLoading(false));
   }, []);
 
+  const stats = {
+    total_students: enrollments.length,
+    active_enrollments: enrollments.filter(e => e.status === 'active').length,
+    pending_applications: enrollments.filter(e => e.status === 'pending_payment').length,
+    pending_payments: enrollments.filter(e => e.status === 'pending_payment').length,
+  };
+
   if (loading) {
     return (
-      <div className="animate-pulse flex items-center justify-center h-64">
-        <div className="h-8 w-48 bg-[#082326] rounded" />
-      </div>
+      <main className="min-h-screen bg-[#001719] p-6">
+        <div className="max-w-7xl mx-auto"><div className="animate-pulse flex items-center justify-center h-64"><div className="h-8 w-48 bg-[#082326] rounded" /></div></div>
+      </main>
     );
   }
 
   return (
-    <div>
-      <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
-        <h1 className="text-2xl font-bold text-[#0F4C5C]">Admin Dashboard</h1>
-        <div className="flex gap-3">
-          <Link
-            href="/admin/courses"
-            className="px-4 py-2 rounded-lg bg-[#0F4C5C] text-white text-sm font-semibold hover:bg-[#E9C46A] hover:text-[#00363d] transition-colors"
-          >
-            + Manage Courses
-          </Link>
-          <Link
-            href="/admin/teachers"
-            className="px-4 py-2 rounded-lg bg-[#E9C46A] text-[#00363d] text-sm font-semibold hover:bg-[#D4A357] transition-colors"
-          >
-            + Manage Teachers
-          </Link>
-        </div>
-      </div>
-
-      {error && (
-        <div className="mb-6 p-4 rounded-lg bg-[#93000a]/20 border border-[#93000a] text-[#ffb4ab] text-sm flex items-center justify-between gap-4">
-          <span>{error}</span>
-          <Link href="/auth/login" className="underline font-semibold whitespace-nowrap">
-            Sign in as Admin
-          </Link>
-        </div>
-      )}
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <Link href="/admin/students" className="bg-[#082326] p-6 rounded-lg shadow-sm border border-[#8a9294]/20 hover:border-[#E9C46A]/60 transition-colors">
-          <h3 className="text-sm font-medium text-secondary mb-2">Total Students</h3>
-          <p className="text-2xl font-bold text-[#0F4C5C]">{students.length}</p>
-        </Link>
-        <Link href="/admin/enrollments" className="bg-[#082326] p-6 rounded-lg shadow-sm border border-[#8a9294]/20 hover:border-[#E9C46A]/60 transition-colors">
-          <h3 className="text-sm font-medium text-secondary mb-2">Active Enrollments</h3>
-          <p className="text-2xl font-bold text-[#0F4C5C]">
-            {enrollments.filter((e) => e.status === "active").length}
-          </p>
-        </Link>
-        <Link href="/admin/applications" className="bg-[#082326] p-6 rounded-lg shadow-sm border border-[#8a9294]/20 hover:border-[#E9C46A]/60 transition-colors">
-          <h3 className="text-sm font-medium text-secondary mb-2">Pending Applications</h3>
-          <p className="text-2xl font-bold text-[#E9C46A]">
-            {applications.filter((a) => a.status === "pending").length}
-          </p>
-        </Link>
-        <Link href="/admin/payments" className="bg-[#082326] p-6 rounded-lg shadow-sm border border-[#8a9294]/20 hover:border-[#E9C46A]/60 transition-colors">
-          <h3 className="text-sm font-medium text-secondary mb-2">Recorded Payments</h3>
-          <p className="text-2xl font-bold text-[#E9C46A]">
-            {payments.filter((p) => p.status === "recorded").length}
-          </p>
-        </Link>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="bg-[#082326] p-6 rounded-lg border border-[#8a9294]/20">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-lg font-semibold text-[#0F4C5C]">Courses ({courses.length})</h2>
-            <Link href="/admin/courses" className="text-xs text-[#E9C46A] hover:underline">
-              View all →
-            </Link>
+    <main className="min-h-screen bg-[#001719]">
+      <nav className="bg-[#001719]/80 shadow border-b border-[#8a9294]/20">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="flex justify-between h-16">
+            <div className="flex items-center gap-2">
+              <Link href="/admin/dashboard" className="flex items-center gap-2">
+                <span className="text-xl font-bold text-[#0F4C5C]">Mentora</span>
+                <span className="text-sm font-semibold text-[#E9C46A]">.</span>
+              </Link>
+            </div>
+            <div className="flex items-center gap-4 text-sm font-medium text-on-surface-variant">
+              <span className="text-secondary font-medium">{admin?.full_name || 'Admin'}</span>
+              <a href="/auth/login" className="text-sm text-[#0F4C5C] hover:text-[#0F4C5C]">Sign Out</a>
+            </div>
           </div>
-          {courses.length === 0 ? (
-            <p className="text-sm text-secondary">No courses yet.</p>
-          ) : (
-            <ul className="space-y-2 text-sm">
-              {courses.slice(0, 5).map((c) => (
-                <li key={c.id} className="flex justify-between border-b border-[#8a9294]/10 pb-2">
-                  <span>{c.name}</span>
-                  <span className="text-secondary">₹{c.price}</span>
-                </li>
-              ))}
-            </ul>
-          )}
+        </div>
+      </nav>
+
+      <div className="max-w-7xl mx-auto px-4 py-6">
+        <h1 className="text-2xl font-bold text-[#0F4C5C] mb-6">Admin Dashboard</h1>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <div className="bg-[#082326] p-6 rounded-lg shadow-sm border border-[#8a9294]/20">
+            <h3 className="text-sm font-medium text-secondary mb-2">Total Students</h3>
+            <p className="text-2xl font-bold text-[#0F4C5C]">{stats.total_students}</p>
+          </div>
+          <div className="bg-[#082326] p-6 rounded-lg shadow-sm border border-[#8a9294]/20">
+            <h3 className="text-sm font-medium text-secondary mb-2">Active Enrollments</h3>
+            <p className="text-2xl font-bold text-[#0F4C5C]">{stats.active_enrollments}</p>
+          </div>
+          <div className="bg-[#082326] p-6 rounded-lg shadow-sm border border-[#8a9294]/20">
+            <h3 className="text-sm font-medium text-secondary mb-2">Pending Applications</h3>
+            <p className="text-2xl font-bold text-[#E9C46A]">{stats.pending_applications}</p>
+          </div>
+          <div className="bg-[#082326] p-6 rounded-lg shadow-sm border border-[#8a9294]/20">
+            <h3 className="text-sm font-medium text-secondary mb-2">Pending Payments</h3>
+            <p className="text-2xl font-bold text-[#0F4C5C]">{stats.pending_payments}</p>
+          </div>
         </div>
 
-        <div className="bg-[#082326] p-6 rounded-lg border border-[#8a9294]/20">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-lg font-semibold text-[#0F4C5C]">Batches ({batches.length})</h2>
-            <Link href="/admin/batches" className="text-xs text-[#E9C46A] hover:underline">
-              View all →
-            </Link>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="bg-[#082326] p-6 rounded-lg shadow-sm border border-[#8a9294]/20">
+            <h3 className="text-lg font-semibold text-[#0F4C5C] mb-4">Manage Students</h3>
+            <Link href="/admin/students" className="text-[#0F4C5C] font-medium text-sm hover:text-[#D4A357] transition-colors flex items-center gap-1">
+              View all students <span className="material-symbols-outlined text-[16px]">arrow_right</span>
+            </a>
           </div>
-          {batches.length === 0 ? (
-            <p className="text-sm text-secondary">No batches yet.</p>
-          ) : (
-            <ul className="space-y-2 text-sm">
-              {batches.slice(0, 5).map((b) => (
-                <li key={b.id} className="flex justify-between border-b border-[#8a9294]/10 pb-2">
-                  <span>{b.name}</span>
-                  <span className="text-secondary">Cap: {b.max_capacity}</span>
-                </li>
-              ))}
-            </ul>
-          )}
+          <div className="bg-[#082326] p-6 rounded-lg shadow-sm border border-[#8a9294]/20">
+            <h3 className="text-lg font-semibold text-[#0F4C5C] mb-4">Manage Batches</h3>
+            <Link href="/admin/batches" className="text-[#0F4C5C] font-medium text-sm hover:text-[#0F4C5C] transition-colors flex items-center gap-1">
+              View all batches <span className="material-symbols-outlined text-[16px]">arrow_right</span>
+            </a>
+          </div>
+          <div className="bg-[#082326] p-6 rounded-lg shadow-sm border border-[#8a9294]/20">
+            <h3 className="text-lg font-semibold text-[#0F4C5C] mb-4">Pending Approvals</h3>
+            <Link href="/admin/approvals" className="text-[#0F4C5C] font-medium text-sm hover:text-[#D4A357] transition-colors flex items-center gap-1">
+              Review approvals <span className="material-symbols-outlined text-[16px]">arrow_right</span>
+            </a>
+          </div>
         </div>
       </div>
-    </div>
+    </main>
   );
 }

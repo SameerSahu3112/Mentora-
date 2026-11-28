@@ -6,32 +6,45 @@ import { useEffect, useState } from 'react';
 export default function StudentDashboard() {
   const [user, setUser] = useState(null);
   const [enrollments, setEnrollments] = useState([]);
+  const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(true);
-  const API_URL = '/api/v1';
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://mentora-1-gkgq.onrender.com/api/v1';
 
   useEffect(() => {
-    const loadData = async () => {
-      try {
-        const [meRes, enrollRes] = await Promise.all([
-          fetch(`${API_URL}/auth/me`, { credentials: 'include' }),
-          fetch(`${API_URL}/enrollments/student/enrollments`, { credentials: 'include' }),
-        ]);
-        const userData = await meRes.json();
-        const enrollData = await enrollRes.json();
-        setUser(userData);
-        setEnrollments(Array.isArray(enrollData) ? enrollData : []);
-      } catch (err) {
-        console.error('Failed to load dashboard:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
+    fetch(`${API_URL}/auth/me`, { credentials: 'include' })
+      .then((res) => res.json())
+      .then((data) => setUser(data))
+      .catch(() => setLoading(false));
 
-    loadData();
+    fetch(`${API_URL}/enrollments/student/enrollments`, {
+      credentials: 'include',
+    })
+      .then((res) => res.json())
+      .then((data) => setEnrollments(data || []))
+      .catch(() => setEnrollments([]))
+      .finally(() => setLoading(false));
+
+    fetch(`${API_URL}/notifications/`, { credentials: 'include' })
+      .then((res) => res.json())
+      .then((data) => setNotifications(data || []))
+      .catch(() => setNotifications([]))
+      .finally(() => setLoading(false));
   }, []);
 
+  if (loading) {
+    return (
+      <main className="min-h-screen bg-[#001719] p-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="animate-pulse flex items-center justify-center h-64">
+            <div className="h-8 w-48 bg-[#082326] rounded" />
+          </div>
+        </div>
+      </main>
+    );
+  }
+
   return (
-    <main className="min-h-screen bg-[#001719] text-on-surface">
+    <main className="min-h-screen bg-[#001719]">
       <nav className="bg-[#001719]/80 shadow border-b border-[#8a9294]/20">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex justify-between h-16">
@@ -56,56 +69,73 @@ export default function StudentDashboard() {
       </nav>
 
       <div className="max-w-7xl mx-auto px-4 py-6">
-        {loading ? (
-          <div className="animate-pulse flex items-center justify-center h-64">
-            <div className="h-8 w-48 bg-[#082326] rounded" />
+        <h1 className="text-2xl font-bold text-[#0F4C5C] mb-6">Student Dashboard</h1>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <div className="bg-[#082326] p-6 rounded-lg shadow-sm border border-[#8a9294]/20">
+            <h3 className="text-sm font-medium text-secondary mb-2">Active Enrollments</h3>
+            <p className="text-2xl font-bold text-[#0F4C5C]">
+              {enrollments.filter((e) => e.status === 'active').length}
+            </p>
           </div>
-        ) : (
-          <>
-            <h1 className="text-2xl font-bold text-[#0F4C5C] mb-6">Student Dashboard</h1>
+          <div className="bg-[#082326] p-6 rounded-lg shadow-sm border border-[#8a9294]/20">
+            <h3 className="text-sm font-medium text-secondary mb-2">Pending Applications</h3>
+            <p className="text-2xl font-bold text-[#E9C46A]">
+              {enrollments.filter((e) => e.status === 'pending_payment').length}
+            </p>
+          </div>
+          <div className="bg-[#082326] p-6 rounded-lg shadow-sm border border-[#8a9294]/20">
+            <h3 className="text-sm font-medium text-secondary mb-2">Unread Notifications</h3>
+            <p className="text-2xl font-bold text-[#0F4C5C]">
+              {notifications.filter((n) => !n.read).length}
+            </p>
+          </div>
+        </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-              <div className="bg-[#082326] p-6 rounded-lg shadow-sm border border-[#8a9294]/20">
-                <h3 className="text-sm font-medium text-secondary mb-2">Active Enrollments</h3>
-                <p className="text-2xl font-bold text-[#0F4C5C]">{enrollments.filter((e) => e.status === 'active').length}</p>
-              </div>
-              <div className="bg-[#082326] p-6 rounded-lg shadow-sm border border-[#8a9294]/20">
-                <h3 className="text-sm font-medium text-secondary mb-2">Pending Applications</h3>
-                <p className="text-2xl font-bold text-[#E9C46A]">{enrollments.filter((e) => e.status === 'pending_payment').length}</p>
-              </div>
-              <div className="bg-[#082326] p-6 rounded-lg shadow-sm border border-[#8a9294]/20">
-                <h3 className="text-sm font-medium text-secondary mb-2">Not Found</h3>
-                <p className="text-2xl font-bold text-[#0F4C5C]">0</p>
-              </div>
-            </div>
-
-            <div className="mb-8">
-              <h2 className="text-xl font-bold text-[#0F4C5C] mb-4">Your Enrollments</h2>
-              {enrollments.length === 0 ? (
-                <p className="text-secondary">No enrollments yet. <Link href="/courses" className="text-[#0F4C5C] font-medium hover:text-[#D4A357]">Browse courses</Link>.</p>
-              ) : (
-                <div className="grid md:grid-cols-2 gap-4">
-                  {enrollments.map((enrollment) => (
-                    <div key={enrollment.id} className="bg-[#082326] p-4 rounded-lg shadow-sm border border-[#8a9294]/20">
-                      <div className="flex justify-between items-start mb-2">
-                        <div>
-                          <h3 className="text-lg font-semibold text-[#0F4C5C]">{enrollment.course || 'Course'}</h3>
-                          <p className="text-secondary text-sm">{enrollment.batch || 'Batch'}</p>
-                        </div>
-                        <span className={`px-2 py-1 rounded ${enrollment.status === 'active' ? 'bg-[#E9C46A]/20 text-[#E9C46A]' : 'bg-[#E9C46A]/20 text-[#E9C46A]'}`}>{enrollment.status}</span>
-                      </div>
-                      {enrollment.access_until && (
-                        <div className="mt-3 text-sm text-secondary">
-                          Access until: {enrollment.access_until}
-                        </div>
-                      )}
-                    </div>
-                  ))}
+        <div className="mb-8">
+          <h2 className="text-xl font-bold text-[#0F4C5C] mb-4">Your Enrollments</h2>
+          {enrollments.length === 0 ? (
+            <p className="text-secondary">No enrollments yet. Apply for a batch to get started.</p>
+          ) : (
+            <div className="grid md:grid-cols-2 gap-4">
+              {enrollments.map((enrollment) => (
+                <div key={enrollment.id} className="bg-[#082326] p-4 rounded-lg shadow-sm border border-[#8a9294]/20">
+                  <h3 className="text-lg font-semibold text-[#0F4C5C]">Enrollment #{enrollment.id.slice(-6)}</h3>
+                  <p className="text-secondary text-sm">{enrollment.course_id || 'Course'}</p>
+                  <p className="text-secondary text-sm">{enrollment.batch_id || 'Batch'}</td>
+                  <span className={`px-2 py-1 text-xs font-semibold rounded ${statusColors[enrollment.status] || 'bg-[#8a9294]/20 text-[#8a9294] border border-[#8a9294]'`}}>
+                    {enrollment.status}
+                  </span>
                 </div>
-              )}
+              ))}
             </div>
-          </>
-        )}
+          )}
+        </div>
+
+        <div>
+          <h2 className="text-xl font-bold text-[#0F4C5C] mb-4">Recent Notifications</h2>
+          {notifications.length === 0 ? (
+            <p className="text-muted">No notifications.</p>
+          ) : (
+            <div className="space-y-3">
+              {notifications.slice(0, 5).map((notification) => (
+                <div
+                  key={notification.id}
+                  className="bg-[#082326] p-3 rounded-lg shadow-sm border border-[#8a9294]/20 flex justify-between items-start ${!notification.read ? 'border-l-4 border-[#0F4C5C] bg-[#0F4C5C]/20' : ''}"
+                >
+                  <div className="flex-1">
+                    <h3 className="text-sm font-medium text-[#0F4C5C]">{notification.title}</h3>
+                    <p className="text-secondary text-sm mt-1">{notification.message}</p>
+                    <p className="text-xs text-muted mt-2">{new Date(notification.created_at).toLocaleDateString()}</p>
+                  </div>
+                  {!notification.read && (
+                    <span className="w-2 h-2 rounded-full bg-[#0F4C5C]" />
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     </main>
   );

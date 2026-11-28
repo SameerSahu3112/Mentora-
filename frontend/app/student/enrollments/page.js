@@ -6,12 +6,14 @@ import { useEffect, useState } from 'react';
 export default function EnrollmentsPage() {
   const [enrollments, setEnrollments] = useState([]);
   const [loading, setLoading] = useState(true);
-  const API_URL = '/api/v1';
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://mentora-1-gkgq.onrender.com/api/v1';
 
   useEffect(() => {
-    fetch(`${API_URL}/enrollments/student/enrollments`, { credentials: 'include' })
-      .then(res => res.json())
-      .then(data => setEnrollments(data || []))
+    fetch(`${API_URL}/enrollments/student/enrollments`, {
+      credentials: 'include',
+    })
+      .then((res) => res.json())
+      .then((data) => setEnrollments(data || []))
       .catch(() => setEnrollments([]))
       .finally(() => setLoading(false));
   }, []);
@@ -37,6 +39,7 @@ export default function EnrollmentsPage() {
       <div className="max-w-4xl mx-auto">
         <nav className="mb-6"><a href="/student/dashboard" className="text-[#0F4C5C] hover:text-[#0F4C5C] text-sm font-medium">← Back to Dashboard</a></nav>
         <h1 className="text-2xl font-bold text-[#0F4C5C] mb-6">My Enrollments</h1>
+
         {enrollments.length === 0 ? (
           <div className="bg-[#082326] p-8 rounded-lg shadow-sm border border-[#8a9294]/20 text-center">
             <p className="text-muted">No enrollments yet.</p>
@@ -51,10 +54,10 @@ export default function EnrollmentsPage() {
                 <div className="flex justify-between items-start">
                   <div>
                     <h3 className="text-lg font-semibold text-[#0F4C5C]">Enrollment #{enrollment.id.slice(-6)}</h3>
-                    <p className="text-secondary text-sm">{enrollment.course_id || 'Course'}</p>
-                    <p className="text-secondary text-sm">{enrollment.batch_id || 'Batch'}</p>
+                    <p className="text-secondary text-sm">{enrollment.course_id}</td>
+                    <p className="text-secondary text-sm">{enrollment.batch_id || 'Batch'}</td>
                   </div>
-                  <span className={`px-2 py-1 text-xs font-semibold rounded ${statusColors[enrollment.status] || 'bg-[#8a9294]/20 text-[#8a9294] border border-[#8a9294]'}`}>
+                  <span className={`px-2 py-1 text-xs font-semibold rounded ${statusColors[enrollment.status] || 'bg-[#8a9294]/20 text-[#8a9294] border border-[#8a9294]'`}}>
                     {enrollment.status.replace('_', ' ')}
                   </span>
                 </div>
