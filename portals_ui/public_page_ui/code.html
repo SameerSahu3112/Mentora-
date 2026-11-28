@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&amp;family=Manrope:wght@400;500;600;700&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-tertiary-container": "#55c9c3", "on-secondary-fixed-variant": "#584327", "surface-tint": "#99d0d9", "primary-container": "#145058", "on-tertiary-fixed": "#00201e", "surface": "#001719", "surface-bright": "#243d40", "on-primary-container": "#8bc1ca", "error": "#ffb4ab", "on-primary-fixed-variant": "#114e56", "primary": "#99d0d9", "outline-variant": "#40484a", "surface-container": "#082326", "error-container": "#93000a", "on-tertiary-fixed-variant": "#00504d", "surface-dim": "#001719", "on-primary": "#00363d", "surface-variant": "#1f393c", "on-surface-variant": "#bfc8ca", "on-secondary-container": "#d1b48f", "on-error": "#690005", "primary-fixed-dim": "#99d0d9", "surface-container-highest": "#1f393c", "on-tertiary": "#003735", "secondary-container": "#5b4529", "on-secondary-fixed": "#281802", "on-surface": "#cce8eb", "on-primary-fixed": "#001f24", "tertiary": "#66d8d2", "tertiary-fixed": "#84f5ee", "surface-container-low": "#041f22", "on-error-container": "#ffdad6", "secondary": "#e0c19d", "tertiary-fixed-dim": "#66d8d2", "secondary-fixed-dim": "#e0c19d", "inverse-surface": "#cce8eb", "primary-fixed": "#b5ecf5", "surface-container-lowest": "#001113", "on-background": "#cce8eb", "secondary-fixed": "#feddb7", "tertiary-container": "#00524f", "outline": "#8a9294", "inverse-primary": "#2f666e", "background": "#001719", "surface-container-high": "#142e31", "on-secondary": "#402d13", "inverse-on-surface": "#1b3437" }, "borderRadius": { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" }, "spacing": { "space-sm": "0.5rem", "gutter": "1.5rem", "space-xs": "0.25rem", "margin-mobile": "1.25rem", "space-md": "1rem", "margin": "3rem", "space-lg": "1.5rem", "space-xl": "2.5rem", "gutter-mobile": "1rem" }, "fontFamily": { "display-mobile": ["Space Grotesk"], "body-sm": ["Manrope"], "headline-md": ["Space Grotesk"], "display": ["Space Grotesk"], "body-md": ["Manrope"], "label-md": ["JetBrains Mono"], "headline-sm": ["Space Grotesk"], "label-sm": ["JetBrains Mono"], "body-lg": ["Manrope"], "headline-lg": ["Space Grotesk"], "label-lg": ["JetBrains Mono"], "headline-lg-mobile": ["Space Grotesk"] }, "fontSize": { "display-mobile": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.01em", "fontWeight": "700" }], "body-sm": ["13px", { "lineHeight": "20px", "fontWeight": "400" }], "headline-md": ["28px", { "lineHeight": "36px", "fontWeight": "600" }], "display": ["56px", { "lineHeight": "64px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "body-md": ["15px", { "lineHeight": "24px", "fontWeight": "400" }], "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "500" }], "headline-sm": ["20px", { "lineHeight": "28px", "fontWeight": "600" }], "label-sm": ["10px", { "lineHeight": "14px", "letterSpacing": "0.06em", "fontWeight": "500" }], "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }], "headline-lg": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.015em", "fontWeight": "600" }], "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "600" }], "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "600" }] } } } };</script></head><body class="bg-surface font-body-md text-body-md text-on-surface antialiased selection:bg-secondary-container selection:text-on-secondary-container"><header class="fixed top-0 left-0 w-full z-50 bg-surface/85 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-20 w-full px-8 flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-lg"><a class="flex items-center gap-space-sm group" data-path="courses" href="#"><img alt="Mentora Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/ALJJyrDx0Z_ikcK5JcPpIOFEM3bimPeeE5gEb7524NCE1v4C2bDXtLp89ubMThYUqr6vTm9TR3lHiwe9aAyiS3M9etPcoT7vhCgkgQvmAqZGlV-mWOHSTonOh9rGIRrzTGnnuk1EE6whmqdD1b-5Og9p2VbzWaBExB7HGTpZGTTgooFtiPhnLOVkyNyFW4nSucI80ARg174lwzxNPB21ja7xo3nRmjlVOGHgpVMudVw0Y96r"/><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight leading-none group-hover:text-secondary transition-colors">Mentora</span><span class="font-label-sm text-label-sm text-secondary tracking-widest uppercase mt-0.5">JEE Prep &amp; 1:1 Mentorship</span></div></a><nav class="hidden xl:flex items-center gap-space-xs p-1" data-active-classes="bg-primary-container text-on-primary-container rounded-lg"><a aria-current="page" class="px-3 py-1.5 font-label-md transition-colors bg-primary-container text-on-primary-container rounded-lg" data-path="courses" href="#">Courses</a><a class="px-3 py-1.5 font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors rounded-lg" data-path="enrollment-workflow" href="#">How Enrollment Works</a><a class="px-3 py-1.5 font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors rounded-lg" data-path="mentorship" href="#">Mentorship</a><a class="px-3 py-1.5 font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors rounded-lg" data-path="about-us" href="#">About Us</a><a class="px-3 py-1.5 font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors rounded-lg" data-path="testimonials" href="#">Testimonials</a><a class="px-3 py-1.5 font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors rounded-lg" data-path="contact" href="#">Contact</a></nav></div><div class="flex items-center gap-space-md"><div class="hidden md:flex items-center gap-space-xs px-3 py-1.5 rounded-full bg-surface-container-high text-on-surface"><span class="material-symbols-outlined text-secondary text-[16px]">call</span><span class="font-label-sm text-label-sm text-secondary font-semibold">+91 (Intro Call)</span></div><a class="font-label-md text-label-md text-on-surface-variant hover:text-on-surface px-3 py-2 transition-colors" data-path="login" href="#">Login</a><a class="inline-flex items-center justify-center px-4 py-2 rounded-xl bg-secondary text-on-secondary font-label-md text-label-md shadow-[0_0_24px_-4px_rgba(227,196,159,0.15)] hover:bg-secondary-fixed transition-all active:scale-[0.98]" data-path="apply-for-batch" href="#">Apply for Batch</a><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-20 bg-surface"><div class="flex flex-col w-full text-on-surface">
+<!-- =========================================================================
+       SECTION 1: HERO (Strategic JEE Prep with Intentional Atmosphere)
+  ========================================================================== -->
+<section class="relative w-full pt-12 pb-20 overflow-hidden bg-surface-container-lowest">
+<!-- Atmospheric Ambient Gradient Underlay -->
+<div class="absolute inset-0 pointer-events-none opacity-40">
+<div class="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-primary-container blur-3xl"></div>
+<div class="absolute top-1/2 right-0 w-[500px] h-[500px] rounded-full bg-secondary-container/20 blur-[120px]"></div>
+</div>
+<div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+<!-- Top Eyebrow Tag Row -->
+<div class="flex flex-wrap items-center gap-3 mb-6">
+<span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-container-high text-secondary font-label-sm text-label-sm uppercase tracking-wider">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary animate-pulse"></span>
+          Admissions Open • JEE 2025/2026
+        </span>
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px] text-secondary">verified_user</span>
+          No Automated Checkouts • Human Verification Protocol
+        </span>
+</div>
+<!-- Main Headline Grid (Editorial Asymmetry) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+<div class="lg:col-span-8 space-y-6">
+<h1 class="font-headline-lg text-headline-lg lg:text-[54px] lg:leading-[60px] font-bold text-on-surface tracking-tight">
+            Strategic JEE Preparation with <br class="hidden sm:inline"/>
+<span class="text-secondary underline decoration-secondary/30 decoration-wavy">Guaranteed 1-on-1 Mentorship</span>
+</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl leading-relaxed">
+            Targeted self-paced curricula for Classes 9–12 paired with mandatory weekly batch sessions and personal mentor calls from NIT Bhopal alumni. High-yield precision over passive video marathons.
+          </p>
+<div class="flex flex-wrap items-center gap-4 pt-2">
+<a class="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-secondary text-on-secondary font-label-md text-label-md shadow-lg shadow-secondary/10 hover:bg-secondary-fixed transition-all active:scale-[0.98]" href="#batches-section">
+<span>Explore Official Batches</span>
+<span class="material-symbols-outlined text-[18px]">arrow_downward</span>
+</a>
+<a class="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-surface-container-high text-on-surface hover:text-secondary hover:bg-surface-bright transition-all font-label-md text-label-md" href="#workflow-section">
+<span class="material-symbols-outlined text-secondary text-[18px]">verified</span>
+<span>How Enrollment Works</span>
+</a>
+</div>
+</div>
+<!-- Hero Aside Visual Data Widget -->
+<div class="lg:col-span-4 p-6 rounded-2xl bg-surface-container space-y-5 shadow-xl relative overflow-hidden">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest">Cohort Integrity</span>
+<span class="px-2 py-0.5 rounded bg-primary-container text-on-primary-container font-label-sm text-label-sm">Active Monitoring</span>
+</div>
+<div class="space-y-4 pt-2">
+<div>
+<div class="flex justify-between font-label-sm text-label-sm mb-1.5">
+<span class="text-on-surface-variant">Batch Fill Velocity (Apex JEE Adv)</span>
+<span class="text-secondary font-semibold">90% Full</span>
+</div>
+<div class="w-full h-2 rounded-full bg-surface-container-lowest overflow-hidden">
+<div class="h-full bg-secondary rounded-full" style="width: 90%;"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between font-label-sm text-label-sm mb-1.5">
+<span class="text-on-surface-variant">Weekly Mentor Slots Claimed</span>
+<span class="text-tertiary font-semibold">48 / 50</span>
+</div>
+<div class="w-full h-2 rounded-full bg-surface-container-lowest overflow-hidden">
+<div class="h-full bg-tertiary rounded-full" style="width: 96%;"></div>
+</div>
+</div>
+</div>
+<div class="pt-4 flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm">
+<span class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-secondary">lock</span>
+              Strict Concurrency Guard
+            </span>
+<span class="text-secondary">0 Overbooking</span>
+</div>
+</div>
+</div>
+<!-- Hero 4 Quick Stat Pill Counter Bar -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-12 p-4 rounded-xl bg-surface-container-low shadow-md">
+<div class="p-3">
+<div class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Programs</div>
+<div class="font-headline-md text-headline-md text-on-surface font-bold mt-0.5">3 Targeted</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Rise • Spark • Apex</p>
+</div>
+<div class="p-3">
+<div class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Access Buffer</div>
+<div class="font-headline-md text-headline-md text-on-surface font-bold mt-0.5">Exam + 7 Days</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">No premature dropouts</p>
+</div>
+<div class="p-3">
+<div class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Starting Tuition</div>
+<div class="font-headline-md text-headline-md text-secondary font-bold mt-0.5">₹299</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Direct single-fee access</p>
+</div>
+<div class="p-3">
+<div class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Mentorship Method</div>
+<div class="font-headline-md text-headline-md text-on-surface font-bold mt-0.5">Weekly 1:1</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Direct alumni phone calls</p>
+</div>
+</div>
+</div>
+</section>
+<!-- =========================================================================
+       SECTION 2: THE 3 OFFICIAL MENTORA COURSES (PRD §5.1 & §5.2)
+  ========================================================================== -->
+<section class="w-full py-20 bg-surface" id="batches-section">
+<div class="max-w-7xl mx-auto px-6 lg:px-8 space-y-12">
+<!-- Section Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div>
+<div class="flex items-center gap-2 text-secondary font-label-md text-label-md uppercase tracking-widest mb-2">
+<span class="material-symbols-outlined text-[18px]">school</span>
+            Curated Academic Tracks
+          </div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface font-bold tracking-tight">
+            Targeted Batches for JEE 2025 &amp; 2026
+          </h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-xl mt-2">
+            Each track includes structured chapter diagnostics, self-paced archives, verified teacher access, and manual seat activation.
+          </p>
+</div>
+<div class="flex items-center gap-2 p-1.5 rounded-xl bg-surface-container font-label-sm text-label-sm text-on-surface-variant">
+<span class="px-3 py-1 rounded-lg bg-surface-container-high text-secondary font-semibold">Strict Capacity Guard</span>
+<span class="px-3 py-1">Max 50 Students/Batch</span>
+</div>
+</div>
+<!-- Course Cards Container (3 Cards Grid) -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
+<!-- CARD 1: RISE (₹299) -->
+<div class="flex flex-col justify-between rounded-2xl bg-surface-container p-6 lg:p-8 shadow-xl transition-all duration-300 hover:bg-surface-container-high">
+<div>
+<!-- Top pill info -->
+<div class="flex items-center justify-between mb-4">
+<span class="px-2.5 py-1 rounded bg-surface-container-lowest text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wide">
+                Main Jan Sprint
+              </span>
+<span class="font-label-sm text-label-sm text-secondary">Class 11 &amp; 12</span>
+</div>
+<!-- Title & Price -->
+<h3 class="font-headline-md text-headline-md text-on-surface font-bold">Rise</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">JEE Main (January Attempt) Focused Sprint</p>
+<div class="mt-6 flex items-baseline gap-2 pb-6">
+<span class="font-headline-lg text-headline-lg font-bold text-secondary">₹299</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Single Fee • No Recurring</span>
+</div>
+<!-- Batch Selector Pills -->
+<div class="space-y-2 mb-6">
+<label class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider block">Available Cohort</label>
+<div class="p-2.5 rounded-lg bg-surface-container-lowest flex items-center justify-between font-label-sm text-label-sm">
+<span class="text-on-surface font-medium flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+                  Rise 1.0 (Jan Fast-Track)
+                </span>
+<span class="text-secondary font-semibold">38/50 Filled</span>
+</div>
+</div>
+<!-- Features List -->
+<div class="space-y-3 font-body-sm text-body-sm text-on-surface-variant">
+<div class="flex items-start gap-2.5">
+<span class="material-symbols-outlined text-secondary text-[18px] shrink-0 mt-0.5">check_circle</span>
+<span>Access valid until <strong class="text-on-surface">Jan Exam Date + 7 Days</strong> buffer</span>
+</div>
+<div class="flex items-start gap-2.5">
+<span class="material-symbols-outlined text-secondary text-[18px] shrink-0 mt-0.5">check_circle</span>
+<span>Curated recorded modules &amp; downloadable analytical formula PDFs</span>
+</div>
+<div class="flex items-start gap-2.5">
+<span class="material-symbols-outlined text-secondary text-[18px] shrink-0 mt-0.5">check_circle</span>
+<span>Weekly live batch strategic mentorship session</span>
+</div>
+<div class="flex items-start gap-2.5">
+<span class="material-symbols-outlined text-secondary text-[18px] shrink-0 mt-0.5">check_circle</span>
+<span>Direct 1-on-1 teacher call booking on portal</span>
+</div>
+</div>
+</div>
+<!-- Bottom Actions -->
+<div class="pt-8 mt-8 space-y-3">
+<button class="w-full py-3 rounded-xl bg-surface-container-highest hover:bg-secondary hover:text-on-secondary text-secondary font-label-md text-label-md transition-all font-semibold flex items-center justify-center gap-2" onclick="handleSelectBatch('Rise 1.0', 299)">
+<span>Apply for Rise Batch</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+<p class="font-label-sm text-label-sm text-center text-on-surface-variant flex items-center justify-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-secondary">phone_in_talk</span>
+              Verified via Founder Strategy Call
+            </p>
+</div>
+</div>
+<!-- CARD 2: SPARK (₹499) - HIGHLIGHTED / MOST POPULAR -->
+<div class="flex flex-col justify-between rounded-2xl bg-surface-container-high p-6 lg:p-8 shadow-2xl relative shadow-secondary/10 transform lg:-translate-y-2">
+<!-- Top Accent Ribbon -->
+<div class="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-secondary text-on-secondary font-label-sm text-label-sm font-bold tracking-widest uppercase shadow-md">
+            Most Enrolled Program
+          </div>
+<div>
+<!-- Top pill info -->
+<div class="flex items-center justify-between mb-4 mt-1">
+<span class="px-2.5 py-1 rounded bg-secondary-container text-on-secondary-container font-label-sm text-label-sm uppercase tracking-wide font-semibold">
+                April Depth Track
+              </span>
+<span class="font-label-sm text-label-sm text-secondary font-semibold">Class 12 &amp; Droppers</span>
+</div>
+<!-- Title & Price -->
+<h3 class="font-headline-md text-headline-md text-on-surface font-bold">Spark</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">JEE Main (April Attempt) Comprehensive Masterclass</p>
+<div class="mt-6 flex items-baseline gap-2 pb-6">
+<span class="font-headline-lg text-headline-lg font-bold text-secondary">₹499</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Single Fee • Zero Upsells</span>
+</div>
+<!-- Batch Selector Pills -->
+<div class="space-y-2 mb-6">
+<label class="font-label-sm text-label-sm text-secondary uppercase tracking-wider block font-semibold">Active Cohorts</label>
+<div class="grid grid-cols-2 gap-2">
+<button class="p-2 rounded-lg bg-surface-container-lowest text-left hover:bg-surface-container font-label-sm text-label-sm" type="button">
+<div class="text-on-surface font-medium truncate">Spark 1.0</div>
+<div class="text-secondary text-[11px]">47/50 (Last 3)</div>
+</button>
+<button class="p-2 rounded-lg bg-surface-container-lowest text-left hover:bg-surface-container font-label-sm text-label-sm" type="button">
+<div class="text-on-surface font-medium truncate">Spark 2.0</div>
+<div class="text-tertiary text-[11px]">Open • 24/50</div>
+</button>
+</div>
+</div>
+<!-- Features List -->
+<div class="space-y-3 font-body-sm text-body-sm text-on-surface-variant">
+<div class="flex items-start gap-2.5">
+<span class="material-symbols-outlined text-secondary text-[18px] shrink-0 mt-0.5">check_circle</span>
+<span>Full access buffer until <strong class="text-on-surface">April Exam Date + 7 Days</strong></span>
+</div>
+<div class="flex items-start gap-2.5">
+<span class="material-symbols-outlined text-secondary text-[18px] shrink-0 mt-0.5">check_circle</span>
+<span>Complete high-yield chapter modules &amp; multi-tier test archive</span>
+</div>
+<div class="flex items-start gap-2.5">
+<span class="material-symbols-outlined text-secondary text-[18px] shrink-0 mt-0.5">check_circle</span>
+<span>Mandatory weekly batch review + personalized weak-point audit</span>
+</div>
+<div class="flex items-start gap-2.5">
+<span class="material-symbols-outlined text-secondary text-[18px] shrink-0 mt-0.5">check_circle</span>
+<span>Priority 1:1 personal teacher bookings directly on portal</span>
+</div>
+</div>
+</div>
+<!-- Bottom Actions -->
+<div class="pt-8 mt-8 space-y-3">
+<button class="w-full py-3.5 rounded-xl bg-secondary text-on-secondary font-label-md text-label-md font-bold shadow-lg shadow-secondary/20 hover:bg-secondary-fixed transition-all flex items-center justify-center gap-2" onclick="handleSelectBatch('Spark (April Target)', 499)">
+<span>Apply for Spark Batch</span>
+<span class="material-symbols-outlined text-[18px]">verified_user</span>
+</button>
+<p class="font-label-sm text-label-sm text-center text-on-surface-variant flex items-center justify-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-secondary">verified</span>
+              Direct NIT Alumni Guidance
+            </p>
+</div>
+</div>
+<!-- CARD 3: APEX (₹699) -->
+<div class="flex flex-col justify-between rounded-2xl bg-surface-container p-6 lg:p-8 shadow-xl transition-all duration-300 hover:bg-surface-container-high">
+<div>
+<!-- Top pill info -->
+<div class="flex items-center justify-between mb-4">
+<span class="px-2.5 py-1 rounded bg-surface-container-lowest text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wide">
+                Advanced Crucible
+              </span>
+<span class="font-label-sm text-label-sm text-secondary">Top 10k Rank Target</span>
+</div>
+<!-- Title & Price -->
+<h3 class="font-headline-md text-headline-md text-on-surface font-bold">Apex</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">JEE Advanced Rigour &amp; Multi-Concept Mastery</p>
+<div class="mt-6 flex items-baseline gap-2 pb-6">
+<span class="font-headline-lg text-headline-lg font-bold text-secondary">₹699</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Single Fee • Comprehensive</span>
+</div>
+<!-- Batch Selector Pills -->
+<div class="space-y-2 mb-6">
+<label class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider block">Target Batches</label>
+<div class="grid grid-cols-2 gap-2">
+<div class="p-2 rounded-lg bg-surface-container-lowest font-label-sm text-label-sm">
+<div class="text-on-surface font-medium truncate">Apex 1.0</div>
+<div class="text-secondary text-[11px]">45/50 Seats</div>
+</div>
+<div class="p-2 rounded-lg bg-surface-container-lowest font-label-sm text-label-sm">
+<div class="text-on-surface font-medium truncate">Apex 2.0</div>
+<div class="text-tertiary text-[11px]">28/50 Open</div>
+</div>
+</div>
+</div>
+<!-- Features List -->
+<div class="space-y-3 font-body-sm text-body-sm text-on-surface-variant">
+<div class="flex items-start gap-2.5">
+<span class="material-symbols-outlined text-secondary text-[18px] shrink-0 mt-0.5">check_circle</span>
+<span>Active until <strong class="text-on-surface">JEE Advanced Date + 7 Days</strong></span>
+</div>
+<div class="flex items-start gap-2.5">
+<span class="material-symbols-outlined text-secondary text-[18px] shrink-0 mt-0.5">check_circle</span>
+<span>Multi-concept cross-subject problem archives (Math/Phy/Chem)</span>
+</div>
+<div class="flex items-start gap-2.5">
+<span class="material-symbols-outlined text-secondary text-[18px] shrink-0 mt-0.5">check_circle</span>
+<span>Strict batch concurrency locks (No crowded rooms)</span>
+</div>
+<div class="flex items-start gap-2.5">
+<span class="material-symbols-outlined text-secondary text-[18px] shrink-0 mt-0.5">check_circle</span>
+<span>Bi-weekly dedicated 1:1 strategy calls with lead mentors</span>
+</div>
+</div>
+</div>
+<!-- Bottom Actions -->
+<div class="pt-8 mt-8 space-y-3">
+<button class="w-full py-3 rounded-xl bg-surface-container-highest hover:bg-secondary hover:text-on-secondary text-secondary font-label-md text-label-md transition-all font-semibold flex items-center justify-center gap-2" onclick="handleSelectBatch('Apex (JEE Advanced)', 699)">
+<span>Apply for Apex Batch</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+<p class="font-label-sm text-label-sm text-center text-on-surface-variant flex items-center justify-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-secondary">phone_in_talk</span>
+              Diagnostic Pre-Evaluation Call
+            </p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- =========================================================================
+       SECTION 3: HOW ENROLLMENT WORKS (6-STEP TRANSPARENT WORKFLOW - PRD §1, 8, 9)
+  ========================================================================== -->
+<section class="w-full py-20 bg-surface-container-lowest" id="workflow-section">
+<div class="max-w-7xl mx-auto px-6 lg:px-8 space-y-12">
+<!-- Section Header -->
+<div class="max-w-3xl space-y-3">
+<div class="inline-flex items-center gap-2 text-secondary font-label-md text-label-md uppercase tracking-wider">
+<span class="material-symbols-outlined text-[18px]">account_tree</span>
+          PRD-Governed Transparent Workflow
+        </div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface font-bold tracking-tight">
+          How Enrollment Works: Step-by-Step
+        </h2>
+<p class="font-body-md text-body-md text-on-surface-variant">
+          Mentora prohibits impersonal automated checkouts. Every aspirant is evaluated, mapped to the correct batch capacity, and manually verified before access is granted.
+        </p>
+</div>
+<!-- 6-Step Bento Grid / Stepper -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Step 1 -->
+<div class="p-6 rounded-2xl bg-surface-container flex flex-col justify-between space-y-4 shadow-md">
+<div class="space-y-3">
+<div class="flex items-center justify-between">
+<span class="font-label-lg text-label-lg font-bold text-secondary">STEP 01</span>
+<span class="material-symbols-outlined text-on-surface-variant text-[24px]">travel_explore</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold">
+              Browse Course &amp; Pick Target Batch
+            </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+              Examine Rise, Spark, or Apex. Confirm live seat availability with zero-overbooking safeguards enforced directly at the database level.
+            </p>
+</div>
+<div class="p-2.5 rounded-lg bg-surface-container-lowest text-secondary font-label-sm text-label-sm">
+            • Capacity strictly capped at 50 per batch
+          </div>
+</div>
+<!-- Step 2 -->
+<div class="p-6 rounded-2xl bg-surface-container flex flex-col justify-between space-y-4 shadow-md">
+<div class="space-y-3">
+<div class="flex items-center justify-between">
+<span class="font-label-lg text-label-lg font-bold text-secondary">STEP 02</span>
+<span class="material-symbols-outlined text-on-surface-variant text-[24px]">badge</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold">
+              Submit Student Application
+            </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+              Provide student name, academic grade (Class 9–12 / Dropper), contact number, and target exam year. Unique Student ID generated immediately.
+            </p>
+</div>
+<div class="p-2.5 rounded-lg bg-surface-container-lowest text-secondary font-label-sm text-label-sm">
+            • Instant tracking ID allocated
+          </div>
+</div>
+<!-- Step 3 -->
+<div class="p-6 rounded-2xl bg-surface-container flex flex-col justify-between space-y-4 shadow-md">
+<div class="space-y-3">
+<div class="flex items-center justify-between">
+<span class="font-label-lg text-label-lg font-bold text-secondary">STEP 03</span>
+<span class="material-symbols-outlined text-on-surface-variant text-[24px]">call_quality</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold">
+              Free Introductory Phone Call
+            </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+              Within 7 days of application, an Admin or NIT mentor calls the student and parent to audit syllabus completion and set realistic targets.
+            </p>
+</div>
+<div class="p-2.5 rounded-lg bg-surface-container-lowest text-secondary font-label-sm text-label-sm">
+            • Direct 1:1 strategy alignment
+          </div>
+</div>
+<!-- Step 4 -->
+<div class="p-6 rounded-2xl bg-surface-container flex flex-col justify-between space-y-4 shadow-md">
+<div class="space-y-3">
+<div class="flex items-center justify-between">
+<span class="font-label-lg text-label-lg font-bold text-secondary">STEP 04</span>
+<span class="material-symbols-outlined text-on-surface-variant text-[24px]">account_balance_wallet</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold">
+              Manual Payment Recording
+            </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+              Direct UPI or bank transfer recorded by the administrator. Transaction reference is cataloged with timestamp &amp; amount verification.
+            </p>
+</div>
+<div class="p-2.5 rounded-lg bg-surface-container-lowest text-secondary font-label-sm text-label-sm">
+            • Secure, non-automated accounting
+          </div>
+</div>
+<!-- Step 5 -->
+<div class="p-6 rounded-2xl bg-surface-container flex flex-col justify-between space-y-4 shadow-md">
+<div class="space-y-3">
+<div class="flex items-center justify-between">
+<span class="font-label-lg text-label-lg font-bold text-secondary">STEP 05</span>
+<span class="material-symbols-outlined text-on-surface-variant text-[24px]">admin_panel_settings</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold">
+              Admin Activation Protocol
+            </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+              Two-admin security clearance locks the student to the selected batch schedule, unlocks learning materials, and assigns the primary mentor.
+            </p>
+</div>
+<div class="p-2.5 rounded-lg bg-surface-container-lowest text-secondary font-label-sm text-label-sm">
+            • Portal credentials dispatched via SMS/Email
+          </div>
+</div>
+<!-- Step 6 -->
+<div class="p-6 rounded-2xl bg-surface-container flex flex-col justify-between space-y-4 shadow-md">
+<div class="space-y-3">
+<div class="flex items-center justify-between">
+<span class="font-label-lg text-label-lg font-bold text-secondary">STEP 06</span>
+<span class="material-symbols-outlined text-on-surface-variant text-[24px]">event_available</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold">
+              Access &amp; Weekly 1:1 Mentorship
+            </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+              Immediate access to practice sheets and video modules. Regular weekly batch sessions and bookable personal mentor slots until Exam Date + 7 Days.
+            </p>
+</div>
+<div class="p-2.5 rounded-lg bg-surface-container-lowest text-secondary font-label-sm text-label-sm">
+            • Guaranteed post-exam buffer
+          </div>
+</div>
+</div>
+</div>
+</section>
+<!-- =========================================================================
+       SECTION 4: MENTORSHIP ECOSYSTEM (PRD §13)
+  ========================================================================== -->
+<section class="w-full py-20 bg-surface">
+<div class="max-w-7xl mx-auto px-6 lg:px-8 space-y-12">
+<!-- Section Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div>
+<div class="flex items-center gap-2 text-secondary font-label-md text-label-md uppercase tracking-widest mb-2">
+<span class="material-symbols-outlined text-[18px]">hub</span>
+            PRD Section §13 Ecosystem
+          </div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface font-bold tracking-tight">
+            The Three Pillars of Mentora Mentorship
+          </h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-xl mt-2">
+            Automated test series fail without human accountability. Mentora constructs a disciplined three-layer feedback loop for every single student.
+          </p>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<!-- Pillar 1 -->
+<div class="p-8 rounded-2xl bg-surface-container space-y-6 shadow-xl relative overflow-hidden">
+<div class="w-12 h-12 rounded-xl bg-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary text-[26px]">groups</span>
+</div>
+<div class="space-y-2">
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">Weekly Batch Mentorship</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+              Fixed recurring live sessions with mandatory attendance logging. The mentor reviews aggregate weekly error reports, tackles common conceptual bottlenecks, and sets the sprint goals for the upcoming 7 days.
+            </p>
+</div>
+<ul class="space-y-2 font-label-sm text-label-sm text-secondary">
+<li class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">check</span>
+              Real-time attendance &amp; accountability
+            </li>
+<li class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">check</span>
+              Peer benchmarking without toxic competition
+            </li>
+</ul>
+</div>
+<!-- Pillar 2 -->
+<div class="p-8 rounded-2xl bg-surface-container space-y-6 shadow-xl relative overflow-hidden">
+<div class="w-12 h-12 rounded-xl bg-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary text-[26px]">person_check</span>
+</div>
+<div class="space-y-2">
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">1-on-1 Assigned Teacher</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+              Book individual 25-minute slots on the student portal with your specific batch mentor. Address personal psychological friction, chapter-specific doubts, and personalized test-taking time management.
+            </p>
+</div>
+<ul class="space-y-2 font-label-sm text-label-sm text-secondary">
+<li class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">check</span>
+              Calendar slot booking directly in portal
+            </li>
+<li class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">check</span>
+              Private video/voice deep problem breakdown
+            </li>
+</ul>
+</div>
+<!-- Pillar 3 -->
+<div class="p-8 rounded-2xl bg-surface-container space-y-6 shadow-xl relative overflow-hidden">
+<div class="w-12 h-12 rounded-xl bg-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary text-[26px]">support_agent</span>
+</div>
+<div class="space-y-2">
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">Dedicated Admin Mentorship</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+              Continuous operational support handled by founders and senior administrators. Immediate help with batch timetable shifts, parent progress reports, leave requests, and academic roadmap readjustments.
+            </p>
+</div>
+<ul class="space-y-2 font-label-sm text-label-sm text-secondary">
+<li class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">check</span>
+              Direct WhatsApp/Phone helpline for parents
+            </li>
+<li class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">check</span>
+              Batch transfer &amp; syllabus rescheduling
+            </li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<!-- =========================================================================
+       SECTION 5: FOUNDERS & NIT BHOPAL CREDIBILITY (PRD §19 & §20)
+  ========================================================================== -->
+<section class="w-full py-20 bg-surface-container-low">
+<div class="max-w-7xl mx-auto px-6 lg:px-8">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+<!-- Left: Image Mosaic with Founder Context -->
+<div class="lg:col-span-5 relative">
+<div class="rounded-2xl overflow-hidden shadow-2xl bg-surface-container">
+<img class="w-full h-80 object-cover" data-alt="Two focused young Indian engineering mentors collaborating at a modern desk in an academic studio with blueprints, whiteboard formulas of advanced calculus, and laptops. Subdued deep teal ambient light with warm mineral desert sand accents, reflecting discipline and NIT engineering heritage." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAPz0njMWI8itdTZddT5UApzOXsmcmS3TwP4y51SVVqzBfGoN2onlJCigYtI2kNed4-SpoTLULinhlE7EyjqBZ6xovvw6XM8hKePj6GqGZep8YND7zEr-oq0GRY1jBPHeIjJ97NGpurRjn1q7NChn53EHrSZGc2xY6UE1QI0QN5cJjBwjJdB_J9hBvwVTjBP6pljjKqX48Xly-kAvZ1rD2m0m-MZFW0FsZCpFeNHML2"/>
+<div class="p-6 space-y-3 bg-surface-container-high">
+<div class="flex items-center gap-2 text-secondary font-label-sm text-label-sm uppercase tracking-wider font-semibold">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+                NIT Bhopal Alumni Network
+              </div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface font-bold">
+                Harshitraj Singh Panwar &amp; Naitik Mujawadiya
+              </h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+                Co-Founders &amp; Academic Directors with over 3 continuous years of JEE mentorship and curriculum design experience.
+              </p>
+</div>
+</div>
+</div>
+<!-- Right: Real Student Ethics & Credibility Manifesto -->
+<div class="lg:col-span-7 space-y-6">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-container text-secondary font-label-sm text-label-sm uppercase tracking-widest">
+            Academic Integrity Manifesto
+          </div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface font-bold tracking-tight">
+            Built by Engineers Who Cleared the Crucible
+          </h2>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+            The Indian test prep industry is plagued by sensationalist billboard advertising, fabricated topper claims, and algorithmic bots that ignore a student's actual psychological state.
+          </p>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+            At Mentora, our thesis is simple: <strong class="text-on-surface">JEE rank is an outcome of error rectification, not video hours watched.</strong> We intentionally cap batch sizes at 50 students so that our mentors know each student's specific weak chapters.
+          </p>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
+<div class="p-4 rounded-xl bg-surface-container space-y-1">
+<div class="font-label-md text-label-md text-secondary font-semibold">Zero Fake Claims</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">We never buy or duplicate topper ranks. Real students, real scores.</p>
+</div>
+<div class="p-4 rounded-xl bg-surface-container space-y-1">
+<div class="font-label-md text-label-md text-secondary font-semibold">100% Human Mentors</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">No automated AI bots posing as teachers in doubt channels.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- =========================================================================
+       SECTION 6: INTERACTIVE BATCH AVAILABILITY & CAPACITY TRACKER (PRD §5.3)
+  ========================================================================== -->
+<section class="w-full py-20 bg-surface">
+<div class="max-w-7xl mx-auto px-6 lg:px-8 space-y-8">
+<!-- Section Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<div class="flex items-center gap-2 text-secondary font-label-md text-label-md uppercase tracking-wider mb-2">
+<span class="material-symbols-outlined text-[18px]">table_chart</span>
+            Live Capacity Registry
+          </div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface font-bold tracking-tight">
+            Batch Availability &amp; Timetable
+          </h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">
+            Enforced by concurrency locks. Applications close automatically when seat caps are reached.
+          </p>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant font-label-sm text-label-sm">
+<span class="inline-block w-2 h-2 rounded-full bg-tertiary"></span>
+          Updated 4 minutes ago
+        </div>
+</div>
+<!-- Interactive Table Wrapper -->
+<div class="w-full overflow-x-auto rounded-2xl bg-surface-container shadow-xl">
+<table class="w-full text-left font-body-sm text-body-sm">
+<thead class="bg-surface-container-high text-on-surface font-label-sm text-label-sm uppercase tracking-wider">
+<tr>
+<th class="py-4 px-6">Batch ID &amp; Target</th>
+<th class="py-4 px-6">Course</th>
+<th class="py-4 px-6">Weekly Schedule</th>
+<th class="py-4 px-6">Capacity Status</th>
+<th class="py-4 px-6">Fee</th>
+<th class="py-4 px-6 text-right">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container-highest/20 font-body-sm text-body-sm">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-high/50 transition-colors">
+<td class="py-4 px-6 font-semibold text-on-surface">
+                Rise 1.0 (Jan Fast-Track)
+                <div class="font-label-sm text-label-sm text-on-surface-variant font-normal">Class 11 &amp; 12 Syllabus Rapid</div>
+</td>
+<td class="py-4 px-6 text-on-surface-variant">Rise</td>
+<td class="py-4 px-6 text-on-surface-variant">Mon, Wed, Fri • 6:00 PM IST</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<div class="w-24 h-2 bg-surface-container-lowest rounded-full overflow-hidden">
+<div class="h-full bg-secondary rounded-full" style="width: 76%;"></div>
+</div>
+<span class="font-label-sm text-label-sm text-secondary font-semibold">38/50</span>
+</div>
+</td>
+<td class="py-4 px-6 font-label-md text-label-md text-secondary font-bold">₹299</td>
+<td class="py-4 px-6 text-right">
+<button class="px-4 py-1.5 rounded-lg bg-secondary text-on-secondary font-label-sm text-label-sm hover:bg-secondary-fixed transition-all font-semibold" onclick="handleSelectBatch('Rise 1.0', 299)">
+                  Apply
+                </button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-high/50 transition-colors bg-surface-container-high/20">
+<td class="py-4 px-6 font-semibold text-on-surface">
+                Spark 1.0 (April Depth)
+                <div class="font-label-sm text-label-sm text-on-surface-variant font-normal">Class 12 &amp; Droppers</div>
+</td>
+<td class="py-4 px-6 text-on-surface-variant">Spark</td>
+<td class="py-4 px-6 text-on-surface-variant">Tue, Thu, Sat • 7:30 PM IST</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<div class="w-24 h-2 bg-surface-container-lowest rounded-full overflow-hidden">
+<div class="h-full bg-error rounded-full" style="width: 94%;"></div>
+</div>
+<span class="font-label-sm text-label-sm text-error font-semibold">47/50 (Last 3)</span>
+</div>
+</td>
+<td class="py-4 px-6 font-label-md text-label-md text-secondary font-bold">₹499</td>
+<td class="py-4 px-6 text-right">
+<button class="px-4 py-1.5 rounded-lg bg-secondary text-on-secondary font-label-sm text-label-sm hover:bg-secondary-fixed transition-all font-semibold" onclick="handleSelectBatch('Spark 1.0', 499)">
+                  Apply Fast
+                </button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-high/50 transition-colors">
+<td class="py-4 px-6 font-semibold text-on-surface">
+                Spark 2.0 (April Wave)
+                <div class="font-label-sm text-label-sm text-on-surface-variant font-normal">Full Syllabus Depth</div>
+</td>
+<td class="py-4 px-6 text-on-surface-variant">Spark</td>
+<td class="py-4 px-6 text-on-surface-variant">Mon, Wed, Fri • 8:00 PM IST</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<div class="w-24 h-2 bg-surface-container-lowest rounded-full overflow-hidden">
+<div class="h-full bg-tertiary rounded-full" style="width: 48%;"></div>
+</div>
+<span class="font-label-sm text-label-sm text-tertiary font-semibold">24/50</span>
+</div>
+</td>
+<td class="py-4 px-6 font-label-md text-label-md text-secondary font-bold">₹499</td>
+<td class="py-4 px-6 text-right">
+<button class="px-4 py-1.5 rounded-lg bg-surface-container-highest text-secondary hover:bg-secondary hover:text-on-secondary font-label-sm text-label-sm transition-all font-semibold" onclick="handleSelectBatch('Spark 2.0', 499)">
+                  Apply
+                </button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-container-high/50 transition-colors">
+<td class="py-4 px-6 font-semibold text-on-surface">
+                Apex 1.0 (Advanced Crucible)
+                <div class="font-label-sm text-label-sm text-on-surface-variant font-normal">Multi-Concept Focus</div>
+</td>
+<td class="py-4 px-6 text-on-surface-variant">Apex</td>
+<td class="py-4 px-6 text-on-surface-variant">Tue, Thu, Sun • 6:30 PM IST</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<div class="w-24 h-2 bg-surface-container-lowest rounded-full overflow-hidden">
+<div class="h-full bg-secondary rounded-full" style="width: 90%;"></div>
+</div>
+<span class="font-label-sm text-label-sm text-secondary font-semibold">45/50</span>
+</div>
+</td>
+<td class="py-4 px-6 font-label-md text-label-md text-secondary font-bold">₹699</td>
+<td class="py-4 px-6 text-right">
+<button class="px-4 py-1.5 rounded-lg bg-secondary text-on-secondary font-label-sm text-label-sm hover:bg-secondary-fixed transition-all font-semibold" onclick="handleSelectBatch('Apex 1.0', 699)">
+                  Apply
+                </button>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="hover:bg-surface-container-high/50 transition-colors">
+<td class="py-4 px-6 font-semibold text-on-surface">
+                Apex 2.0 (Elite Problem Solving)
+                <div class="font-label-sm text-label-sm text-on-surface-variant font-normal">Advanced Only</div>
+</td>
+<td class="py-4 px-6 text-on-surface-variant">Apex</td>
+<td class="py-4 px-6 text-on-surface-variant">Mon, Thu, Sat • 7:00 PM IST</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<div class="w-24 h-2 bg-surface-container-lowest rounded-full overflow-hidden">
+<div class="h-full bg-tertiary rounded-full" style="width: 56%;"></div>
+</div>
+<span class="font-label-sm text-label-sm text-tertiary font-semibold">28/50</span>
+</div>
+</td>
+<td class="py-4 px-6 font-label-md text-label-md text-secondary font-bold">₹699</td>
+<td class="py-4 px-6 text-right">
+<button class="px-4 py-1.5 rounded-lg bg-surface-container-highest text-secondary hover:bg-secondary hover:text-on-secondary font-label-sm text-label-sm transition-all font-semibold" onclick="handleSelectBatch('Apex 2.0', 699)">
+                  Apply
+                </button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<!-- =========================================================================
+       SECTION 7: APPLICATION / FAST ENROLLMENT MODAL OVERLAY TRIGGER
+  ========================================================================== -->
+<section class="w-full py-20 bg-surface-container-lowest border-t border-surface-container" id="application-drawer">
+<div class="max-w-4xl mx-auto px-6 lg:px-8">
+<div class="p-8 md:p-12 rounded-3xl bg-surface-container shadow-2xl relative space-y-8">
+<div class="space-y-2">
+<div class="inline-flex items-center gap-2 text-secondary font-label-sm text-label-sm uppercase tracking-widest">
+<span class="material-symbols-outlined text-[16px]">how_to_reg</span>
+            Direct Student Application Form
+          </div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface font-bold tracking-tight">
+            Register for Batch Consideration
+          </h2>
+<p class="font-body-md text-body-md text-on-surface-variant">
+            Submitting this form reserves your seat concurrency token. You will receive an intro call within 7 days before manual payment activation.
+          </p>
+</div>
+<form class="space-y-6" id="mentora-reg-form" onsubmit="event.preventDefault(); submitRegistration();">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Full Name -->
+<div class="space-y-2">
+<label class="block font-label-sm text-label-sm text-on-surface uppercase tracking-wider">Student Full Name *</label>
+<input class="w-full px-4 py-3 rounded-xl bg-surface-container-lowest text-on-surface placeholder:text-outline font-body-sm text-body-sm focus:outline-none focus:ring-1 focus:ring-secondary" placeholder="e.g. Aryan Sharma" required="" type="text"/>
+</div>
+<!-- Mobile Phone -->
+<div class="space-y-2">
+<label class="block font-label-sm text-label-sm text-on-surface uppercase tracking-wider">Contact Phone / WhatsApp *</label>
+<input class="w-full px-4 py-3 rounded-xl bg-surface-container-lowest text-on-surface placeholder:text-outline font-body-sm text-body-sm focus:outline-none focus:ring-1 focus:ring-secondary" placeholder="+91 98765 43210" required="" type="tel"/>
+</div>
+<!-- Grade / Class -->
+<div class="space-y-2">
+<label class="block font-label-sm text-label-sm text-on-surface uppercase tracking-wider">Current Class / Status *</label>
+<select class="w-full px-4 py-3 rounded-xl bg-surface-container-lowest text-on-surface font-body-sm text-body-sm focus:outline-none focus:ring-1 focus:ring-secondary" required="">
+<option value="11">Class 11 Aspirant</option>
+<option selected="" value="12">Class 12 Aspirant</option>
+<option value="dropper">Dropper / Repeater</option>
+<option value="9_10">Foundation (Class 9-10)</option>
+</select>
+</div>
+<!-- Selected Program -->
+<div class="space-y-2">
+<label class="block font-label-sm text-label-sm text-on-surface uppercase tracking-wider">Target Program Batch *</label>
+<select class="w-full px-4 py-3 rounded-xl bg-surface-container-lowest text-secondary font-body-sm text-body-sm focus:outline-none focus:ring-1 focus:ring-secondary" id="selected-batch-input" required="">
+<option selected="" value="Spark 1.0 (April Depth) - ₹499">Spark (April Target) • ₹499</option>
+<option value="Rise 1.0 (Jan Fast-Track) - ₹299">Rise (January Target) • ₹299</option>
+<option value="Apex 1.0 (Advanced Crucible) - ₹699">Apex (JEE Advanced) • ₹699</option>
+<option value="Apex 2.0 (Elite Problem Solving) - ₹699">Apex 2.0 • ₹699</option>
+</select>
+</div>
+</div>
+<!-- Academic Notes -->
+<div class="space-y-2">
+<label class="block font-label-sm text-label-sm text-on-surface uppercase tracking-wider">Primary Academic Weakness / Goals</label>
+<textarea class="w-full px-4 py-3 rounded-xl bg-surface-container-lowest text-on-surface placeholder:text-outline font-body-sm text-body-sm focus:outline-none focus:ring-1 focus:ring-secondary" placeholder="e.g. Physics Rotational Motion mechanics, inorganic retention, or mock exam test anxiety..." rows="3"></textarea>
+</div>
+<!-- Notice & Submission -->
+<div class="p-4 rounded-xl bg-surface-container-high flex items-start gap-3">
+<span class="material-symbols-outlined text-secondary text-[20px] shrink-0 mt-0.5">info</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+<strong>Human Verification Protocol:</strong> Submitting will lock your seat reservation for 48 hours. An administrator will call you to conduct the diagnostic roadmap conversation before providing the UPI transfer link.
+            </p>
+</div>
+<div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
+<div class="flex items-center gap-2 font-label-sm text-label-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-tertiary text-[18px]">lock</span>
+              Protected by 2-Admin Verification
+            </div>
+<button class="w-full sm:w-auto px-8 py-4 rounded-xl bg-secondary text-on-secondary font-label-md text-label-md font-bold shadow-xl shadow-secondary/15 hover:bg-secondary-fixed transition-all flex items-center justify-center gap-2" type="submit">
+<span>Submit Application &amp; Reserve Seat</span>
+<span class="material-symbols-outlined text-[18px]">send</span>
+</button>
+</div>
+</form>
+<!-- Dynamic Success Message Alert (Hidden by default) -->
+<div class="hidden p-6 rounded-2xl bg-surface-container-highest space-y-2" id="form-success-banner">
+<div class="flex items-center gap-2 text-secondary font-label-md text-label-md font-bold uppercase">
+<span class="material-symbols-outlined text-[20px]">check_circle</span>
+            Application Cataloged • Student ID #MTR-8942
+          </div>
+<p class="font-body-sm text-body-sm text-on-surface">
+            Thank you! Your seat token has been locked. Founder Harshitraj Singh Panwar or the NIT mentoring team will initiate your 1:1 onboarding call within 24–48 hours.
+          </p>
+</div>
+</div>
+</div>
+</section>
+<!-- =========================================================================
+       SECTION 8: FINAL HIGH-CONTRAST CONVERSION CALL-TO-ACTION
+  ========================================================================== -->
+<section class="w-full py-16 bg-surface-container">
+<div class="max-w-7xl mx-auto px-6 lg:px-8 text-center space-y-6">
+<span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-container-high text-secondary font-label-sm text-label-sm uppercase tracking-widest">
+        Disciplined Consistency • Real Progress
+      </span>
+<h2 class="font-headline-lg text-headline-lg max-w-2xl mx-auto text-on-surface font-bold tracking-tight">
+        Ready to begin your JEE journey with structured mentorship?
+      </h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-xl mx-auto">
+        Join the focused cohort of STEM aspirants studying under verified NIT alumni. No algorithmic distractions, just rigorous problem solving.
+      </p>
+<div class="pt-2 flex flex-wrap items-center justify-center gap-4">
+<a class="px-8 py-4 rounded-xl bg-secondary text-on-secondary font-label-md text-label-md font-bold shadow-lg shadow-secondary/20 hover:bg-secondary-fixed transition-all" href="#batches-section">
+          Select Your Batch &amp; Register
+        </a>
+<a class="px-8 py-4 rounded-xl bg-surface-container-high text-on-surface hover:text-secondary transition-all font-label-md text-label-md" href="#application-drawer">
+          Direct Application Form
+        </a>
+</div>
+</div>
+</section>
+</div>
+<!-- Vanilla JS for Micro-Interactions: Smooth scrolling & Batch Selection Binding -->
+<script>
+  function handleSelectBatch(batchName, fee) {
+    const selectElem = document.getElementById('selected-batch-input');
+    if (selectElem) {
+      for (let i = 0; i < selectElem.options.length; i++) {
+        if (selectElem.options[i].text.toLowerCase().includes(batchName.toLowerCase().split(' ')[0])) {
+          selectElem.selectedIndex = i;
+          break;
+        }
+      }
+    }
+    const formSection = document.getElementById('application-drawer');
+    if (formSection) {
+      formSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
+  function submitRegistration() {
+    const form = document.getElementById('mentora-reg-form');
+    const successBanner = document.getElementById('form-success-banner');
+    if (form && successBanner) {
+      form.classList.add('opacity-40', 'pointer-events-none');
+      successBanner.classList.remove('hidden');
+    }
+  }
+</script></main><footer class="w-full bg-surface-container-lowest text-on-surface-variant pt-space-xl pb-space-lg"><div class="w-full px-8"><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-space-xl pb-space-xl"><div class="lg:col-span-2 space-y-space-md"><div class="flex items-center gap-space-sm"><span class="font-headline-md text-headline-md text-on-surface tracking-tight">Mentora</span><span class="px-2 py-0.5 rounded-full bg-surface-container-high text-secondary font-label-sm text-label-sm">NIT Bhopal Alumni</span></div><p class="font-body-md text-body-md text-on-surface-variant max-w-md">Precision JEE Main &amp; JEE Advanced 1:1 mentorship driven by analytical testing and daily milestone tracking. Built by engineers who cleared the crucible.</p><div class="flex items-center gap-space-sm pt-space-xs"><div class="px-3 py-2 rounded-lg bg-surface-container-low flex flex-col"><span class="font-label-sm text-label-sm text-secondary uppercase">Lead Mentors</span><span class="font-body-sm text-body-sm text-on-surface font-semibold">Harshitraj Singh Panwar &amp; Naitik Mujawadiya</span><span class="font-label-sm text-label-sm text-on-surface-variant">NIT Bhopal • 3+ Yrs JEE Mentorship Exp</span></div></div></div><div class="space-y-space-sm"><div class="font-label-lg text-label-lg text-secondary uppercase tracking-wider">Target Batches</div><ul class="space-y-space-xs font-body-sm text-body-sm"><li class="flex flex-col"><a class="text-on-surface hover:text-secondary transition-colors font-medium" data-path="courses" href="#">Rise (JEE Main Jan)</a><span class="font-label-sm text-label-sm text-secondary-fixed">₹299 • Diagnostic &amp; Rank Sprint</span></li><li class="flex flex-col pt-1"><a class="text-on-surface hover:text-secondary transition-colors font-medium" data-path="courses" href="#">Spark (JEE Main Apr)</a><span class="font-label-sm text-label-sm text-secondary-fixed">₹499 • Comprehensive Error Audit</span></li><li class="flex flex-col pt-1"><a class="text-on-surface hover:text-secondary transition-colors font-medium" data-path="courses" href="#">Apex (JEE Adv Crucible)</a><span class="font-label-sm text-label-sm text-secondary-fixed">₹699 • Advanced Deep Problem Solving</span></li></ul></div><div class="space-y-space-sm"><div class="font-label-lg text-label-lg text-secondary uppercase tracking-wider">Student Trust &amp; Integrity</div><ul class="space-y-space-xs font-body-sm text-body-sm text-on-surface-variant"><li>100% Verified IIT/NIT Mentors</li><li>Personalized Error Logs &amp; Analysis</li><li>Zero Robotic Automated Doubts</li><li>Weekly Strategic Parent Reviews</li><li>High-Yield Problem Repository</li></ul></div><div class="space-y-space-sm"><div class="font-label-lg text-label-lg text-secondary uppercase tracking-wider">Verification Protocol</div><div class="p-space-sm rounded-xl bg-surface-container-low text-body-sm space-y-space-xs"><p class="font-label-sm text-label-sm text-secondary font-semibold uppercase">Manual Verification Notice</p><p class="text-on-surface-variant text-body-sm leading-relaxed">Seats are gated strictly through Diagnostic Screening and Admin Activation to protect cohort mentor-to-student focus ratios.</p></div></div></div><div class="pt-space-lg flex flex-col md:flex-row items-center justify-between gap-space-md text-on-surface-variant font-label-sm text-label-sm"><div class="flex items-center gap-space-md"><span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span> Admissions Open for JEE 2025/2026</span><span>© 2025 Mentora Academic Systems Inc. All rights reserved.</span></div><div class="flex items-center gap-space-lg"><a class="hover:text-on-surface transition-colors" data-path="enrollment-workflow" href="#">Enrollment Workflow</a><a class="hover:text-on-surface transition-colors" data-path="contact" href="#">Mentor Helpdesk</a><a class="hover:text-on-surface transition-colors" data-path="privacy" href="#">Privacy Policy</a></div></div></div></footer></body></html>
