@@ -49,7 +49,7 @@ export default function TeacherBatches() {
                 <div className="mt-3 text-sm text-secondary grid md:grid-cols-3 gap-2">
                   <div><span className="block text-xs font-medium text-muted">Start</span><span className="block">{batch.start_date}</span></div>
                   <div><span className="block text-xs font-medium text-muted">End</span><span className="block">{batch.endDate}</span></div>
-                  <div><span className="block text-xs font-medium text-muted">Capacity</span><span className="block">{batch.capacity}</span></td>
+                  <div><span className="block text-xs font-medium text-muted">Capacity</span><span className="block">{batch.capacity}</span></div>
                 </div>
               </div>
             ))}

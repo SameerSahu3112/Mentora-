@@ -102,8 +102,8 @@ export default function StudentDashboard() {
                 <div key={enrollment.id} className="bg-[#082326] p-4 rounded-lg shadow-sm border border-[#8a9294]/20">
                   <h3 className="text-lg font-semibold text-[#0F4C5C]">Enrollment #{enrollment.id.slice(-6)}</h3>
                   <p className="text-secondary text-sm">{enrollment.course_id || 'Course'}</p>
-                  <p className="text-secondary text-sm">{enrollment.batch_id || 'Batch'}</td>
-                  <span className={`px-2 py-1 text-xs font-semibold rounded ${statusColors[enrollment.status] || 'bg-[#8a9294]/20 text-[#8a9294] border border-[#8a9294]'`}}>
+                  <p className="text-secondary text-sm">{enrollment.batch_id || 'Batch'}</p>
+                  <span className={`px-2 py-1 text-xs font-semibold rounded ${statusColors[enrollment.status] || 'bg-[#8a9294]/20 text-[#8a9294] border border-[#8a9294]'}`}>
                     {enrollment.status}
                   </span>
                 </div>

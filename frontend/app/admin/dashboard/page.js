@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 
 export default function AdminDashboard() {
   const [admin, setAdmin] = useState(null);
-  const [stats, setStats] = useState({ total_students: 0, active_enrollments: 0, pending_applications: 0, pending_payments: 0 });
+  const [enrollments, setEnrollments] = useState([]);
   const [loading, setLoading] = useState(true);
   const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://mentora-1-gkgq.onrender.com/api/v1';
 
@@ -83,19 +83,19 @@ export default function AdminDashboard() {
             <h3 className="text-lg font-semibold text-[#0F4C5C] mb-4">Manage Students</h3>
             <Link href="/admin/students" className="text-[#0F4C5C] font-medium text-sm hover:text-[#D4A357] transition-colors flex items-center gap-1">
               View all students <span className="material-symbols-outlined text-[16px]">arrow_right</span>
-            </a>
+            </Link>
           </div>
           <div className="bg-[#082326] p-6 rounded-lg shadow-sm border border-[#8a9294]/20">
             <h3 className="text-lg font-semibold text-[#0F4C5C] mb-4">Manage Batches</h3>
             <Link href="/admin/batches" className="text-[#0F4C5C] font-medium text-sm hover:text-[#0F4C5C] transition-colors flex items-center gap-1">
               View all batches <span className="material-symbols-outlined text-[16px]">arrow_right</span>
-            </a>
+            </Link>
           </div>
           <div className="bg-[#082326] p-6 rounded-lg shadow-sm border border-[#8a9294]/20">
             <h3 className="text-lg font-semibold text-[#0F4C5C] mb-4">Pending Approvals</h3>
             <Link href="/admin/approvals" className="text-[#0F4C5C] font-medium text-sm hover:text-[#D4A357] transition-colors flex items-center gap-1">
               Review approvals <span className="material-symbols-outlined text-[16px]">arrow_right</span>
-            </a>
+            </Link>
           </div>
         </div>
       </div>

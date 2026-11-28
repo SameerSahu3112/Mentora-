@@ -54,10 +54,10 @@ export default function EnrollmentsPage() {
                 <div className="flex justify-between items-start">
                   <div>
                     <h3 className="text-lg font-semibold text-[#0F4C5C]">Enrollment #{enrollment.id.slice(-6)}</h3>
-                    <p className="text-secondary text-sm">{enrollment.course_id}</td>
-                    <p className="text-secondary text-sm">{enrollment.batch_id || 'Batch'}</td>
+                    <p className="text-secondary text-sm">{enrollment.course_id}</p>
+                    <p className="text-secondary text-sm">{enrollment.batch_id || 'Batch'}</p>
                   </div>
-                  <span className={`px-2 py-1 text-xs font-semibold rounded ${statusColors[enrollment.status] || 'bg-[#8a9294]/20 text-[#8a9294] border border-[#8a9294]'`}}>
+                  <span className={`px-2 py-1 text-xs font-semibold rounded ${statusColors[enrollment.status] || 'bg-[#8a9294]/20 text-[#8a9294] border border-[#8a9294]'}`}>
                     {enrollment.status.replace('_', ' ')}
                   </span>
                 </div>

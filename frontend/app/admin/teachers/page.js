@@ -41,15 +41,14 @@ export default function AdminTeachers() {
             <tbody>
               {teachers.length === 0 ? (
                 <tr><td colSpan="3" className="px-4 py-6 text-center text-secondary">No teachers found.</td></tr>
-              ) : (
-                teachers.map((teacher) => (
-                  <tr key={teacher.id} className="border-b border-[#8a9294]/20 hover:bg-[#082326]/50">
-                    <td className="px-4 py-3 text-sm font-medium text-[#0F4C5C]">{teacher.full_name || 'N/A'}</td>
-                    <td className="px-4 py-3 text-sm text-secondary">{teacher.email || 'N/A'}</td>
-                    <td className="px-4 py-3 text-sm"><span className="px-2 py-1 text-xs font-semibold bg-[#0F4C5C]/20 text-[#0F4C5C] border border-[#0F4C5C] rounded">Active</span></td>
-                  </tr>
-                ))}
-              )}
+              ) : null}
+              {teachers.map((teacher) => (
+                <tr key={teacher.id} className="border-b border-[#8a9294]/20 hover:bg-[#082326]/50">
+                  <td className="px-4 py-3 text-sm font-medium text-[#0F4C5C]">{teacher.full_name || 'N/A'}</td>
+                  <td className="px-4 py-3 text-sm text-secondary">{teacher.email || 'N/A'}</td>
+                  <td className="px-4 py-3 text-sm"><span className="px-2 py-1 text-xs font-semibold bg-[#0F4C5C]/20 text-[#0F4C5C] border border-[#0F4C5C] rounded">Active</span></td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>

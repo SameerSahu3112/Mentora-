@@ -52,17 +52,16 @@ export default function AdminApplications() {
             <tbody>
               {applications.length === 0 ? (
                 <tr><td colSpan="5" className="px-4 py-6 text-center text-secondary">No applications found.</td></tr>
-              ) : (
-                applications.map((application) => (
-                  <tr key={application.id} className="border-b border-[#8a9294]/20 hover:bg-[#082326]/50">
-                    <td className="px-4 py-3 text-sm text-secondary">{application.student_profile_id || 'N/A'}</td>
-                    <td className="px-4 py-3 text-sm text-secondary">{application.course_id || 'N/A'}</td>
-                    <td className="px-4 py-3 text-sm text-secondary">{application.batch_id || 'N/A'}</td>
-                    <td className="px-4 py-3 text-sm"><span className={`px-2 py-1 text-xs font-semibold rounded ${statusColors[application.status] || 'bg-[#8a9294]/20 text-[#8a9294] border border-[#8a9294]'`}}>{application.status}</span></td>
-                    <td className="px-4 py-3 text-sm text-secondary">{new Date(application.applied_at).toLocaleDateString()}</td>
-                  </tr>
-                ))}
-              )}
+              ) : null}
+              {applications.map((application) => (
+                <tr key={application.id} className="border-b border-[#8a9294]/20 hover:bg-[#082326]/50">
+                  <td className="px-4 py-3 text-sm text-secondary">{application.student_profile_id || 'N/A'}</td>
+                  <td className="px-4 py-3 text-sm text-secondary">{application.course_id || 'N/A'}</td>
+                  <td className="px-4 py-3 text-sm text-secondary">{application.batch_id || 'N/A'}</td>
+                  <td className="px-4 py-3 text-sm"><span className={`px-2 py-1 text-xs font-semibold rounded ${statusColors[application.status] || 'bg-[#8a9294]/20 text-[#8a9294] border border-[#8a9294]'}`}>{application.status}</span></td>
+                  <td className="px-4 py-3 text-sm text-secondary">{new Date(application.applied_at).toLocaleDateString()}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>

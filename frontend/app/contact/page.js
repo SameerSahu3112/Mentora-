@@ -17,7 +17,7 @@ export default function ContactPage() {
             <div className="flex items-center gap-4 text-sm font-medium text-on-surface">
               <Link href="/auth/login" className="hover:text-[#0F4C5C] transition-colors">
                 Login
-              </a>
+              </Link>
               <Link href="/auth/signup" className="bg-[#E9C46A] text-[#00363d] px-4 py-2 rounded font-medium hover:bg-[#D4A357] transition-colors">
                 Register
               </Link>

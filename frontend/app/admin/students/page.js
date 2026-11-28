@@ -43,17 +43,16 @@ export default function AdminStudents() {
             <tbody>
               {students.length === 0 ? (
                 <tr><td colSpan="5" className="px-4 py-6 text-center text-secondary">No students found.</td></tr>
-              ) : (
-                students.map((student) => (
-                  <tr key={student.id} className="border-b border-[#8a9294]/20 hover:bg-[#082326]/50">
-                    <td className="px-4 py-3 text-sm font-medium text-[#0F4C5C]">{student.student_id || student.id.slice(-6)}</td>
-                    <td className="px-4 py-3 text-sm text-secondary">{student.full_name || 'N/A'}</td>
-                    <td className="px-4 py-3 text-sm text-secondary">{student.email || 'N/A'}</td>
-                    <td className="px-4 py-3 text-sm text-secondary">{student.class_level || 'N/A'}</td>
-                    <td className="px-4 py-3 text-sm"><span className="px-2 py-1 rounded bg-[#E9C46A]/20 text-[#E9C46A] font-label-sm text-label-sm font-bold">Active</span></td>
-                  </tr>
-                ))}
-              )}
+              ) : null}
+              {students.map((student) => (
+                <tr key={student.id} className="border-b border-[#8a9294]/20 hover:bg-[#082326]/50">
+                  <td className="px-4 py-3 text-sm font-medium text-[#0F4C5C]">{student.student_id || student.id.slice(-6)}</td>
+                  <td className="px-4 py-3 text-sm text-secondary">{student.full_name || 'N/A'}</td>
+                  <td className="px-4 py-3 text-sm text-secondary">{student.email || 'N/A'}</td>
+                  <td className="px-4 py-3 text-sm text-secondary">{student.class_level || 'N/A'}</td>
+                  <td className="px-4 py-3 text-sm"><span className="px-2 py-1 rounded bg-[#E9C46A]/20 text-[#E9C46A] font-label-sm text-label-sm font-bold">Active</span></td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>

@@ -69,7 +69,7 @@ export default function MentorshipPage() {
             <div className="space-y-3">
               {bookings.map((booking) => (
                 <div key={booking.id} className="bg-[#082326] p-3 rounded-lg shadow-sm border border-[#8a9294]/20">
-                  <p className="text-sm font-medium text-abyss-teal">Booking #{booking.id.slice(-6)}</h3>
+                  <h3 className="text-sm font-medium text-abyss-teal">Booking #{booking.id.slice(-6)}</h3>
                   <p className="text-secondary text-sm mt-1">Status: {booking.status}</p>
                   {booking.confirmed_time && (
                     <p className="text-secondary text-sm">Confirmed: {new Date(booking.confirmed_time).toLocaleDateString()}</p>

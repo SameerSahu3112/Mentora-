@@ -14,8 +14,8 @@ export default function HomePage() {
             </div>
             <div className="flex items-center gap-6 text-sm font-medium text-on-surface-variant">
               <Link href="/courses" className="hover:text-[#0F4C5C] transition-colors">Courses</Link>
-              <Link href="/about" className="hover:text-[#0F4C5C] transition-colors">About</th>
-              <Link href="/contact" className="hover:text-[#0F4C5C] transition-colors">Contact</th>
+              <Link href="/about" className="hover:text-[#0F4C5C] transition-colors">About</Link>
+              <Link href="/contact" className="hover:text-[#0F4C5C] transition-colors">Contact</Link>
             </div>
             <div className="flex items-center gap-4 text-sm font-medium text-on-surface">
               <a href="/auth/login" className="hover:text-[#0F4C5C] transition-colors">

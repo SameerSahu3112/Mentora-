@@ -77,7 +77,7 @@ export default function TeacherDashboard() {
                 <div key={batch.id} className="bg-[#082326] p-4 rounded-lg shadow-sm border border-[#8a9294]/20">
                   <h3 className="text-lg font-semibold text-[#0F4C5C]">{batch.name}</h3>
                   <p className="text-secondary text-sm mt-1">{batch.course_name || 'Course'}</p>
-                  <p className="text-secondary text-sm">Capacity: {batch.capacity}</td>
+                  <p className="text-secondary text-sm">Capacity: {batch.capacity}</p>
                   <span className={`px-2 py-1 text-xs font-semibold rounded ${batch.status === 'active' ? 'bg-[#E9C46A]/20 text-[#E9C46A]' : 'bg-[#E9C46A]/20 text-[#E9C46A]'}`}>
                     {batch.status}
                   </span>

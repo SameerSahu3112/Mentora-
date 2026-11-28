@@ -9,7 +9,9 @@ export default function AdminBatches() {
   const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://mentora-1-gkgq.onrender.com/api/v1';
 
   useEffect(() => {
-    fetch(`${API_URL}/batches/`, { credentials: 'include' })
+    fetch(`${API_URL}/batches/`, {
+      credentials: 'include',
+    })
       .then((res) => res.json())
       .then((data) => setBatches(data || []))
       .catch(() => setBatches([]))
@@ -43,17 +45,16 @@ export default function AdminBatches() {
             <tbody>
               {batches.length === 0 ? (
                 <tr><td colSpan="5" className="px-4 py-6 text-center text-secondary">No batches found.</td></tr>
-              ) : (
-                batches.map((batch) => (
-                  <tr key={batch.id} className="border-b border-[#8a9294]/20 hover:bg-[#082326]/50">
-                    <td className="px-4 py-3 text-sm text-secondary">{batch.name}</td>
-                    <td className="px-4 py-3 text-sm text-secondary">{batch.course_name || 'N/A'}</td>
-                    <td className="px-4 py-3 text-sm text-secondary">{batch.capacity}</td>
-                    <td className="px-4 py-3 text-sm"><span className={`px-2 py-1 text-xs font-semibold rounded ${batch.status === 'active' ? 'bg-[#E9C46A]/20 text-[#E9C46A]' : 'bg-[#E9C46A]/20 text-[#E9C46A]'}`}>{batch.status}</span></td>
-                    <td className="px-4 py-3 text-sm text-secondary">{batch.start_date} to {batch.end_date}</td>
-                  </tr>
-                ))}
-              )}
+              ) : null}
+              {batches.map((batch) => (
+                <tr key={batch.id} className="border-b border-[#8a9294]/20 hover:bg-[#082326]/50">
+                  <td className="px-4 py-3 text-sm font-medium text-abyss-teal">{batch.name}</td>
+                  <td className="px-4 py-3 text-sm text-secondary">{batch.course_name || 'N/A'}</td>
+                  <td className="px-4 py-3 text-sm text-secondary">{batch.capacity}</td>
+                  <td className="px-4 py-3 text-sm"><span className={`px-2 py-1 text-xs font-semibold rounded ${batch.status === 'active' ? 'bg-[#E9C46A]/20 text-[#E9C46A]' : 'bg-[#8a9294]/20 text-[#8a9294]'}`}>{batch.status}</span></td>
+                  <td className="px-4 py-3 text-sm text-secondary">{batch.start_date} to {batch.end_date}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>

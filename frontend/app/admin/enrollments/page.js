@@ -53,20 +53,16 @@ export default function AdminEnrollments() {
             <tbody>
               {enrollments.length === 0 ? (
                 <tr><td colSpan="5" className="px-4 py-6 text-center text-secondary">No enrollments found.</td></tr>
-              ) : (
-                enrollments.map((enrollment) => (
-                  <tr key={enrollment.id} className="border-b border-[#8a9294]/20 hover:bg-[#082326]/50">
-                    <td className="px-4 py-3 text-sm text-secondary">{enrollment.student_profile_id || 'N/A'}</td>
-                    <td className="px-4 py-3 text-sm text-secondary">{enrollment.course_id || 'N/A'}</td>
-                    <td className="px-4 py-3 text-sm text-secondary">{enrollment.batch_id || 'N/A'}</td>
-                    <td className="px-4 py-3 text-sm"><span className={`px-2 py-1 text-xs font-semibold rounded ${statusColors[enrollment.status] || 'bg-[#8a9294]/20 text-[#8a9294] border border-[#8a9294]'`}}>
-                      {enrollment.status}
-                    </span>
-                    </td>
-                    <td className="px-4 py-3 text-sm text-secondary">{enrollment.access_until || 'N/A'}</td>
-                  </tr>
-                ))}
-              )}
+              ) : null}
+              {enrollments.map((enrollment) => (
+                <tr key={enrollment.id} className="border-b border-[#8a9294]/20 hover:bg-[#082326]/50">
+                  <td className="px-4 py-3 text-sm text-secondary">{enrollment.student_profile_id || 'N/A'}</td>
+                  <td className="px-4 py-3 text-sm text-secondary">{enrollment.course_id || 'N/A'}</td>
+                  <td className="px-4 py-3 text-sm text-secondary">{enrollment.batch_id || 'N/A'}</td>
+                  <td className="px-4 py-3 text-sm"><span className={`px-2 py-1 text-xs font-semibold rounded ${statusColors[enrollment.status] || 'bg-[#8a9294]/20 text-[#8a9294] border border-[#8a9294]'}`}>{enrollment.status}</span></td>
+                  <td className="px-4 py-3 text-sm text-secondary">{enrollment.access_until || 'N/A'}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
